@@ -1,7 +1,5 @@
 "use client"
 
-// @ts-expect-error SplideJS types export mismatch
-import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
