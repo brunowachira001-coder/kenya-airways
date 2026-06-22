@@ -109,7 +109,7 @@ export default function SearchPage() {
 
           {/* Right: cart + modify */}
           <div className="flex items-center gap-3 ml-auto">
-            <Link href="/booking/cart" className="flex items-center gap-1.5 text-xs font-semibold text-[#0d0d0d] hover:text-[#ed1c24] transition-colors">
+            <Link href="/booking/fare-select" className="flex items-center gap-1.5 text-xs font-semibold text-[#0d0d0d] hover:text-[#ed1c24] transition-colors">
               <ShoppingCart className="w-4 h-4" />
               <span className="hidden sm:inline">Your booking</span>
             </Link>
