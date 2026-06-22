@@ -27,6 +27,9 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+.env.development
+.env.production
 
 # vercel
 .vercel
@@ -34,3 +37,24 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# supabase
+.supabase/
+
+# test files
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# screenshots and test images (keep only necessary ones)
+*.png
+!public/*.png
+
+# logs
+*.log
+server.log
+
+# OS files
+.DS_Store
+Thumbs.db

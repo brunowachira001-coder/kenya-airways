@@ -1,0 +1,216 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]:
+          - img [ref=e7]
+          - img "Kenya Airways – The Pride of Africa" [ref=e9]
+      - generic [ref=e10]:
+        - button "Search" [ref=e11] [cursor=pointer]:
+          - img [ref=e12]
+        - button "Toggle menu" [ref=e15] [cursor=pointer]:
+          - img [ref=e16]
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e23]:
+        - button "Check in" [ref=e24] [cursor=pointer]:
+          - img [ref=e26]
+          - generic [ref=e28]: Check in
+        - button "Manage Booking" [ref=e29] [cursor=pointer]:
+          - img [ref=e31]
+          - generic [ref=e34]: Manage Booking
+        - link "Flight schedule" [ref=e35] [cursor=pointer]:
+          - /url: /book-manage/flight-schedule
+          - img [ref=e37]
+          - generic [ref=e39]: Flight schedule
+        - link "Flight status" [ref=e40] [cursor=pointer]:
+          - /url: /book-manage/flight-status
+          - img [ref=e42]
+          - generic [ref=e45]: Flight status
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - img "KQ Best Price Guarantee" [ref=e50]
+          - generic [ref=e51]:
+            - heading "Deals from" [level=2] [ref=e52]
+            - button "Nairobi" [ref=e54] [cursor=pointer]:
+              - text: Nairobi
+              - img [ref=e55]
+        - generic [ref=e57]:
+          - generic [ref=e62] [cursor=pointer]:
+            - heading "Mombasa" [level=3] [ref=e63]
+            - paragraph [ref=e64]: 17 Jun 26 to 18 Jun 26
+            - paragraph [ref=e65]: Economy Class
+            - generic [ref=e66]: KES 16,595
+          - generic [ref=e71] [cursor=pointer]:
+            - heading "Kisumu" [level=3] [ref=e72]
+            - paragraph [ref=e73]: 17 Jun 26 to 24 Jun 26
+            - paragraph [ref=e74]: Economy Class
+            - generic [ref=e75]: KES 17,510
+          - generic [ref=e80] [cursor=pointer]:
+            - heading "Dar es Salaam" [level=3] [ref=e81]
+            - paragraph [ref=e82]: 17 Jun 26 to 18 Jun 26
+            - paragraph [ref=e83]: Economy Class
+            - generic [ref=e84]: KES 37,745
+        - button "View all deals" [ref=e90] [cursor=pointer]
+      - generic [ref=e92]:
+        - heading "Plan Your Trip" [level=2] [ref=e96]
+        - generic [ref=e98]:
+          - link "Baggage Information" [ref=e99] [cursor=pointer]:
+            - /url: /plan/baggage-information
+            - heading "Baggage Information" [level=3] [ref=e103]:
+              - text: Baggage Information
+              - img [ref=e104]
+          - link "Travel Requirements" [ref=e106] [cursor=pointer]:
+            - /url: /plan/travel-information
+            - heading "Travel Requirements" [level=3] [ref=e110]:
+              - text: Travel Requirements
+              - img [ref=e111]
+          - link "Discover Where We Fly" [ref=e113] [cursor=pointer]:
+            - /url: /explore
+            - heading "Discover Where We Fly" [level=3] [ref=e117]:
+              - text: Discover Where We Fly
+              - img [ref=e118]
+          - link "Special Care" [ref=e120] [cursor=pointer]:
+            - /url: /plan/special-care
+            - heading "Special Care" [level=3] [ref=e124]:
+              - text: Special Care
+              - img [ref=e125]
+      - generic [ref=e136]:
+        - heading "Additional Services" [level=2] [ref=e139]
+        - generic [ref=e140]:
+          - link "Duty Free Duty Free Shopping" [ref=e141] [cursor=pointer]:
+            - /url: /duty-free
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: Duty Free
+                - heading "Duty Free Shopping" [level=3] [ref=e147]
+              - img [ref=e149]
+          - generic [ref=e151]:
+            - link "Kool Flyer's Club Discover a world of great Student Offers with exclusive unlimited access when you sign up." [ref=e152] [cursor=pointer]:
+              - /url: /plan/travel-services/kool-flyers-club
+              - generic [ref=e155]:
+                - heading "Kool Flyer's Club" [level=3] [ref=e156]
+                - paragraph [ref=e157]: Discover a world of great Student Offers with exclusive unlimited access when you sign up.
+              - img [ref=e158]
+            - link "Group Travel Travelling as a group, family or associates? It's fun travelling together but not always as fun to organize. Let us help you!" [ref=e160] [cursor=pointer]:
+              - /url: /book-manage/manage-booking/group-booking
+              - generic [ref=e163]:
+                - heading "Group Travel" [level=3] [ref=e164]
+                - paragraph [ref=e165]: Travelling as a group, family or associates? It's fun travelling together but not always as fun to organize. Let us help you!
+              - img [ref=e166]
+            - link "Exquisite Charter Flights Fly beyond luxury in our Private Jets by booking from any of our tiers; Classy, Executive or Royal." [ref=e168] [cursor=pointer]:
+              - /url: /plan/travel-services/charter-flights
+              - generic [ref=e171]:
+                - heading "Exquisite Charter Flights" [level=3] [ref=e172]
+                - paragraph [ref=e173]: Fly beyond luxury in our Private Jets by booking from any of our tiers; Classy, Executive or Royal.
+              - img [ref=e174]
+      - heading "Exclusive Offers" [level=2] [ref=e180]
+      - generic [ref=e186]:
+        - heading "Get the Latest Offers" [level=2] [ref=e187]
+        - paragraph [ref=e188]: Subscribe and be the first to receive news and exclusive offers.
+        - generic [ref=e189]:
+          - textbox "Email address" [ref=e190]
+          - generic [ref=e191] [cursor=pointer]:
+            - generic [ref=e192]:
+              - checkbox "I would like to receive news and offers from Kenya Airways" [ref=e193]
+              - img [ref=e195]
+            - generic [ref=e197]: I would like to receive news and offers from Kenya Airways
+          - button "Subscribe" [ref=e198] [cursor=pointer]
+  - contentinfo [ref=e199]:
+    - generic [ref=e200]:
+      - generic [ref=e201]:
+        - button "Kenya Airways" [ref=e203] [cursor=pointer]:
+          - generic [ref=e204]: Kenya Airways
+          - img [ref=e206]
+        - button "KQ Group Brands" [ref=e209] [cursor=pointer]:
+          - generic [ref=e210]: KQ Group Brands
+          - img [ref=e212]
+        - button "Our Destinations" [ref=e215] [cursor=pointer]:
+          - generic [ref=e216]: Our Destinations
+          - img [ref=e218]
+        - button "Help" [ref=e221] [cursor=pointer]:
+          - generic [ref=e222]: Help
+          - img [ref=e224]
+      - generic [ref=e226]:
+        - button "Useful Links" [ref=e228] [cursor=pointer]:
+          - generic [ref=e229]: Useful Links
+          - img [ref=e231]
+        - button "Asante Rewards" [ref=e234] [cursor=pointer]:
+          - generic [ref=e235]: Asante Rewards
+          - img [ref=e237]
+        - button "Popular Destinations" [ref=e240] [cursor=pointer]:
+          - generic [ref=e241]: Popular Destinations
+          - img [ref=e243]
+        - button "Manage" [ref=e246] [cursor=pointer]:
+          - generic [ref=e247]: Manage
+          - img [ref=e249]
+      - generic [ref=e251]:
+        - generic [ref=e252]:
+          - heading "Travel made simpler. Book and manage flights on the go!" [level=4] [ref=e253]
+          - generic [ref=e254]:
+            - link "Download on the App Store" [ref=e255] [cursor=pointer]:
+              - /url: https://apps.apple.com
+              - img [ref=e256]
+              - generic [ref=e258]:
+                - generic [ref=e259]: Download on the
+                - text: App Store
+            - link "GET IT ON Google Play" [ref=e260] [cursor=pointer]:
+              - /url: https://play.google.com
+              - img [ref=e261]
+              - generic [ref=e263]:
+                - generic [ref=e264]: GET IT ON
+                - text: Google Play
+        - generic [ref=e265]:
+          - heading "Follow us" [level=4] [ref=e266]
+          - generic [ref=e267]:
+            - link [ref=e268] [cursor=pointer]:
+              - /url: https://www.facebook.com/officialkenyaairways/
+              - img [ref=e269]
+            - link [ref=e271] [cursor=pointer]:
+              - /url: https://twitter.com/KenyaAirways
+              - img [ref=e272]
+            - link [ref=e274] [cursor=pointer]:
+              - /url: https://www.instagram.com/officialkenyaairways/
+              - img [ref=e275]
+            - link [ref=e277] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/kenya-airways
+              - img [ref=e278]
+            - link [ref=e281] [cursor=pointer]:
+              - /url: https://youtube.com/@officialkenyaairways
+              - img [ref=e282]
+            - link [ref=e285] [cursor=pointer]:
+              - /url: https://open.spotify.com/show/3Pykcb3K4tJEaDeFxyDd07
+              - img [ref=e286]
+      - generic [ref=e288]:
+        - img "Africa's Leading Airline - World Travel Awards 2025" [ref=e289]
+        - img "Africa's Leading Airline Brand - World Travel Awards 2025" [ref=e290]
+        - img "Africa's Leading Business Class - World Travel Awards 2025" [ref=e291]
+        - img "Africa's Leading Inflight Magazine - World Travel Awards 2025" [ref=e292]
+      - generic [ref=e293]:
+        - generic [ref=e294]:
+          - link "Privacy Statement" [ref=e295] [cursor=pointer]:
+            - /url: /privacy-statement
+          - link "Conditions of Carriage" [ref=e296] [cursor=pointer]:
+            - /url: /conditions-of-carriage
+          - link "Website Security" [ref=e297] [cursor=pointer]:
+            - /url: /website-security
+          - link "Browser Compatibility" [ref=e298] [cursor=pointer]:
+            - /url: /browser-compatibility
+          - link "Cookie Policy" [ref=e299] [cursor=pointer]:
+            - /url: /cookie-policy
+          - link "Customer Service Plan" [ref=e300] [cursor=pointer]:
+            - /url: /customer-service-plan
+          - link "Contingency Plan" [ref=e301] [cursor=pointer]:
+            - /url: /contingency-plan
+          - link "Optional Fees" [ref=e302] [cursor=pointer]:
+            - /url: /optional-fees
+          - link "24 Hours Refund Statement" [ref=e303] [cursor=pointer]:
+            - /url: /24-hours-refund-statement
+          - link "EU Passenger Rights" [ref=e304] [cursor=pointer]:
+            - /url: /eu-passenger-rights
+          - link "Thai Passenger Rights" [ref=e305] [cursor=pointer]:
+            - /url: /thai-passenger-rights
+        - paragraph [ref=e307]: © 2026 Kenya Airways PLC. All rights reserved.
+  - button "Back to top":
+    - img

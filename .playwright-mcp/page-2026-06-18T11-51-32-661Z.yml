@@ -1,0 +1,202 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]:
+          - img [ref=e7]
+          - img "Kenya Airways – The Pride of Africa" [ref=e9]
+      - generic [ref=e10]:
+        - button "Search" [ref=e11] [cursor=pointer]:
+          - img [ref=e12]
+        - button "Toggle menu" [ref=e15] [cursor=pointer]:
+          - img [ref=e16]
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e23]:
+        - button "Check in" [ref=e24] [cursor=pointer]:
+          - img [ref=e26]
+          - generic [ref=e28]: Check in
+        - button "Manage Booking" [ref=e29] [cursor=pointer]:
+          - img [ref=e31]
+          - generic [ref=e34]: Manage Booking
+        - link "Flight schedule" [ref=e35] [cursor=pointer]:
+          - /url: /book-manage/flight-schedule
+          - img [ref=e37]
+          - generic [ref=e39]: Flight schedule
+        - link "Flight status" [ref=e40] [cursor=pointer]:
+          - /url: /book-manage/flight-status
+          - img [ref=e42]
+          - generic [ref=e45]: Flight status
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - img "KQ Best Price Guarantee" [ref=e50]
+          - generic [ref=e51]:
+            - heading "Deals from" [level=2] [ref=e52]
+            - button "Nairobi" [ref=e54] [cursor=pointer]:
+              - text: Nairobi
+              - img [ref=e55]
+        - generic [ref=e57]:
+          - generic [ref=e62] [cursor=pointer]:
+            - heading "Mombasa" [level=3] [ref=e63]
+            - paragraph [ref=e64]: 17 Jun 26 to 18 Jun 26
+            - paragraph [ref=e65]: Economy Class
+            - generic [ref=e66]: KES 16,595
+          - generic [ref=e71] [cursor=pointer]:
+            - heading "Kisumu" [level=3] [ref=e72]
+            - paragraph [ref=e73]: 17 Jun 26 to 24 Jun 26
+            - paragraph [ref=e74]: Economy Class
+            - generic [ref=e75]: KES 17,510
+          - generic [ref=e80] [cursor=pointer]:
+            - heading "Dar es Salaam" [level=3] [ref=e81]
+            - paragraph [ref=e82]: 17 Jun 26 to 18 Jun 26
+            - paragraph [ref=e83]: Economy Class
+            - generic [ref=e84]: KES 37,745
+        - button "View all deals" [ref=e90] [cursor=pointer]
+      - generic [ref=e92]:
+        - heading "Plan Your Trip" [level=2] [ref=e96]
+        - generic [ref=e98]:
+          - link "Baggage Information" [ref=e99] [cursor=pointer]:
+            - /url: /plan/baggage-information
+            - heading "Baggage Information" [level=3] [ref=e103]:
+              - text: Baggage Information
+              - img [ref=e104]
+          - link "Travel Requirements" [ref=e106] [cursor=pointer]:
+            - /url: /plan/travel-information
+            - heading "Travel Requirements" [level=3] [ref=e110]:
+              - text: Travel Requirements
+              - img [ref=e111]
+          - link "Discover Where We Fly" [ref=e113] [cursor=pointer]:
+            - /url: /explore
+            - heading "Discover Where We Fly" [level=3] [ref=e117]:
+              - text: Discover Where We Fly
+              - img [ref=e118]
+          - link "Special Care" [ref=e120] [cursor=pointer]:
+            - /url: /plan/special-care
+            - heading "Special Care" [level=3] [ref=e124]:
+              - text: Special Care
+              - img [ref=e125]
+      - heading "Where Will You Go?" [level=2] [ref=e136]
+      - generic [ref=e139]:
+        - heading "Additional Services" [level=2] [ref=e142]
+        - generic [ref=e143]:
+          - link "Duty Free Duty Free Shopping" [ref=e144] [cursor=pointer]:
+            - /url: /duty-free
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - generic [ref=e149]: Duty Free
+                - heading "Duty Free Shopping" [level=3] [ref=e150]
+              - img [ref=e152]
+          - generic [ref=e154]:
+            - link "Kool Flyer's Club Discover a world of great Student Offers with exclusive unlimited access when you sign up." [ref=e155] [cursor=pointer]:
+              - /url: /plan/travel-services/kool-flyers-club
+              - generic [ref=e158]:
+                - heading "Kool Flyer's Club" [level=3] [ref=e159]
+                - paragraph [ref=e160]: Discover a world of great Student Offers with exclusive unlimited access when you sign up.
+              - img [ref=e161]
+            - link "Group Travel Travelling as a group, family or associates? It's fun travelling together but not always as fun to organize. Let us help you!" [ref=e163] [cursor=pointer]:
+              - /url: /book-manage/manage-booking/group-booking
+              - generic [ref=e166]:
+                - heading "Group Travel" [level=3] [ref=e167]
+                - paragraph [ref=e168]: Travelling as a group, family or associates? It's fun travelling together but not always as fun to organize. Let us help you!
+              - img [ref=e169]
+            - link "Exquisite Charter Flights Fly beyond luxury in our Private Jets by booking from any of our tiers; Classy, Executive or Royal." [ref=e171] [cursor=pointer]:
+              - /url: /plan/travel-services/charter-flights
+              - generic [ref=e174]:
+                - heading "Exquisite Charter Flights" [level=3] [ref=e175]
+                - paragraph [ref=e176]: Fly beyond luxury in our Private Jets by booking from any of our tiers; Classy, Executive or Royal.
+              - img [ref=e177]
+      - generic [ref=e181]:
+        - img "Newsletter" [ref=e182]
+        - generic [ref=e184]:
+          - heading "Get the Latest Offers" [level=2] [ref=e185]
+          - paragraph [ref=e186]: Subscribe and be the first to receive news and exclusive offers.
+          - generic [ref=e187]:
+            - textbox "Email address" [ref=e188]
+            - generic [ref=e189] [cursor=pointer]:
+              - generic [ref=e190]:
+                - checkbox "I would like to receive news and offers from Kenya Airways" [ref=e191]
+                - img [ref=e193]
+              - generic [ref=e195]: I would like to receive news and offers from Kenya Airways
+            - button "Subscribe" [ref=e196] [cursor=pointer]
+  - contentinfo [ref=e197]:
+    - generic [ref=e198]:
+      - generic [ref=e199]:
+        - button "Kenya Airways" [ref=e201] [cursor=pointer]:
+          - generic [ref=e202]: Kenya Airways
+          - img [ref=e204]
+        - button "KQ Group Brands" [ref=e207] [cursor=pointer]:
+          - generic [ref=e208]: KQ Group Brands
+          - img [ref=e210]
+        - button "Our Destinations" [ref=e213] [cursor=pointer]:
+          - generic [ref=e214]: Our Destinations
+          - img [ref=e216]
+        - button "Help" [ref=e219] [cursor=pointer]:
+          - generic [ref=e220]: Help
+          - img [ref=e222]
+      - generic [ref=e224]:
+        - button "Useful Links" [ref=e226] [cursor=pointer]:
+          - generic [ref=e227]: Useful Links
+          - img [ref=e229]
+        - button "Asante Rewards" [ref=e232] [cursor=pointer]:
+          - generic [ref=e233]: Asante Rewards
+          - img [ref=e235]
+        - button "Popular Destinations" [ref=e238] [cursor=pointer]:
+          - generic [ref=e239]: Popular Destinations
+          - img [ref=e241]
+        - button "Manage" [ref=e244] [cursor=pointer]:
+          - generic [ref=e245]: Manage
+          - img [ref=e247]
+      - generic [ref=e250]:
+        - heading "Follow us" [level=4] [ref=e251]
+        - generic [ref=e252]:
+          - link [ref=e253] [cursor=pointer]:
+            - /url: https://www.facebook.com/officialkenyaairways/
+            - img [ref=e254]
+          - link [ref=e256] [cursor=pointer]:
+            - /url: https://twitter.com/KenyaAirways
+            - img [ref=e257]
+          - link [ref=e259] [cursor=pointer]:
+            - /url: https://www.instagram.com/officialkenyaairways/
+            - img [ref=e260]
+          - link [ref=e262] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/kenya-airways
+            - img [ref=e263]
+          - link [ref=e265] [cursor=pointer]:
+            - /url: https://youtube.com/@officialkenyaairways
+            - img [ref=e266]
+          - link [ref=e268] [cursor=pointer]:
+            - /url: https://open.spotify.com/show/3Pykcb3K4tJEaDeFxyDd07
+            - img [ref=e269]
+      - generic [ref=e271]:
+        - img "Africa's Leading Airline - World Travel Awards 2025" [ref=e272]
+        - img "Africa's Leading Airline Brand - World Travel Awards 2025" [ref=e273]
+        - img "Africa's Leading Business Class - World Travel Awards 2025" [ref=e274]
+        - img "Africa's Leading Inflight Magazine - World Travel Awards 2025" [ref=e275]
+      - generic [ref=e276]:
+        - generic [ref=e277]:
+          - link "Privacy Statement" [ref=e278] [cursor=pointer]:
+            - /url: /privacy-statement
+          - link "Conditions of Carriage" [ref=e279] [cursor=pointer]:
+            - /url: /conditions-of-carriage
+          - link "Website Security" [ref=e280] [cursor=pointer]:
+            - /url: /website-security
+          - link "Browser Compatibility" [ref=e281] [cursor=pointer]:
+            - /url: /browser-compatibility
+          - link "Cookie Policy" [ref=e282] [cursor=pointer]:
+            - /url: /cookie-policy
+          - link "Customer Service Plan" [ref=e283] [cursor=pointer]:
+            - /url: /customer-service-plan
+          - link "Contingency Plan" [ref=e284] [cursor=pointer]:
+            - /url: /contingency-plan
+          - link "Optional Fees" [ref=e285] [cursor=pointer]:
+            - /url: /optional-fees
+          - link "24 Hours Refund Statement" [ref=e286] [cursor=pointer]:
+            - /url: /24-hours-refund-statement
+          - link "EU Passenger Rights" [ref=e287] [cursor=pointer]:
+            - /url: /eu-passenger-rights
+          - link "Thai Passenger Rights" [ref=e288] [cursor=pointer]:
+            - /url: /thai-passenger-rights
+        - paragraph [ref=e290]: © 2026 Kenya Airways PLC. All rights reserved.
+  - button "Back to top":
+    - img

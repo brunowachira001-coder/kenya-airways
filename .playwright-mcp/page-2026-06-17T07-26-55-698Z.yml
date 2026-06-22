@@ -1,0 +1,115 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kenya Airways – The Pride of Africa" [ref=e6]
+      - generic [ref=e7]:
+        - button "Search" [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+        - button "Toggle menu" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - img [ref=e17]
+      - heading "404 - Page Not Found" [level=1] [ref=e19]
+      - paragraph [ref=e20]: We couldn't find the page you were looking for. The flight may have departed or the link might be broken.
+      - link "Return to Homepage" [ref=e21] [cursor=pointer]:
+        - /url: /
+  - contentinfo [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - button "Kenya Airways" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: Kenya Airways
+          - img [ref=e29]
+        - button "KQ Group Brands" [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: KQ Group Brands
+          - img [ref=e35]
+        - button "Our Destinations" [ref=e38] [cursor=pointer]:
+          - generic [ref=e39]: Our Destinations
+          - img [ref=e41]
+        - button "Help" [ref=e44] [cursor=pointer]:
+          - generic [ref=e45]: Help
+          - img [ref=e47]
+      - generic [ref=e49]:
+        - button "Useful Links" [ref=e51] [cursor=pointer]:
+          - generic [ref=e52]: Useful Links
+          - img [ref=e54]
+        - button "Asante Rewards" [ref=e57] [cursor=pointer]:
+          - generic [ref=e58]: Asante Rewards
+          - img [ref=e60]
+        - button "Popular Destinations" [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]: Popular Destinations
+          - img [ref=e66]
+        - button "Manage" [ref=e69] [cursor=pointer]:
+          - generic [ref=e70]: Manage
+          - img [ref=e72]
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - heading "Travel made simpler. Book and manage flights on the go!" [level=4] [ref=e76]
+          - generic [ref=e77]:
+            - link "Download on the App Store" [ref=e78] [cursor=pointer]:
+              - /url: https://apps.apple.com
+              - img [ref=e79]
+              - generic [ref=e81]:
+                - generic [ref=e82]: Download on the
+                - text: App Store
+            - link "GET IT ON Google Play" [ref=e83] [cursor=pointer]:
+              - /url: https://play.google.com
+              - img [ref=e84]
+              - generic [ref=e86]:
+                - generic [ref=e87]: GET IT ON
+                - text: Google Play
+        - generic [ref=e88]:
+          - heading "Follow us" [level=4] [ref=e89]
+          - generic [ref=e90]:
+            - link [ref=e91] [cursor=pointer]:
+              - /url: https://facebook.com/PrideofAfrica
+              - img [ref=e92]
+            - link [ref=e94] [cursor=pointer]:
+              - /url: https://twitter.com/KenyaAirways
+              - img [ref=e95]
+            - link [ref=e97] [cursor=pointer]:
+              - /url: https://instagram.com/officialkenyaairways
+              - img [ref=e98]
+            - link [ref=e100] [cursor=pointer]:
+              - /url: https://linkedin.com/company/kenya-airways
+              - img [ref=e101]
+            - link [ref=e104] [cursor=pointer]:
+              - /url: https://youtube.com/user/kenyaairways
+              - img [ref=e105]
+            - link [ref=e108] [cursor=pointer]:
+              - /url: https://spotify.com
+              - img [ref=e109]
+      - generic [ref=e111]:
+        - img "Africa's Leading Airline - World Travel Awards 2025" [ref=e112]
+        - img "Africa's Leading Airline Brand - World Travel Awards 2025" [ref=e113]
+        - img "Africa's Leading Business Class - World Travel Awards 2025" [ref=e114]
+        - img "Africa's Leading Inflight Magazine - World Travel Awards 2025" [ref=e115]
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - link "Privacy Statement" [ref=e118] [cursor=pointer]:
+            - /url: /privacy-statement
+          - link "Conditions of Carriage" [ref=e119] [cursor=pointer]:
+            - /url: /conditions-of-carriage
+          - link "Website Security" [ref=e120] [cursor=pointer]:
+            - /url: /website-security
+          - link "Browser Compatibility" [ref=e121] [cursor=pointer]:
+            - /url: /browser-compatibility
+          - link "Cookie Policy" [ref=e122] [cursor=pointer]:
+            - /url: /cookie-policy
+          - link "Customer Service Plan" [ref=e123] [cursor=pointer]:
+            - /url: /customer-service-plan
+          - link "Contingency Plan" [ref=e124] [cursor=pointer]:
+            - /url: /contingency-plan
+          - link "Optional Fees" [ref=e125] [cursor=pointer]:
+            - /url: /optional-fees
+          - link "24 Hours Refund Statement" [ref=e126] [cursor=pointer]:
+            - /url: /24-hours-refund-statement
+          - link "EU Passenger Rights" [ref=e127] [cursor=pointer]:
+            - /url: /eu-passenger-rights
+          - link "Thai Passenger Rights" [ref=e128] [cursor=pointer]:
+            - /url: /thai-passenger-rights
+        - paragraph [ref=e130]: © 2026 Kenya Airways PLC. All rights reserved.
+  - button "Back to top":
+    - img

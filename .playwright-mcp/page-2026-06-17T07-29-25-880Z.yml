@@ -1,0 +1,139 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e255]:
+    - generic [ref=e256]:
+      - img [ref=e257]
+      - paragraph [ref=e259]:
+        - text: "Important: Resumption of Daily Nairobi – Dubai Flights —"
+        - link "Read More" [ref=e260] [cursor=pointer]:
+          - /url: "#"
+    - button "Close notification" [ref=e262] [cursor=pointer]:
+      - img [ref=e263]
+  - main [ref=e266]:
+    - generic [ref=e297]:
+      - generic [ref=e299]:
+        - generic [ref=e303]: ✈
+        - generic [ref=e304]:
+          - generic [ref=e305]:
+            - generic [ref=e306]: Passenger
+            - generic [ref=e307]: "1"
+            - generic [ref=e308]: 👤
+          - button "🛒 Your booking" [ref=e309] [cursor=pointer]:
+            - generic [ref=e310]: 🛒
+            - generic [ref=e311]: Your booking
+      - heading "Enter your information" [level=1] [ref=e312]
+      - generic [ref=e313]:
+        - generic [ref=e314]:
+          - heading "Passenger information" [level=2] [ref=e315]
+          - paragraph [ref=e316]:
+            - text: "* = mandatory fields"
+            - text: Please fill in your personal information as shown in your passport.
+            - text: Select passenger type based on age at the time of travel.
+          - generic [ref=e317]:
+            - generic [ref=e318]:
+              - generic [ref=e319]: Title*
+              - combobox [ref=e320]:
+                - option "Select" [selected]
+                - option "Mr"
+                - option "Mrs"
+                - option "Ms"
+                - option "Dr"
+            - generic [ref=e321]:
+              - generic [ref=e322]: First Name / Given Names*
+              - textbox [ref=e323]
+            - generic [ref=e324]:
+              - generic [ref=e325]: Last Name / Surname*
+              - textbox [ref=e326]
+          - generic [ref=e327]:
+            - generic [ref=e328]: Gender*
+            - generic [ref=e329]:
+              - generic [ref=e330] [cursor=pointer]:
+                - radio "Male" [checked] [ref=e331]
+                - generic [ref=e332]: Male
+              - generic [ref=e333] [cursor=pointer]:
+                - radio "Female" [ref=e334]
+                - generic [ref=e335]: Female
+          - generic [ref=e336]:
+            - generic [ref=e337]:
+              - generic [ref=e338]: Date of birth
+              - textbox [ref=e339]
+            - generic [ref=e340]:
+              - generic [ref=e341]: Nationality
+              - combobox [ref=e342]:
+                - option "Select" [selected]
+                - option "Kenya"
+                - option "United States"
+                - option "United Kingdom"
+                - option "Uganda"
+                - option "Tanzania"
+        - generic [ref=e343]:
+          - heading "Frequent flyer cards" [level=2] [ref=e344]
+          - generic [ref=e345]:
+            - generic [ref=e346]:
+              - generic [ref=e347]: Frequent flyer program
+              - combobox [ref=e348]:
+                - option "Select program" [selected]
+                - option "Asante Rewards"
+                - option "SkyTeam"
+            - generic [ref=e349]:
+              - generic [ref=e350]: Frequent flyer number
+              - textbox "Enter number" [ref=e351]
+        - generic [ref=e352]:
+          - heading "Contact information" [level=2] [ref=e353]
+          - paragraph [ref=e354]: Please provide the contact details of the traveler to enable us send timely updates and notifications, in case of disruptions.
+          - generic [ref=e355]:
+            - generic [ref=e356]: Email*
+            - textbox "Email address" [ref=e357]
+          - generic [ref=e358]:
+            - generic [ref=e359]:
+              - generic [ref=e360]: Country calling code*
+              - combobox [ref=e361]:
+                - option "+254 (Kenya)" [selected]
+                - option "+1 (USA)"
+                - option "+44 (UK)"
+                - option "+256 (Uganda)"
+                - option "+255 (Tanzania)"
+            - generic [ref=e362]:
+              - generic [ref=e363]: Phone number*
+              - textbox "712345678" [ref=e364]
+          - generic [ref=e365]:
+            - checkbox "Add your emergency contact" [ref=e366]
+            - generic [ref=e367]: Add your emergency contact
+        - generic [ref=e369]:
+          - generic [ref=e370]:
+            - checkbox "I would like to receive the Newsletter and special offers via e-mail by using the address entered in the contact information." [ref=e371]
+            - generic [ref=e372]: I would like to receive the Newsletter and special offers via e-mail by using the address entered in the contact information.
+          - generic [ref=e373]:
+            - checkbox "I understand and accept that my personal data will be processed in accordance with the applicable carrier's privacy policy." [ref=e374]
+            - generic [ref=e375]: I understand and accept that my personal data will be processed in accordance with the applicable carrier's privacy policy.
+        - generic [ref=e376]:
+          - button "Back" [ref=e377] [cursor=pointer]
+          - button "Confirm" [ref=e378] [cursor=pointer]
+      - generic [ref=e379]:
+        - generic [ref=e380]:
+          - heading "Enrol now to enjoy 10% discount on your flight" [level=2] [ref=e381]:
+            - text: Enrol now to enjoy
+            - text: 10% discount on
+            - text: your flight
+          - button "Enrol Now" [ref=e382] [cursor=pointer]
+          - img "Cards" [ref=e384]
+        - generic [ref=e386]:
+          - link "Loyalty Program" [ref=e387] [cursor=pointer]:
+            - /url: "#"
+          - link "Travel Requirements" [ref=e388] [cursor=pointer]:
+            - /url: "#"
+          - link "Contact Us" [ref=e389] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=e390]:
+          - img "A Better Way to Holiday" [ref=e391]
+          - generic [ref=e392]:
+            - generic [ref=e393]:
+              - paragraph [ref=e394]: Featured Holidays - 06 of May
+              - heading "A Better Way to Holiday" [level=3] [ref=e395]
+            - button "BOOK NOW" [ref=e396] [cursor=pointer]
+          - paragraph [ref=e397]: "*Terms & Conditions Apply*"
+        - generic [ref=e398]:
+          - img "Visa" [ref=e399]
+          - img "Mastercard" [ref=e400]
+          - img "Amex" [ref=e401]
+          - img "PayPal" [ref=e402]
+  - alert [ref=e267]

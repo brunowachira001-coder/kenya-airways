@@ -1,0 +1,246 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kenya Airways – The Pride of Africa" [ref=e6]
+      - generic [ref=e7]:
+        - button "Search" [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+        - button "Toggle menu" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - generic [ref=e21]: NBO
+            - img [ref=e22]
+            - generic [ref=e24]: MBA
+          - generic [ref=e25]:
+            - generic [ref=e26]: Nairobi
+            - generic [ref=e27]: Mombasa
+        - generic [ref=e28]:
+          - generic [ref=e29]: Wed, 17 Jun
+          - generic [ref=e30]: "|"
+          - generic [ref=e31]: Mon, 22 Jun
+          - generic [ref=e32]: "|"
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - text: 1 Passenger
+        - generic [ref=e37]:
+          - link "Your booking" [ref=e38] [cursor=pointer]:
+            - /url: /booking/cart
+            - img [ref=e39]
+            - generic [ref=e43]: Your booking
+          - button "Modify" [ref=e44] [cursor=pointer]:
+            - text: Modify
+            - img [ref=e45]
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - heading "Please select your departure" [level=1] [ref=e50]
+            - paragraph [ref=e51]:
+              - text: Nairobi
+              - img [ref=e52]
+              - text: Mombasa
+          - generic [ref=e54] [cursor=pointer]:
+            - generic [ref=e55]: Preferred currency
+            - generic [ref=e56]:
+              - text: KES – Kenyan Shilling
+              - img [ref=e57]
+        - generic [ref=e60]:
+          - generic [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: Sun 14
+            - generic [ref=e63]: KES 24,485
+          - generic [ref=e64] [cursor=pointer]:
+            - generic [ref=e65]: Mon 15
+            - generic [ref=e66]: KES 18,740
+          - generic [ref=e67] [cursor=pointer]:
+            - generic [ref=e68]: Tue 16
+            - generic [ref=e69]: KES 14,825
+          - generic [ref=e70] [cursor=pointer]:
+            - generic [ref=e71]: Wed 17
+            - generic [ref=e72]: KES 8,305
+          - generic [ref=e73] [cursor=pointer]:
+            - generic [ref=e74]: Thu 18
+            - generic [ref=e75]: KES 9,475
+          - generic [ref=e76] [cursor=pointer]:
+            - generic [ref=e77]: Fri 19
+            - generic [ref=e78]: KES 8,960
+          - generic [ref=e79] [cursor=pointer]:
+            - generic [ref=e80]: Sat 20
+            - generic [ref=e81]: KES 8,960
+        - generic [ref=e82]:
+          - button "Filters" [ref=e83] [cursor=pointer]:
+            - img [ref=e84]
+            - text: Filters
+          - generic [ref=e85]:
+            - generic [ref=e86]: Sort by
+            - button "Cheapest" [ref=e87] [cursor=pointer]:
+              - text: Cheapest
+              - img [ref=e88]
+        - generic [ref=e90]:
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - generic [ref=e94]:
+                - generic [ref=e95]: 07:40
+                - generic [ref=e96]:
+                  - generic [ref=e97]: nonstop
+                  - img [ref=e100]
+                - generic [ref=e102]: 09:05
+              - generic [ref=e103]:
+                - generic [ref=e104]: NBO
+                - generic [ref=e105]: MBA
+              - generic [ref=e106]:
+                - generic [ref=e107]: Terminal 1A
+                - generic [ref=e108]: Terminal 3
+              - generic [ref=e109]:
+                - generic [ref=e110]: Duration 1h 25min
+                - generic [ref=e111]:
+                  - text: Operated by Kenya Airways
+                  - generic [ref=e112]: K
+              - button "View your itinerary details" [ref=e113] [cursor=pointer]:
+                - text: View your itinerary details
+                - img [ref=e114]
+            - generic [ref=e117]:
+              - button "2 seats left Economy from KES 13,260 KES 8,305" [ref=e118] [cursor=pointer]:
+                - generic [ref=e120]: 2 seats left
+                - generic [ref=e121]: Economy
+                - generic [ref=e122]: from
+                - generic [ref=e123]:
+                  - generic [ref=e124]: KES 13,260
+                  - generic [ref=e125]: KES 8,305
+                - img [ref=e126]
+              - button "1 seat left Business from KES 25,655" [ref=e128] [cursor=pointer]:
+                - generic [ref=e130]: 1 seat left
+                - generic [ref=e131]: Business
+                - generic [ref=e132]: from
+                - generic [ref=e134]: KES 25,655
+                - img [ref=e135]
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - generic [ref=e141]: 13:20
+                - generic [ref=e142]:
+                  - generic [ref=e143]: nonstop
+                  - img [ref=e146]
+                - generic [ref=e148]: 14:45
+              - generic [ref=e149]:
+                - generic [ref=e150]: NBO
+                - generic [ref=e151]: MBA
+              - generic [ref=e152]:
+                - generic [ref=e153]: Terminal 1A
+                - generic [ref=e154]: Terminal 3
+              - generic [ref=e155]:
+                - generic [ref=e156]: Duration 1h 25min
+                - generic [ref=e157]:
+                  - text: Operated by Kenya Airways
+                  - generic [ref=e158]: K
+              - button "View your itinerary details" [ref=e159] [cursor=pointer]:
+                - text: View your itinerary details
+                - img [ref=e160]
+            - generic [ref=e163]:
+              - button "6 seats left Economy from KES 13,260 KES 9,475" [ref=e164] [cursor=pointer]:
+                - generic [ref=e166]: 6 seats left
+                - generic [ref=e167]: Economy
+                - generic [ref=e168]: from
+                - generic [ref=e169]:
+                  - generic [ref=e170]: KES 13,260
+                  - generic [ref=e171]: KES 9,475
+                - img [ref=e172]
+              - button "7 seats left Business from KES 24,090" [ref=e174] [cursor=pointer]:
+                - generic [ref=e176]: 7 seats left
+                - generic [ref=e177]: Business
+                - generic [ref=e178]: from
+                - generic [ref=e180]: KES 24,090
+                - img [ref=e181]
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - generic [ref=e186]:
+                - generic [ref=e187]: 19:10
+                - generic [ref=e188]:
+                  - generic [ref=e189]: nonstop
+                  - img [ref=e192]
+                - generic [ref=e194]: 20:35
+              - generic [ref=e195]:
+                - generic [ref=e196]: NBO
+                - generic [ref=e197]: MBA
+              - generic [ref=e198]:
+                - generic [ref=e199]: Terminal 1A
+                - generic [ref=e200]: Terminal 3
+              - generic [ref=e201]:
+                - generic [ref=e202]: Duration 1h 25min
+                - generic [ref=e203]:
+                  - text: Operated by Kenya Airways
+                  - generic [ref=e204]: K
+              - button "View your itinerary details" [ref=e205] [cursor=pointer]:
+                - text: View your itinerary details
+                - img [ref=e206]
+            - generic [ref=e209]:
+              - button "Economy from KES 13,260 KES 8,305" [ref=e210] [cursor=pointer]:
+                - generic [ref=e211]: Economy
+                - generic [ref=e212]: from
+                - generic [ref=e213]:
+                  - generic [ref=e214]: KES 13,260
+                  - generic [ref=e215]: KES 8,305
+                - img [ref=e216]
+              - button "3 seats left Business from KES 25,655" [ref=e218] [cursor=pointer]:
+                - generic [ref=e220]: 3 seats left
+                - generic [ref=e221]: Business
+                - generic [ref=e222]: from
+                - generic [ref=e224]: KES 25,655
+                - img [ref=e225]
+          - generic [ref=e228]:
+            - generic [ref=e229]:
+              - generic [ref=e230]:
+                - generic [ref=e231]: 23:59
+                - generic [ref=e232]:
+                  - generic [ref=e233]: nonstop
+                  - img [ref=e236]
+                - generic [ref=e238]:
+                  - text: 01:24
+                  - superscript [ref=e239]: "+1"
+              - generic [ref=e240]:
+                - generic [ref=e241]: NBO
+                - generic [ref=e242]: MBA
+              - generic [ref=e243]:
+                - generic [ref=e244]: Terminal 1A
+                - generic [ref=e245]: Terminal 3
+              - generic [ref=e246]:
+                - generic [ref=e247]: Duration 1h 25min
+                - generic [ref=e248]:
+                  - text: Operated by Kenya Airways
+                  - generic [ref=e249]: K
+              - button "View your itinerary details" [ref=e250] [cursor=pointer]:
+                - text: View your itinerary details
+                - img [ref=e251]
+            - generic [ref=e254]:
+              - button "4 seats left Economy from KES 8,305" [ref=e255] [cursor=pointer]:
+                - generic [ref=e257]: 4 seats left
+                - generic [ref=e258]: Economy
+                - generic [ref=e259]: from
+                - generic [ref=e261]: KES 8,305
+                - img [ref=e262]
+              - button "2 seats left Business from KES 24,090" [ref=e264] [cursor=pointer]:
+                - generic [ref=e266]: 2 seats left
+                - generic [ref=e267]: Business
+                - generic [ref=e268]: from
+                - generic [ref=e270]: KES 24,090
+                - img [ref=e271]
+        - link "← Back" [ref=e273] [cursor=pointer]:
+          - /url: /
+          - button "← Back" [ref=e274]
+      - generic [ref=e276]:
+        - generic [ref=e277]:
+          - generic [ref=e278] [cursor=pointer]: Loyalty Program
+          - generic [ref=e279] [cursor=pointer]: Travel Requirements
+          - generic [ref=e280] [cursor=pointer]: Special Assistance
+          - generic [ref=e281] [cursor=pointer]: Contact Us
+        - generic [ref=e282]:
+          - img "Amex" [ref=e284]
+          - img "Visa" [ref=e286]
+          - img "Mastercard" [ref=e288]
+          - img "PayPal" [ref=e290]
+  - button "Back to top":
+    - img

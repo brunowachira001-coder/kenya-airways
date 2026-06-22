@@ -1,0 +1,254 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kenya Airways – The Pride of Africa" [ref=e6]
+      - generic [ref=e7]:
+        - button "Search" [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+        - button "Toggle menu" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+  - main:
+    - generic [ref=e16]:
+      - generic [ref=e18]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: .....................
+          - generic [ref=e23]: ✈
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - generic [ref=e26]: Passenger
+            - generic [ref=e27]: "1"
+            - generic [ref=e28]: 👤
+          - button "🛒 Your booking" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]: 🛒
+            - generic [ref=e31]: Your booking
+      - heading "Enter your information" [level=1] [ref=e32]
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - heading "Passenger information" [level=2] [ref=e35]
+          - paragraph [ref=e36]:
+            - text: "* = mandatory fields"
+            - text: Please fill in your personal information as shown in your passport.
+            - text: Select passenger type based on age at the time of travel.
+          - generic [ref=e37]:
+            - generic [ref=e38]:
+              - generic [ref=e39]: Title*
+              - combobox [ref=e40]:
+                - option "Select" [selected]
+                - option "Mr"
+                - option "Mrs"
+                - option "Ms"
+                - option "Dr"
+            - generic [ref=e41]:
+              - generic [ref=e42]: First Name / Given Names*
+              - textbox [ref=e43]
+            - generic [ref=e44]:
+              - generic [ref=e45]: Last Name / Surname*
+              - textbox [ref=e46]
+          - generic [ref=e47]:
+            - generic [ref=e48]: Gender*
+            - generic [ref=e49]:
+              - generic [ref=e50] [cursor=pointer]:
+                - radio "Male" [checked] [ref=e51]
+                - generic [ref=e52]: Male
+              - generic [ref=e53] [cursor=pointer]:
+                - radio "Female" [ref=e54]
+                - generic [ref=e55]: Female
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - generic [ref=e58]: Date of birth
+              - textbox [ref=e59]
+            - generic [ref=e60]:
+              - generic [ref=e61]: Nationality
+              - combobox [ref=e62]:
+                - option "Select" [selected]
+                - option "Kenya"
+                - option "United States"
+                - option "United Kingdom"
+                - option "Uganda"
+                - option "Tanzania"
+        - generic [ref=e63]:
+          - heading "Frequent flyer cards" [level=2] [ref=e64]
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - generic [ref=e67]: Frequent flyer program
+              - combobox [ref=e68]:
+                - option "Select program" [selected]
+                - option "Asante Rewards"
+                - option "SkyTeam"
+            - generic [ref=e69]:
+              - generic [ref=e70]: Frequent flyer number
+              - textbox "Enter number" [ref=e71]
+        - generic [ref=e72]:
+          - heading "Contact information" [level=2] [ref=e73]
+          - paragraph [ref=e74]: Please provide the contact details of the traveler to enable us send timely updates and notifications, in case of disruptions.
+          - generic [ref=e75]:
+            - generic [ref=e76]: Email*
+            - textbox "Email address" [ref=e77]
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - generic [ref=e80]: Country calling code*
+              - combobox [ref=e81]:
+                - option "+254 (Kenya)" [selected]
+                - option "+1 (USA)"
+                - option "+44 (UK)"
+                - option "+256 (Uganda)"
+                - option "+255 (Tanzania)"
+            - generic [ref=e82]:
+              - generic [ref=e83]: Phone number*
+              - textbox "712345678" [ref=e84]
+          - generic [ref=e85]:
+            - checkbox "Add your emergency contact" [ref=e86]
+            - generic [ref=e87]: Add your emergency contact
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - checkbox "I would like to receive the Newsletter and special offers via e-mail by using the address entered in the contact information." [ref=e91]
+            - generic [ref=e92]: I would like to receive the Newsletter and special offers via e-mail by using the address entered in the contact information.
+          - generic [ref=e93]:
+            - checkbox "I understand and accept that my personal data will be processed in accordance with the applicable carrier's privacy policy." [ref=e94]
+            - generic [ref=e95]: I understand and accept that my personal data will be processed in accordance with the applicable carrier's privacy policy.
+        - generic [ref=e96]:
+          - button "Back" [ref=e97] [cursor=pointer]
+          - button "Confirm" [ref=e98] [cursor=pointer]
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - heading "Enrol now to enjoy 10% discount on your flight" [level=2] [ref=e101]:
+            - text: Enrol now to enjoy
+            - text: 10% discount on
+            - text: your flight
+          - button "Enrol Now" [ref=e102] [cursor=pointer]
+          - img "Cards" [ref=e104]
+        - generic [ref=e106]:
+          - link "Loyalty Program" [ref=e107] [cursor=pointer]:
+            - /url: "#"
+          - link "Travel Requirements" [ref=e108] [cursor=pointer]:
+            - /url: "#"
+          - link "Special Assistance" [ref=e109] [cursor=pointer]:
+            - /url: "#"
+          - link "Name Update Policy" [ref=e110] [cursor=pointer]:
+            - /url: "#"
+          - link "Contact Us" [ref=e111] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=e112]:
+          - img "A Better Way to Holiday" [ref=e113]
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - paragraph [ref=e116]: Featured Holidays - 06 of May
+              - heading "A Better Way to Holiday" [level=3] [ref=e117]
+            - button "BOOK NOW" [ref=e118] [cursor=pointer]
+          - paragraph [ref=e119]: "*Terms & Conditions Apply*"
+        - generic [ref=e120]:
+          - img "Visa" [ref=e121]
+          - img "Mastercard" [ref=e122]
+          - img "Amex" [ref=e123]
+          - img "PayPal" [ref=e124]
+  - contentinfo [ref=e125]:
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - button "Kenya Airways" [ref=e129] [cursor=pointer]:
+          - generic [ref=e130]: Kenya Airways
+          - img [ref=e132]
+        - button "KQ Group Brands" [ref=e135] [cursor=pointer]:
+          - generic [ref=e136]: KQ Group Brands
+          - img [ref=e138]
+        - button "Our Destinations" [ref=e141] [cursor=pointer]:
+          - generic [ref=e142]: Our Destinations
+          - img [ref=e144]
+        - button "Help" [ref=e147] [cursor=pointer]:
+          - generic [ref=e148]: Help
+          - img [ref=e150]
+      - generic [ref=e152]:
+        - button "Useful Links" [ref=e154] [cursor=pointer]:
+          - generic [ref=e155]: Useful Links
+          - img [ref=e157]
+        - button "Asante Rewards" [ref=e160] [cursor=pointer]:
+          - generic [ref=e161]: Asante Rewards
+          - img [ref=e163]
+        - button "Popular Destinations" [ref=e166] [cursor=pointer]:
+          - generic [ref=e167]: Popular Destinations
+          - img [ref=e169]
+        - button "Manage" [ref=e172] [cursor=pointer]:
+          - generic [ref=e173]: Manage
+          - img [ref=e175]
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - heading "Travel made simpler. Book and manage flights on the go!" [level=4] [ref=e179]
+          - generic [ref=e180]:
+            - link "Download on the App Store" [ref=e181] [cursor=pointer]:
+              - /url: https://apps.apple.com
+              - img [ref=e182]
+              - generic [ref=e184]:
+                - generic [ref=e185]: Download on the
+                - text: App Store
+            - link "GET IT ON Google Play" [ref=e186] [cursor=pointer]:
+              - /url: https://play.google.com
+              - img [ref=e187]
+              - generic [ref=e189]:
+                - generic [ref=e190]: GET IT ON
+                - text: Google Play
+        - generic [ref=e191]:
+          - heading "Follow us" [level=4] [ref=e192]
+          - generic [ref=e193]:
+            - link [ref=e194] [cursor=pointer]:
+              - /url: https://facebook.com/PrideofAfrica
+              - img [ref=e195]
+            - link [ref=e197] [cursor=pointer]:
+              - /url: https://twitter.com/KenyaAirways
+              - img [ref=e198]
+            - link [ref=e200] [cursor=pointer]:
+              - /url: https://instagram.com/officialkenyaairways
+              - img [ref=e201]
+            - link [ref=e203] [cursor=pointer]:
+              - /url: https://linkedin.com/company/kenya-airways
+              - img [ref=e204]
+            - link [ref=e207] [cursor=pointer]:
+              - /url: https://youtube.com/user/kenyaairways
+              - img [ref=e208]
+            - link [ref=e211] [cursor=pointer]:
+              - /url: https://spotify.com
+              - img [ref=e212]
+      - generic [ref=e214]:
+        - generic [ref=e215]:
+          - generic [ref=e216]: ★ ★ ★ ★ ★
+          - generic [ref=e217]: AFRICA'S LEADING AIRLINE
+          - generic [ref=e218]: World Travel Awards 2025
+        - generic [ref=e219]:
+          - generic [ref=e220]: ★ ★ ★ ★ ★
+          - generic [ref=e221]: AFRICA'S LEADING AIRLINE - BRAND
+          - generic [ref=e222]: World Travel Awards 2025
+        - generic [ref=e223]:
+          - generic [ref=e224]: ★ ★ ★ ★ ★
+          - generic [ref=e225]: AFRICA'S LEADING INFLIGHT MAGAZINE
+          - generic [ref=e226]: Msafiri - WTA 2025
+        - generic [ref=e227]:
+          - generic [ref=e228]: ★ ★ ★ ★ ★
+          - generic [ref=e229]: BEST AIRLINE IN AFRICA
+          - generic [ref=e230]: Business Traveller Awards 2025
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - link "Privacy Statement" [ref=e233] [cursor=pointer]:
+            - /url: /privacy-statement
+          - link "Conditions of Carriage" [ref=e234] [cursor=pointer]:
+            - /url: /conditions-of-carriage
+          - link "Website Security" [ref=e235] [cursor=pointer]:
+            - /url: /website-security
+          - link "Browser Compatibility" [ref=e236] [cursor=pointer]:
+            - /url: /browser-compatibility
+          - link "Cookie Policy" [ref=e237] [cursor=pointer]:
+            - /url: /cookie-policy
+          - link "Customer Service Plan" [ref=e238] [cursor=pointer]:
+            - /url: /customer-service-plan
+          - link "Contingency Plan" [ref=e239] [cursor=pointer]:
+            - /url: /contingency-plan
+          - link "Optional Fees" [ref=e240] [cursor=pointer]:
+            - /url: /optional-fees
+          - link "24 Hours Refund Statement" [ref=e241] [cursor=pointer]:
+            - /url: /24-hours-refund-statement
+          - link "EU Passenger Rights" [ref=e242] [cursor=pointer]:
+            - /url: /eu-passenger-rights
+          - link "Thai Passenger Rights" [ref=e243] [cursor=pointer]:
+            - /url: /thai-passenger-rights
+        - paragraph [ref=e245]: © 2026 Kenya Airways PLC. All rights reserved.
+  - button "Back to top":
+    - img

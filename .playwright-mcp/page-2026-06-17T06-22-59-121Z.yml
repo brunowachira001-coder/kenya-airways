@@ -1,0 +1,273 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kenya Airways – The Pride of Africa" [ref=e6]
+      - generic [ref=e7]:
+        - button "Search" [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+        - button "Toggle menu" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+  - main:
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: "Total price for your flight:"
+        - generic [ref=e19]: KES 85,000
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - heading "Your selection" [level=1] [ref=e22]
+          - paragraph [ref=e23]: to
+        - generic [ref=e25]:
+          - generic [ref=e26]: ⚠
+          - generic [ref=e27]:
+            - paragraph [ref=e28]: 1 warning
+            - paragraph [ref=e29]: You're already subscribed to our newsletter.
+        - generic [ref=e31]:
+          - generic [ref=e32]: "Select your preferred currency:"
+          - combobox [ref=e33]:
+            - option "KES" [selected]
+            - option "USD"
+            - option "EUR"
+            - option "GBP"
+        - generic [ref=e34]:
+          - heading "Your flights" [level=2] [ref=e35]
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - heading "to" [level=3] [ref=e39]
+                - paragraph
+              - button "Business Lite ▼" [ref=e40] [cursor=pointer]:
+                - generic [ref=e41]: Business Lite
+                - generic [ref=e42]: ▼
+            - generic [ref=e43]:
+              - generic [ref=e45]:
+                - generic [ref=e46]:
+                  - paragraph [ref=e47]: 18:45
+                  - paragraph
+                  - paragraph [ref=e48]: Terminal 1A
+                - paragraph [ref=e50]: nonstop
+                - generic [ref=e52]:
+                  - paragraph [ref=e53]: 20:10
+                  - paragraph
+                  - paragraph [ref=e54]: Terminal 3
+              - generic [ref=e55]:
+                - paragraph [ref=e56]: Duration 1h 25min
+                - paragraph [ref=e57]:
+                  - text: Operated by Kenya Airways
+                  - img "KQ" [ref=e58]
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - generic [ref=e61]:
+                - heading "to" [level=3] [ref=e62]
+                - paragraph
+              - button "Economy Standard ▼" [ref=e63] [cursor=pointer]:
+                - generic [ref=e64]: Economy Standard
+                - generic [ref=e65]: ▼
+            - generic [ref=e66]:
+              - generic [ref=e68]:
+                - generic [ref=e69]:
+                  - paragraph [ref=e70]: 14:35
+                  - paragraph
+                  - paragraph [ref=e71]: Terminal 3
+                - paragraph [ref=e73]: nonstop
+                - generic [ref=e75]:
+                  - paragraph [ref=e76]: 15:55
+                  - paragraph
+                  - paragraph [ref=e77]: Terminal 1A
+              - generic [ref=e78]:
+                - paragraph [ref=e79]: Duration 1h 20min
+                - paragraph [ref=e80]:
+                  - text: Operated by Kenya Airways
+                  - img "KQ" [ref=e81]
+        - heading "Passenger Details" [level=2] [ref=e83]
+        - generic [ref=e84]:
+          - heading "Extra services" [level=2] [ref=e85]
+          - generic [ref=e87]:
+            - img "Seats" [ref=e88]
+            - generic [ref=e89]:
+              - heading "Seats" [level=3] [ref=e90]
+              - paragraph [ref=e91]: Select your seat to experience comfort.
+              - paragraph [ref=e92]: From KES 2,000
+              - button "Select your seats" [ref=e93] [cursor=pointer]
+          - generic [ref=e95]:
+            - img "Baggage" [ref=e96]
+            - generic [ref=e97]:
+              - heading "Baggage" [level=3] [ref=e98]
+              - paragraph [ref=e99]: Ready to make your journey extraordinary with extra baggage? Shop at Kenya Airways will manage your additional luggage.
+              - paragraph [ref=e100]: From KES 16,965
+              - button "Add service" [ref=e101] [cursor=pointer]
+          - generic [ref=e103]:
+            - img "Meals" [ref=e104]
+            - generic [ref=e105]:
+              - heading "Special Meals" [level=3] [ref=e106]
+              - paragraph [ref=e107]: Would you like a meal customized for your health requirements, food allergies or religious practices? Please ensure to request it in advance for your journey.
+              - paragraph [ref=e108]: Included
+              - button "Add meal" [ref=e109] [cursor=pointer]
+          - generic [ref=e111]:
+            - img "Assistance" [ref=e112]
+            - generic [ref=e113]:
+              - heading "Special assistance" [level=3] [ref=e114]
+              - paragraph [ref=e115]: Kenya Airways cares, pre-book your wheelchair 48hrs before departure.
+              - paragraph [ref=e116]: Included
+              - button "Add service" [ref=e117] [cursor=pointer]
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - checkbox [ref=e121]
+            - generic [ref=e122]:
+              - heading "Need time to think?" [level=3] [ref=e123]
+              - paragraph [ref=e124]: Hold my booking until Sunday, 14 June 23:43 GMT
+              - paragraph [ref=e125]: +KES 2,610
+          - img [ref=e127]
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - paragraph [ref=e131]:
+              - text: "Total price:"
+              - generic [ref=e132]: KES 85,000
+            - paragraph [ref=e133]:
+              - text: Round trip price for all passengers (including taxes, fees and discounts).
+              - button "See price details" [ref=e134] [cursor=pointer]:
+                - text: See price details
+                - img [ref=e135]
+          - generic [ref=e139]:
+            - button "Detailed baggage policy" [ref=e140] [cursor=pointer]:
+              - text: Detailed baggage policy
+              - img [ref=e141]
+            - generic [ref=e145]: "|"
+            - button "Fare conditions" [ref=e146] [cursor=pointer]:
+              - text: Fare conditions
+              - img [ref=e147]
+            - generic [ref=e151]: "|"
+            - button "Dangerous goods policy" [ref=e152] [cursor=pointer]:
+              - text: Dangerous goods policy
+              - img [ref=e153]
+          - button "Checkout" [ref=e158] [cursor=pointer]
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - heading "Enrol now to enjoy 10% discount on your flight" [level=2] [ref=e161]:
+            - text: Enrol now to enjoy
+            - text: 10% discount on
+            - text: your flight
+          - button "Enrol Now" [ref=e162] [cursor=pointer]
+          - img "Cards" [ref=e164]
+        - generic [ref=e166]:
+          - link "Loyalty Program" [ref=e167] [cursor=pointer]:
+            - /url: "#"
+          - link "Travel Requirements" [ref=e168] [cursor=pointer]:
+            - /url: "#"
+          - link "Special Assistance" [ref=e169] [cursor=pointer]:
+            - /url: "#"
+          - link "Name Update Policy" [ref=e170] [cursor=pointer]:
+            - /url: "#"
+          - link "Contact Us" [ref=e171] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=e172]:
+          - img "A Better Way to Holiday" [ref=e173]
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - paragraph [ref=e176]: Featured Holidays - 06 of May
+              - heading "A Better Way to Holiday" [level=3] [ref=e177]
+            - button "BOOK NOW" [ref=e178] [cursor=pointer]
+          - paragraph [ref=e179]: "*Terms & Conditions Apply*"
+        - generic [ref=e180]:
+          - img "Visa" [ref=e181]
+          - img "Mastercard" [ref=e182]
+          - img "Amex" [ref=e183]
+          - img "PayPal" [ref=e184]
+  - contentinfo [ref=e185]:
+    - generic [ref=e186]:
+      - generic [ref=e187]:
+        - button "Kenya Airways" [ref=e189] [cursor=pointer]:
+          - generic [ref=e190]: Kenya Airways
+          - img [ref=e192]
+        - button "KQ Group Brands" [ref=e195] [cursor=pointer]:
+          - generic [ref=e196]: KQ Group Brands
+          - img [ref=e198]
+        - button "Our Destinations" [ref=e201] [cursor=pointer]:
+          - generic [ref=e202]: Our Destinations
+          - img [ref=e204]
+        - button "Help" [ref=e207] [cursor=pointer]:
+          - generic [ref=e208]: Help
+          - img [ref=e210]
+      - generic [ref=e212]:
+        - button "Useful Links" [ref=e214] [cursor=pointer]:
+          - generic [ref=e215]: Useful Links
+          - img [ref=e217]
+        - button "Asante Rewards" [ref=e220] [cursor=pointer]:
+          - generic [ref=e221]: Asante Rewards
+          - img [ref=e223]
+        - button "Popular Destinations" [ref=e226] [cursor=pointer]:
+          - generic [ref=e227]: Popular Destinations
+          - img [ref=e229]
+        - button "Manage" [ref=e232] [cursor=pointer]:
+          - generic [ref=e233]: Manage
+          - img [ref=e235]
+      - generic [ref=e237]:
+        - generic [ref=e238]:
+          - heading "Travel made simpler. Book and manage flights on the go!" [level=4] [ref=e239]
+          - generic [ref=e240]:
+            - link "Download on the App Store" [ref=e241] [cursor=pointer]:
+              - /url: https://apps.apple.com
+              - img [ref=e242]
+              - generic [ref=e244]:
+                - generic [ref=e245]: Download on the
+                - text: App Store
+            - link "GET IT ON Google Play" [ref=e246] [cursor=pointer]:
+              - /url: https://play.google.com
+              - img [ref=e247]
+              - generic [ref=e249]:
+                - generic [ref=e250]: GET IT ON
+                - text: Google Play
+        - generic [ref=e251]:
+          - heading "Follow us" [level=4] [ref=e252]
+          - generic [ref=e253]:
+            - link [ref=e254] [cursor=pointer]:
+              - /url: https://facebook.com/PrideofAfrica
+              - img [ref=e255]
+            - link [ref=e257] [cursor=pointer]:
+              - /url: https://twitter.com/KenyaAirways
+              - img [ref=e258]
+            - link [ref=e260] [cursor=pointer]:
+              - /url: https://instagram.com/officialkenyaairways
+              - img [ref=e261]
+            - link [ref=e263] [cursor=pointer]:
+              - /url: https://linkedin.com/company/kenya-airways
+              - img [ref=e264]
+            - link [ref=e267] [cursor=pointer]:
+              - /url: https://youtube.com/user/kenyaairways
+              - img [ref=e268]
+            - link [ref=e271] [cursor=pointer]:
+              - /url: https://spotify.com
+              - img [ref=e272]
+      - generic [ref=e274]:
+        - img "Africa's Leading Airline - World Travel Awards 2025" [ref=e275]
+        - img "Africa's Leading Airline Brand - World Travel Awards 2025" [ref=e276]
+        - img "Africa's Leading Business Class - World Travel Awards 2025" [ref=e277]
+        - img "Africa's Leading Inflight Magazine - World Travel Awards 2025" [ref=e278]
+      - generic [ref=e279]:
+        - generic [ref=e280]:
+          - link "Privacy Statement" [ref=e281] [cursor=pointer]:
+            - /url: /privacy-statement
+          - link "Conditions of Carriage" [ref=e282] [cursor=pointer]:
+            - /url: /conditions-of-carriage
+          - link "Website Security" [ref=e283] [cursor=pointer]:
+            - /url: /website-security
+          - link "Browser Compatibility" [ref=e284] [cursor=pointer]:
+            - /url: /browser-compatibility
+          - link "Cookie Policy" [ref=e285] [cursor=pointer]:
+            - /url: /cookie-policy
+          - link "Customer Service Plan" [ref=e286] [cursor=pointer]:
+            - /url: /customer-service-plan
+          - link "Contingency Plan" [ref=e287] [cursor=pointer]:
+            - /url: /contingency-plan
+          - link "Optional Fees" [ref=e288] [cursor=pointer]:
+            - /url: /optional-fees
+          - link "24 Hours Refund Statement" [ref=e289] [cursor=pointer]:
+            - /url: /24-hours-refund-statement
+          - link "EU Passenger Rights" [ref=e290] [cursor=pointer]:
+            - /url: /eu-passenger-rights
+          - link "Thai Passenger Rights" [ref=e291] [cursor=pointer]:
+            - /url: /thai-passenger-rights
+        - paragraph [ref=e293]: © 2026 Kenya Airways PLC. All rights reserved.
+  - button "Back to top":
+    - img

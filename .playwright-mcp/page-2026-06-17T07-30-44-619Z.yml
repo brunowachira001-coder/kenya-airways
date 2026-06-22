@@ -1,0 +1,196 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kenya Airways – The Pride of Africa" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kenya Airways – The Pride of Africa" [ref=e6]
+      - generic [ref=e7]:
+        - button "Search" [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+        - button "Toggle menu" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+  - main:
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: ⛔
+        - paragraph [ref=e19]: DO NOT reload or exit the payment page until you receive a ticket confirmation.
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - heading "Pay With" [level=2] [ref=e23]
+          - generic [ref=e24]:
+            - button "Mobile Money" [ref=e25] [cursor=pointer]:
+              - radio [checked] [ref=e26]
+              - generic [ref=e27]: Mobile Money
+            - button "Bank Transfer" [ref=e28] [cursor=pointer]:
+              - radio [ref=e29]
+              - generic [ref=e30]: Bank Transfer
+        - generic [ref=e32]:
+          - img "Kenya Airways" [ref=e34]
+          - generic [ref=e35]:
+            - generic [ref=e37]: M-PESA
+            - heading "Pay via M-Pesa Kenya" [level=3] [ref=e38]
+            - generic [ref=e39]:
+              - generic [ref=e40]:
+                - generic [ref=e41]: Mobile number
+                - generic [ref=e42]:
+                  - generic [ref=e43]: "+254"
+                  - textbox [ref=e44]
+                - paragraph [ref=e45]: Enter phone number
+              - generic [ref=e46]:
+                - generic [ref=e47]: Amount
+                - generic [ref=e48]:
+                  - generic [ref=e49]: KES
+                  - textbox [ref=e50]
+              - generic [ref=e51]:
+                - text: By proceeding, you agree to
+                - link "Tingg terms and conditions" [ref=e52] [cursor=pointer]:
+                  - /url: "#"
+              - button "Proceed with payment" [ref=e53] [cursor=pointer]
+        - generic [ref=e55]:
+          - combobox [ref=e57]:
+            - option "🌐 English" [selected]
+            - option "Swahili"
+          - generic [ref=e58]:
+            - heading "Transaction" [level=3] [ref=e59]
+            - generic [ref=e60]:
+              - generic [ref=e61]:
+                - generic [ref=e62]: Amount Due
+                - generic [ref=e63]: KES 0.00
+              - generic [ref=e64]:
+                - generic [ref=e65]: Total Payable
+                - generic [ref=e66]: KES 85,000
+          - generic [ref=e67]:
+            - paragraph [ref=e68]: Please make your payment in
+            - generic [ref=e69]: "07m : 36s"
+            - generic [ref=e70]:
+              - generic [ref=e71]:
+                - generic [ref=e72]: KES 1.00
+                - generic [ref=e73]: KES 1.00
+              - generic [ref=e74]:
+                - generic [ref=e75]: Original
+                - generic [ref=e76]: KES 85,000
+              - generic [ref=e77]:
+                - generic [ref=e78]: Converted
+                - generic [ref=e79]: KES 85,000
+          - generic [ref=e80]:
+            - heading "Description" [level=4] [ref=e81]
+            - paragraph [ref=e82]: Flight booking payment
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - link "Loyalty Program" [ref=e86] [cursor=pointer]:
+            - /url: "#"
+          - link "Travel Requirements" [ref=e87] [cursor=pointer]:
+            - /url: "#"
+          - link "Special Assistance" [ref=e88] [cursor=pointer]:
+            - /url: "#"
+          - link "Contact Us" [ref=e89] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=e90]:
+          - paragraph [ref=e91]: POWERED BY
+          - generic [ref=e92]:
+            - generic [ref=e93]: tingg
+            - generic [ref=e94]: by
+            - generic [ref=e95]: MFS AFRICA
+        - generic [ref=e96]:
+          - img "Visa" [ref=e97]
+          - img "Mastercard" [ref=e98]
+          - img "Amex" [ref=e99]
+          - generic [ref=e100]: M-PESA
+          - img "PayPal" [ref=e101]
+  - contentinfo [ref=e102]:
+    - generic [ref=e103]:
+      - generic [ref=e104]:
+        - button "Kenya Airways" [ref=e106] [cursor=pointer]:
+          - generic [ref=e107]: Kenya Airways
+          - img [ref=e109]
+        - button "KQ Group Brands" [ref=e112] [cursor=pointer]:
+          - generic [ref=e113]: KQ Group Brands
+          - img [ref=e115]
+        - button "Our Destinations" [ref=e118] [cursor=pointer]:
+          - generic [ref=e119]: Our Destinations
+          - img [ref=e121]
+        - button "Help" [ref=e124] [cursor=pointer]:
+          - generic [ref=e125]: Help
+          - img [ref=e127]
+      - generic [ref=e129]:
+        - button "Useful Links" [ref=e131] [cursor=pointer]:
+          - generic [ref=e132]: Useful Links
+          - img [ref=e134]
+        - button "Asante Rewards" [ref=e137] [cursor=pointer]:
+          - generic [ref=e138]: Asante Rewards
+          - img [ref=e140]
+        - button "Popular Destinations" [ref=e143] [cursor=pointer]:
+          - generic [ref=e144]: Popular Destinations
+          - img [ref=e146]
+        - button "Manage" [ref=e149] [cursor=pointer]:
+          - generic [ref=e150]: Manage
+          - img [ref=e152]
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - heading "Travel made simpler. Book and manage flights on the go!" [level=4] [ref=e156]
+          - generic [ref=e157]:
+            - link "Download on the App Store" [ref=e158] [cursor=pointer]:
+              - /url: https://apps.apple.com
+              - img [ref=e159]
+              - generic [ref=e161]:
+                - generic [ref=e162]: Download on the
+                - text: App Store
+            - link "GET IT ON Google Play" [ref=e163] [cursor=pointer]:
+              - /url: https://play.google.com
+              - img [ref=e164]
+              - generic [ref=e166]:
+                - generic [ref=e167]: GET IT ON
+                - text: Google Play
+        - generic [ref=e168]:
+          - heading "Follow us" [level=4] [ref=e169]
+          - generic [ref=e170]:
+            - link [ref=e171] [cursor=pointer]:
+              - /url: https://facebook.com/PrideofAfrica
+              - img [ref=e172]
+            - link [ref=e174] [cursor=pointer]:
+              - /url: https://twitter.com/KenyaAirways
+              - img [ref=e175]
+            - link [ref=e177] [cursor=pointer]:
+              - /url: https://instagram.com/officialkenyaairways
+              - img [ref=e178]
+            - link [ref=e180] [cursor=pointer]:
+              - /url: https://linkedin.com/company/kenya-airways
+              - img [ref=e181]
+            - link [ref=e184] [cursor=pointer]:
+              - /url: https://youtube.com/user/kenyaairways
+              - img [ref=e185]
+            - link [ref=e188] [cursor=pointer]:
+              - /url: https://spotify.com
+              - img [ref=e189]
+      - generic [ref=e191]:
+        - img "Africa's Leading Airline - World Travel Awards 2025" [ref=e192]
+        - img "Africa's Leading Airline Brand - World Travel Awards 2025" [ref=e193]
+        - img "Africa's Leading Business Class - World Travel Awards 2025" [ref=e194]
+        - img "Africa's Leading Inflight Magazine - World Travel Awards 2025" [ref=e195]
+      - generic [ref=e196]:
+        - generic [ref=e197]:
+          - link "Privacy Statement" [ref=e198] [cursor=pointer]:
+            - /url: /privacy-statement
+          - link "Conditions of Carriage" [ref=e199] [cursor=pointer]:
+            - /url: /conditions-of-carriage
+          - link "Website Security" [ref=e200] [cursor=pointer]:
+            - /url: /website-security
+          - link "Browser Compatibility" [ref=e201] [cursor=pointer]:
+            - /url: /browser-compatibility
+          - link "Cookie Policy" [ref=e202] [cursor=pointer]:
+            - /url: /cookie-policy
+          - link "Customer Service Plan" [ref=e203] [cursor=pointer]:
+            - /url: /customer-service-plan
+          - link "Contingency Plan" [ref=e204] [cursor=pointer]:
+            - /url: /contingency-plan
+          - link "Optional Fees" [ref=e205] [cursor=pointer]:
+            - /url: /optional-fees
+          - link "24 Hours Refund Statement" [ref=e206] [cursor=pointer]:
+            - /url: /24-hours-refund-statement
+          - link "EU Passenger Rights" [ref=e207] [cursor=pointer]:
+            - /url: /eu-passenger-rights
+          - link "Thai Passenger Rights" [ref=e208] [cursor=pointer]:
+            - /url: /thai-passenger-rights
+        - paragraph [ref=e210]: © 2026 Kenya Airways PLC. All rights reserved.
+  - button "Back to top":
+    - img

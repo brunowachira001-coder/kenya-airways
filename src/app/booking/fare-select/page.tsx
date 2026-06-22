@@ -1,0 +1,200 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { useBookingStore } from "@/store/booking-store"
+import { useRouter } from "next/navigation"
+import { TripSummary } from "@/components/booking/trip-summary"
+import { Check, ExternalLink } from "lucide-react"
+
+const FARES = [
+  {
+    id: "economy-light",
+    name: "Economy Light",
+    priceMultiplier: 1,
+    features: [
+      { name: "Baggage", value: "0 checked", included: false },
+      { name: "Seat selection", value: "Paid", included: false },
+      { name: "Meals", value: "Paid", included: false },
+      { name: "Flexibility", value: "Non-refundable", included: false },
+      { name: "Lounge", value: "✗", included: false }
+    ]
+  },
+  {
+    id: "economy",
+    name: "Economy",
+    priceMultiplier: 1.2,
+    features: [
+      { name: "Baggage", value: "23kg", included: true },
+      { name: "Seat selection", value: "Included", included: true },
+      { name: "Meals", value: "Included", included: true },
+      { name: "Flexibility", value: "Changeable fee", included: true },
+      { name: "Lounge", value: "✗", included: false }
+    ]
+  },
+  {
+    id: "business",
+    name: "Business",
+    priceMultiplier: 2.5,
+    features: [
+      { name: "Baggage", value: "32kg", included: true },
+      { name: "Seat selection", value: "Included", included: true },
+      { name: "Meals", value: "Included", included: true },
+      { name: "Flexibility", value: "Flexible", included: true },
+      { name: "Lounge", value: "✓", included: true }
+    ]
+  }
+]
+
+export default function FareSelectPage() {
+  const router = useRouter()
+  const { setCurrentStep, selectedFare, setSelectedFare, selectedOutboundFlight, passengers } = useBookingStore()
+  const [showSummary, setShowSummary] = useState(false)
+
+  useEffect(() => {
+    setCurrentStep(2)
+  }, [setCurrentStep])
+
+  // Simple mock
+  const basePrice = selectedOutboundFlight?.price || 45000
+  
+  // Calculate total passengers and price
+  const totalPassengers = passengers.adults + passengers.children + passengers.infants
+  const selectedFareData = FARES.find(f => f.name === selectedFare)
+  const fareMultiplier = selectedFareData?.priceMultiplier || 1
+  const totalPrice = Math.round(basePrice * fareMultiplier * 2 * totalPassengers) // *2 for round trip
+
+  const handleContinue = () => {
+    if (selectedFare) {
+      setShowSummary(true)
+    }
+  }
+  
+  const handleAddPassengers = () => {
+    router.push("/booking/passengers")
+  }
+
+  if (showSummary) {
+    return (
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div className="text-right mb-6">
+            <p className="text-lg mb-2">
+              Total price: <span className="text-3xl font-bold ml-2">KES {totalPrice.toLocaleString()}</span>
+            </p>
+            <p className="text-sm text-gray-600">
+              Round trip price for all passengers (including taxes, fees and discounts). 
+              <button className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1">
+                See price details
+                <ExternalLink className="w-3 h-3" />
+              </button>
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3 justify-center mb-6 text-sm">
+            <button className="text-gray-600 hover:underline inline-flex items-center gap-1">
+              Detailed baggage policy
+              <ExternalLink className="w-3 h-3" />
+            </button>
+            <span className="text-gray-400">|</span>
+            <button className="text-gray-600 hover:underline inline-flex items-center gap-1">
+              Fare conditions
+              <ExternalLink className="w-3 h-3" />
+            </button>
+            <span className="text-gray-400">|</span>
+            <button className="text-gray-600 hover:underline inline-flex items-center gap-1">
+              Dangerous goods policy
+              <ExternalLink className="w-3 h-3" />
+            </button>
+          </div>
+
+          <div className="flex justify-center">
+            <button 
+              onClick={handleAddPassengers}
+              className="bg-brand-primary hover:bg-[#A00D25] text-white px-8 py-3 rounded-md font-semibold transition-colors"
+            >
+              Add your passenger details
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-content mx-auto px-4">
+      <div className="flex flex-col lg:flex-row gap-8">
+        
+        {/* Main Area */}
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold mb-6">Select your fare</h1>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {FARES.map(fare => {
+              const isSelected = selectedFare === fare.name
+              const price = basePrice * fare.priceMultiplier
+
+              return (
+                <div 
+                  key={fare.id}
+                  onClick={() => setSelectedFare(fare.name)}
+                  className={`bg-white rounded-lg border-2 transition-all cursor-pointer overflow-hidden ${
+                    isSelected ? "border-brand-primary ring-1 ring-brand-primary shadow-md" : "border-gray-200 hover:border-brand-primary"
+                  }`}
+                >
+                  <div className={`p-4 text-center border-b ${isSelected ? "bg-brand-primary/5" : ""}`}>
+                    <h3 className="font-bold text-lg">{fare.name}</h3>
+                    <p className="text-2xl font-bold text-brand-secondary mt-2">KES {price.toLocaleString()}</p>
+                  </div>
+                  
+                  <ul className="p-4 space-y-4">
+                    {fare.features.map((feature, idx) => (
+                      <li key={idx} className="flex flex-col items-center text-center">
+                        <span className="text-xs text-gray-500 mb-1">{feature.name}</span>
+                        <span className={`text-sm font-semibold flex items-center gap-1 ${feature.included ? "text-green-600" : "text-gray-600"}`}>
+                          {feature.included ? <Check className="w-4 h-4" /> : null}
+                          {feature.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="p-4 pt-0">
+                    <button 
+                      className={`w-full py-2 rounded-md font-semibold transition-colors ${
+                        isSelected ? "bg-brand-primary text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                    >
+                      {isSelected ? "Selected" : "Select"}
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="mt-8 flex justify-between items-center">
+            <button 
+              onClick={() => router.push("/search")}
+              className="text-gray-600 font-semibold hover:underline"
+            >
+              Back to flights
+            </button>
+            <button 
+              onClick={handleContinue}
+              disabled={!selectedFare}
+              className="bg-brand-primary hover:bg-[#A00D25] disabled:bg-gray-300 text-white px-8 py-3 rounded-button font-bold transition-colors"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+
+        {/* Right Sidebar */}
+        <div className="w-full lg:w-80 shrink-0">
+          <TripSummary />
+        </div>
+
+      </div>
+    </div>
+  )
+}

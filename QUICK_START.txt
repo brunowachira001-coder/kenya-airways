@@ -1,0 +1,31 @@
+═══════════════════════════════════════════════════════════
+  KENYA AIRWAYS BOOKING SITE - MOBILE ACCESS
+═══════════════════════════════════════════════════════════
+
+✅ SERVER IS RUNNING!
+
+📱 MOBILE URL:
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│        http://192.168.100.8:3000                       │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+
+📋 QUICK STEPS:
+  1. Connect your mobile to the SAME WiFi as this computer
+  2. Open browser on your mobile
+  3. Type: 192.168.100.8:3000
+  4. Test any "Book Now" button
+  5. Complete the booking flow
+
+🔍 TROUBLESHOOTING:
+  - Make sure both devices are on same WiFi network
+  - Computer IP: 192.168.100.8
+  - Port: 3000
+  - If IP changed, run: hostname -I
+
+📚 DOCUMENTATION:
+  - Full guide: MOBILE_CONNECTION_GUIDE.md
+  - Test summary: BOOKING_FLOW_TEST_SUMMARY.md
+
+═══════════════════════════════════════════════════════════

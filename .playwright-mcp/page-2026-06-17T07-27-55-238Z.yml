@@ -1,0 +1,128 @@
+- generic [ref=e1]:
+  - generic [ref=e255]:
+    - generic [ref=e256]:
+      - img [ref=e257]
+      - paragraph [ref=e259]:
+        - text: "Important: Resumption of Daily Nairobi – Dubai Flights —"
+        - link "Read More" [ref=e260] [cursor=pointer]:
+          - /url: "#"
+    - button "Close notification" [ref=e262] [cursor=pointer]:
+      - img [ref=e263]
+  - main [ref=e266]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - heading "Select your fare" [level=1] [ref=e18]
+        - generic [ref=e19]:
+          - generic [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]:
+              - heading "Economy Light" [level=3] [ref=e22]
+              - paragraph [ref=e23]: KES 45,000
+            - list [ref=e24]:
+              - listitem [ref=e25]:
+                - generic [ref=e26]: Baggage
+                - generic [ref=e27]: 0 checked
+              - listitem [ref=e28]:
+                - generic [ref=e29]: Seat selection
+                - generic [ref=e30]: Paid
+              - listitem [ref=e31]:
+                - generic [ref=e32]: Meals
+                - generic [ref=e33]: Paid
+              - listitem [ref=e34]:
+                - generic [ref=e35]: Flexibility
+                - generic [ref=e36]: Non-refundable
+              - listitem [ref=e37]:
+                - generic [ref=e38]: Lounge
+                - generic [ref=e39]: ✗
+            - button "Select" [ref=e41]
+          - generic [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]:
+              - heading "Economy" [level=3] [ref=e44]
+              - paragraph [ref=e45]: KES 54,000
+            - list [ref=e46]:
+              - listitem [ref=e47]:
+                - generic [ref=e48]: Baggage
+                - generic [ref=e49]:
+                  - img [ref=e50]
+                  - text: 23kg
+              - listitem [ref=e52]:
+                - generic [ref=e53]: Seat selection
+                - generic [ref=e54]:
+                  - img [ref=e55]
+                  - text: Included
+              - listitem [ref=e57]:
+                - generic [ref=e58]: Meals
+                - generic [ref=e59]:
+                  - img [ref=e60]
+                  - text: Included
+              - listitem [ref=e62]:
+                - generic [ref=e63]: Flexibility
+                - generic [ref=e64]:
+                  - img [ref=e65]
+                  - text: Changeable fee
+              - listitem [ref=e67]:
+                - generic [ref=e68]: Lounge
+                - generic [ref=e69]: ✗
+            - button "Selected" [active] [ref=e268]
+          - generic [ref=e72] [cursor=pointer]:
+            - generic [ref=e73]:
+              - heading "Business" [level=3] [ref=e74]
+              - paragraph [ref=e75]: KES 112,500
+            - list [ref=e76]:
+              - listitem [ref=e77]:
+                - generic [ref=e78]: Baggage
+                - generic [ref=e79]:
+                  - img [ref=e80]
+                  - text: 32kg
+              - listitem [ref=e82]:
+                - generic [ref=e83]: Seat selection
+                - generic [ref=e84]:
+                  - img [ref=e85]
+                  - text: Included
+              - listitem [ref=e87]:
+                - generic [ref=e88]: Meals
+                - generic [ref=e89]:
+                  - img [ref=e90]
+                  - text: Included
+              - listitem [ref=e92]:
+                - generic [ref=e93]: Flexibility
+                - generic [ref=e94]:
+                  - img [ref=e95]
+                  - text: Flexible
+              - listitem [ref=e97]:
+                - generic [ref=e98]: Lounge
+                - generic [ref=e99]:
+                  - img [ref=e100]
+                  - text: ✓
+            - button "Select" [ref=e103]
+        - generic [ref=e104]:
+          - button "Back to flights" [ref=e105] [cursor=pointer]
+          - button "Continue" [ref=e106] [cursor=pointer]
+      - generic [ref=e108]:
+        - heading "Your Booking" [level=2] [ref=e109]
+        - generic [ref=e110]:
+          - heading "Flight Details" [level=3] [ref=e111]
+          - generic [ref=e112]:
+            - img [ref=e114]
+            - generic [ref=e116]:
+              - paragraph [ref=e117]:
+                - img [ref=e118]
+              - paragraph [ref=e120]: Date not selected
+          - generic [ref=e121]:
+            - img [ref=e123]
+            - generic [ref=e125]:
+              - paragraph [ref=e126]:
+                - img [ref=e127]
+              - paragraph [ref=e129]: Date not selected
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - img [ref=e132]
+            - paragraph [ref=e137]: 1 Passenger(s)
+          - paragraph [ref=e138]: Economy (Economy)
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - generic [ref=e141]: Flights
+            - generic [ref=e142]: KES 0
+          - generic [ref=e143]:
+            - generic [ref=e144]: Total
+            - generic [ref=e145]: KES 0
+  - alert [ref=e267]
