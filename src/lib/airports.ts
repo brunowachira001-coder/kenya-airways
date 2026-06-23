@@ -6,7 +6,7 @@ export interface Airport {
   nearby?: boolean;
 }
 
-// Kenya Airways route network - 50+ airports
+// Kenya Airways route network - 68 airports
 export const AIRPORTS: Airport[] = [
   // ── Kenya (7) ──────────────────────────────────────
   { city: "Nairobi", country: "Kenya", name: "Jomo Kenyatta International Airport", iata: "NBO", nearby: true },
@@ -17,12 +17,13 @@ export const AIRPORTS: Airport[] = [
   { city: "Kitale", country: "Kenya", name: "Kitale Airport", iata: "KTL", nearby: true },
   { city: "Lamu", country: "Kenya", name: "Lamu Airport", iata: "LAU", nearby: true },
 
-  // ── Tanzania (5) ───────────────────────────────────
+  // ── Tanzania (6) ───────────────────────────────────
   { city: "Dar es Salaam", country: "Tanzania", name: "Julius Nyerere International Airport", iata: "DAR" },
   { city: "Zanzibar", country: "Tanzania", name: "Abeid Amani Karume Airport", iata: "ZNZ" },
   { city: "Kilimanjaro", country: "Tanzania", name: "Kilimanjaro International Airport", iata: "JRO" },
   { city: "Arusha", country: "Tanzania", name: "Arusha Airport", iata: "ARK" },
   { city: "Dodoma", country: "Tanzania", name: "Dodoma Airport", iata: "DOD" },
+  { city: "Mwanza", country: "Tanzania", name: "Mwanza Airport", iata: "MWZ" },
 
   // ── Uganda (2) ─────────────────────────────────────
   { city: "Entebbe", country: "Uganda", name: "Entebbe International Airport", iata: "EBB" },
@@ -33,6 +34,9 @@ export const AIRPORTS: Airport[] = [
 
   // ── Burundi (1) ────────────────────────────────────
   { city: "Bujumbura", country: "Burundi", name: "Bujumbura International Airport", iata: "BJM" },
+
+  // ── South Sudan (1) ────────────────────────────────
+  { city: "Juba", country: "South Sudan", name: "Juba International Airport", iata: "JUB" },
 
   // ── South Africa (3) ───────────────────────────────
   { city: "Johannesburg", country: "South Africa", name: "O.R. Tambo International Airport", iata: "JNB" },
@@ -83,7 +87,7 @@ export const AIRPORTS: Airport[] = [
   { city: "Kinshasa", country: "DRC", name: "Kinshasa N'djili International Airport", iata: "FIH" },
 
   // ── Ivory Coast (1) ────────────────────────────────
-  { city: "Abidjan", country: "Ivory Coast", name: " Félix Houphouët-Boigny International Airport", iata: "ABJ" },
+  { city: "Abidjan", country: "Ivory Coast", name: "Félix Houphouët-Boigny International Airport", iata: "ABJ" },
 
   // ── Senegal (1) ────────────────────────────────────
   { city: "Dakar", country: "Senegal", name: "Léopold Sédar Senghor International Airport", iata: "DKR" },
@@ -91,8 +95,9 @@ export const AIRPORTS: Airport[] = [
   // ── Ghana (1) ──────────────────────────────────────
   { city: "Accra", country: "Ghana", name: "Kotoka International Airport", iata: "ACC" },
 
-  // ── Nigeria (1) ────────────────────────────────────
+  // ── Nigeria (2) ────────────────────────────────────
   { city: "Lagos", country: "Nigeria", name: "Murtala Muhammed International Airport", iata: "LOS" },
+  { city: "Abuja", country: "Nigeria", name: "Nnamdi Azikiwe International Airport", iata: "ABV" },
 
   // ── Morocco (1) ────────────────────────────────────
   { city: "Casablanca", country: "Morocco", name: "Mohammed V International Airport", iata: "CMN" },
@@ -111,9 +116,10 @@ export const AIRPORTS: Airport[] = [
   // ── Qatar (1) ──────────────────────────────────────
   { city: "Doha", country: "Qatar", name: "Hamad International Airport", iata: "DOH" },
 
-  // ── India (2) ──────────────────────────────────────
+  // ── India (3) ──────────────────────────────────────
   { city: "Mumbai", country: "India", name: "Chhatrapati Shivaji Maharaj International Airport", iata: "BOM" },
   { city: "New Delhi", country: "India", name: "Indira Gandhi International Airport", iata: "DEL" },
+  { city: "Bengaluru", country: "India", name: "Kempegowda International Airport", iata: "BLR" },
 
   // ── China (2) ──────────────────────────────────────
   { city: "Guangzhou", country: "China", name: "Guangzhou Baiyun International Airport", iata: "CAN" },
@@ -127,6 +133,9 @@ export const AIRPORTS: Airport[] = [
 
   // ── Hong Kong (1) ──────────────────────────────────
   { city: "Hong Kong", country: "Hong Kong SAR", name: "Hong Kong International Airport", iata: "HKG" },
+
+  // ── Indonesia (1) ──────────────────────────────────
+  { city: "Jakarta", country: "Indonesia", name: "Soekarno–Hatta International Airport", iata: "CGK" },
 
   // ── Bangladesh (1) ─────────────────────────────────
   { city: "Dhaka", country: "Bangladesh", name: "Hazrat Shahjalal International Airport", iata: "DAC" },

@@ -130,7 +130,7 @@ export function HeroSlider() {
   }
 
   return (
-    <section className="relative w-full h-[52vw] md:h-[72vh] min-h-[260px] md:min-h-[480px] max-h-[380px] md:max-h-none overflow-hidden">
+    <section className="relative w-full h-[50vw] md:h-[72vh] min-h-[240px] md:min-h-[480px] max-h-[360px] md:max-h-none overflow-hidden">
       <Splide
         ref={splideRef}
         hasTrack={false}
