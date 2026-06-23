@@ -189,8 +189,8 @@ export function DealsSection() {
             </div>
           </div>
 
-          {/* Mobile: swipeable pages. Desktop: 4-col grid */}
-          <div className="hidden md:grid md:grid-cols-4 gap-6">
+          {/* Responsive grid: 1 col mobile, 2 col tablet, 4 col desktop */}
+          <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {currentDeals.map((deal) => (
               <DealCard key={deal.id} deal={deal} onClick={() => handleCardClick(deal)} />
             ))}

@@ -6,7 +6,6 @@ import { PlanCarousel } from "@/components/home/plan-carousel"
 import { FeaturedDestinations } from "@/components/home/featured-destinations"
 import { AdditionalServices } from "@/components/home/additional-services"
 import { Newsletter } from "@/components/home/newsletter"
-import { BookTripCTA } from "@/components/home/book-trip-cta"
 
 export default function Home() {
   return (
@@ -25,13 +24,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Prominent Book Trip CTA — shown on mobile after hero, on desktop below quick actions */}
-      <div className="block md:hidden">
-        <BookTripCTA />
-      </div>
-
       <QuickActions />
-      <BookTripCTA />
       <DealsSection />
       <PlanCarousel />
       <FeaturedDestinations />

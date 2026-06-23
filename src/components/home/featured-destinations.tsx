@@ -81,23 +81,25 @@ export function FeaturedDestinations() {
 
 function FeatCard({ card }: { card: typeof FEATURED[0] }) {
   return (
-    <div className="relative overflow-hidden group shadow-md hover:shadow-xl transition-shadow duration-500 flex flex-col h-[500px] md:h-[500px] rounded-none md:rounded-2xl">
+    <div className="relative overflow-hidden group shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-[380px] md:h-[500px] rounded-none md:rounded-2xl">
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
         style={{ backgroundImage: `url(${card.image})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      {/* KQ red accent marker — signature corner element */}
+      <div className="absolute bottom-0 right-0 w-14 h-1 bg-[#ed1c24] rounded-tl-sm" />
 
       {/* Content */}
-      <div className="relative mt-auto text-white z-10 p-8 pb-12 md:p-7">
-        <h3 className="font-serif italic font-bold mb-3 leading-tight text-4xl md:text-3xl">{card.title}</h3>
-        <p className="text-gray-200 mb-6 leading-relaxed text-lg md:text-sm">{card.subtitle}</p>
+      <div className="relative mt-auto text-white z-10 p-6 pb-10 md:p-7">
+        <h3 className="font-serif italic font-bold mb-2 leading-tight text-3xl md:text-3xl">{card.title}</h3>
+        <p className="text-gray-200 mb-5 leading-relaxed text-base md:text-sm line-clamp-2">{card.subtitle}</p>
         <Link
           href={card.link}
-          className="inline-flex items-center gap-2 bg-[#ed1c24] hover:bg-[#c91520] text-white font-bold rounded-md transition-colors text-lg md:text-sm px-8 py-4 md:px-5 md:py-2.5"
+          className="inline-flex items-center gap-2 bg-[#ed1c24] hover:bg-[#c91520] text-white font-bold rounded-md transition-all hover:scale-105 text-sm px-5 py-2.5 shadow-md"
         >
-          Book Now <ArrowRight className="w-5 h-5 md:w-4 md:h-4" />
+          Book Now <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </div>

@@ -40,14 +40,16 @@ export function PlanCarousel() {
         </div>
 
         {/* Desktop: Grid layout */}
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-12 gap-4">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-12 gap-4">
           <Link 
             href="/explore"
-            className="col-span-2 lg:col-span-6 block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group relative h-[420px]"
+            className="col-span-2 lg:col-span-6 block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group relative h-[420px]"
           >
-            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url('/hero_slide_1.png')` }} />
+            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('/hero_slide_1.png')` }} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-            <div className="absolute bottom-0 left-0 w-full p-5 text-white">
+            {/* KQ red accent line */}
+            <div className="absolute bottom-0 left-0 w-16 h-1 bg-[#ed1c24] rounded-tr-sm" />
+            <div className="absolute bottom-0 left-0 w-full p-6 text-white">
               <h3 className="font-sans text-lg font-semibold flex items-center gap-1.5">
                 Discover Where We Fly <ArrowRight className="w-4 h-4" />
               </h3>
@@ -56,9 +58,11 @@ export function PlanCarousel() {
 
           <div className="col-span-2 lg:col-span-6 grid grid-cols-2 gap-4">
             <Link href="/plan/special-care/"
-              className="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group relative h-[200px]">
-              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url('/special_care.png')` }} />
+              className="block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group relative h-[200px]">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('/special_care.png')` }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              {/* KQ red accent line */}
+              <div className="absolute bottom-0 left-0 w-10 h-1 bg-[#ed1c24] rounded-tr-sm" />
               <div className="absolute bottom-0 left-0 w-full p-4 text-white">
                 <h3 className="font-sans text-sm font-semibold flex items-center gap-2">
                   Special Care <ArrowRight className="w-3.5 h-3.5" />
@@ -67,9 +71,11 @@ export function PlanCarousel() {
             </Link>
 
             <Link href="/plan/baggage-information/"
-              className="block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group relative h-[200px]">
-              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url('/baggage_info.png')` }} />
+              className="block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group relative h-[200px]">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('/baggage_info.png')` }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              {/* KQ red accent line */}
+              <div className="absolute bottom-0 left-0 w-10 h-1 bg-[#ed1c24] rounded-tr-sm" />
               <div className="absolute bottom-0 left-0 w-full p-4 text-white">
                 <h3 className="font-sans text-sm font-semibold flex items-center gap-2">
                   Baggage Information <ArrowRight className="w-3.5 h-3.5" />
@@ -78,9 +84,11 @@ export function PlanCarousel() {
             </Link>
 
             <Link href="/plan/travel-information/"
-              className="col-span-2 block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group relative h-[204px]">
-              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url('/travel_reqs.png')` }} />
+              className="col-span-2 block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group relative h-[204px]">
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url('/travel_reqs.png')` }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              {/* KQ red accent line */}
+              <div className="absolute bottom-0 left-0 w-10 h-1 bg-[#ed1c24] rounded-tr-sm" />
               <div className="absolute bottom-0 left-0 w-full p-4 text-white">
                 <h3 className="font-sans text-sm font-semibold flex items-center gap-2">
                   Travel Requirements <ArrowRight className="w-3.5 h-3.5" />
