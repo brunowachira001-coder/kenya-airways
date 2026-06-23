@@ -8,7 +8,21 @@ import { Input } from "@/components/ui/input"
 
 export default function PassengersPage() {
   const router = useRouter()
-  const { setCurrentStep, passengers, contactDetails, setContactDetails, setPassengerDetails, origin, destination, departureDate, returnDate } = useBookingStore()
+  const { 
+    setCurrentStep, 
+    passengers, 
+    contactDetails, 
+    setContactDetails, 
+    setPassengerDetails, 
+    origin, 
+    destination, 
+    departureDate, 
+    returnDate,
+    selectedFare,
+    selectedOutboundFlight,
+    selectedReturnFlight,
+    setBookingReference
+  } = useBookingStore()
 
   useEffect(() => {
     setCurrentStep(4)
@@ -22,6 +36,8 @@ export default function PassengersPage() {
   const [emergencyContact, setEmergencyContact] = useState("")
   const [newsletter, setNewsletter] = useState(false)
   const [privacyAccepted, setPrivacyAccepted] = useState(false)
+  const [submitError, setSubmitError] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
   
@@ -43,15 +59,104 @@ export default function PassengersPage() {
     setPaxDetails(updated)
   }
 
-  const handleContinue = (e: React.FormEvent) => {
+  const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSubmitError("")
+    
     if (!privacyAccepted) {
-      alert("Please accept the privacy policy to continue.")
+      setSubmitError("Please accept the privacy policy to continue.")
       return
     }
-    setContactDetails({ email, phone: countryCode + phone })
-    setPassengerDetails(paxDetails)
-    router.push("/booking/review")
+    
+    setIsSubmitting(true)
+    
+    try {
+      // Save contact details and passenger details to store
+      setContactDetails({ email, phone: countryCode + phone })
+      setPassengerDetails(paxDetails)
+      
+      // Calculate pricing
+      const totalPax = passengers.adults + passengers.children + passengers.infants
+      const basePrice = selectedOutboundFlight?.price || 45000
+      const returnPrice = selectedReturnFlight?.price || 40000
+      
+      let fareMultiplier = 1
+      if (selectedFare === "Economy") fareMultiplier = 1.2
+      if (selectedFare === "Business Lite" || selectedFare === "Business") fareMultiplier = 2.5
+      
+      const outboundTotal = basePrice * fareMultiplier
+      const returnTotal = returnPrice * fareMultiplier
+      const flightTotal = Math.round((outboundTotal + returnTotal) * totalPax)
+      const taxes = Math.round(flightTotal * 0.15)
+      const totalAmount = flightTotal + taxes
+      
+      // Create primary passenger name for the booking
+      const primaryPassengerName = paxDetails.length > 0 
+        ? `${paxDetails[0].title} ${paxDetails[0].firstName} ${paxDetails[0].lastName}`
+        : email
+      
+      // Call booking API
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          passengerName: primaryPassengerName,
+          email,
+          phone: countryCode + phone,
+          origin,
+          destination,
+          departureDate,
+          returnDate,
+          cabinClass: selectedFare || "Economy",
+          tripType: returnDate ? "return" : "oneway",
+          passengers: paxDetails.map(p => ({
+            title: p.title,
+            firstName: p.firstName,
+            lastName: p.lastName,
+            dateOfBirth: p.dateOfBirth,
+            gender: p.gender,
+            nationality: p.nationality,
+            passportNumber: p.passportNumber,
+            passportExpiry: p.passportExpiry
+          })),
+          baseFare: flightTotal / totalPax,
+          taxes: taxes / totalPax,
+          totalAmount,
+          currency: "KES",
+          paymentStatus: "pending",
+          bookingStatus: "confirmed"
+        })
+      })
+      
+      const result = await response.json()
+      
+      if (result.success && result.bookingReference) {
+        // Store booking reference in Zustand
+        setBookingReference(result.bookingReference)
+        
+        // If newsletter subscription is checked, call newsletter API
+        if (newsletter) {
+          try {
+            await fetch("/api/newsletter", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, source: "website" })
+            })
+          } catch (err) {
+            console.error("Newsletter subscription failed:", err)
+          }
+        }
+        
+        router.push("/booking/review")
+      } else {
+        setSubmitError(result.error || "Failed to create booking. Please try again.")
+      }
+    } catch (err) {
+      console.error("Booking error:", err)
+      setSubmitError("An error occurred. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const formatDate = (dateStr: string | undefined) => {
@@ -340,6 +445,13 @@ export default function PassengersPage() {
           </div>
         </div>
 
+        {/* Error Message */}
+        {submitError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+            {submitError}
+          </div>
+        )}
+
         {/* Action Buttons */}
         <div className="flex justify-end gap-4 mb-8">
           <button 
@@ -351,9 +463,10 @@ export default function PassengersPage() {
           </button>
           <button 
             type="submit"
-            className="px-6 py-3 bg-brand-primary hover:bg-[#A00D25] text-white rounded font-medium transition-colors"
+            disabled={isSubmitting}
+            className="px-6 py-3 bg-brand-primary hover:bg-[#A00D25] text-white rounded font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Confirm
+            {isSubmitting ? "Creating Booking..." : "Confirm"}
           </button>
         </div>
       </form>

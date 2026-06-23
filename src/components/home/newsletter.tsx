@@ -9,18 +9,35 @@ export function Newsletter() {
   const [agreed, setAgreed] = useState(false)
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreed) {
       alert("Please agree to receive news and offers.")
       return
     }
     setStatus("loading")
-    setTimeout(() => {
-      setStatus("success")
-      setEmail("")
-      setAgreed(false)
-    }, 1500)
+    
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "website" })
+      })
+      
+      if (response.ok) {
+        setStatus("success")
+        setEmail("")
+        setAgreed(false)
+      } else {
+        const error = await response.json()
+        alert(error.error || "Failed to subscribe. Please try again.")
+        setStatus("idle")
+      }
+    } catch (err) {
+      console.error("Newsletter subscription error:", err)
+      alert("Failed to subscribe. Please try again.")
+      setStatus("idle")
+    }
   }
 
   return (

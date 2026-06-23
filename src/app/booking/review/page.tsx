@@ -60,7 +60,8 @@ export default function ReviewPage() {
     passengers,
     passengerDetails,
     contactDetails,
-    setExtras
+    setExtras,
+    bookingReference
   } = useBookingStore()
 
   useEffect(() => {
@@ -107,7 +108,7 @@ export default function ReviewPage() {
       holdBooking: holdBooking,
       totalPrice: totalPrice
     })
-    router.push("/booking/payment")
+    router.push("/booking/payment/mobile")
   }
 
   const formatDate = (dateStr: string | undefined) => {
@@ -137,6 +138,19 @@ export default function ReviewPage() {
           <h1 className="text-2xl sm:text-3xl font-serif italic mb-2">Your selection</h1>
           <p className="text-base sm:text-lg">{origin === "NBO" ? "Nairobi" : origin} to {destination === "DAR" ? "Dar Es Salaam" : destination}</p>
         </div>
+
+        {/* Booking Reference */}
+        {bookingReference && (
+          <div className="bg-green-50 border-l-4 border-green-500 p-3 sm:p-4 mb-6 sm:mb-8">
+            <div className="flex items-start">
+              <span className="text-green-600 mr-2 sm:mr-3 text-sm sm:text-base">✓</span>
+              <div>
+                <p className="font-semibold text-green-800 text-sm sm:text-base">Booking Created</p>
+                <p className="text-xs sm:text-sm text-green-700">Reference: <span className="font-mono font-bold">{bookingReference}</span></p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Warning Message */}
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 sm:p-4 mb-6 sm:mb-8">

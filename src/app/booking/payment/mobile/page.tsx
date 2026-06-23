@@ -11,7 +11,8 @@ export default function MobilePaymentPage() {
     selectedOutboundFlight,
     selectedReturnFlight,
     selectedFare,
-    passengers
+    passengers,
+    bookingReference
   } = useBookingStore()
 
   const [paymentOption, setPaymentOption] = useState<"mobile" | "bank">("mobile")
@@ -84,10 +85,41 @@ export default function MobilePaymentPage() {
           setPaymentStatus("success")
           setStatusMessage("Payment successful!")
           setMpesaReceipt(result.mpesaReceiptNumber || "")
+          
+          // Update booking with M-Pesa receipt and paid status
+          if (bookingReference && result.mpesaReceiptNumber) {
+            try {
+              await fetch(`/api/bookings/${bookingReference}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  paymentStatus: "paid",
+                  mpesaReceipt: result.mpesaReceiptNumber
+                })
+              })
+            } catch (err) {
+              console.error("Failed to update booking with payment success:", err)
+            }
+          }
         } else if (result.status === "failed" || result.status === "cancelled") {
           stopPolling()
           setPaymentStatus("failed")
           setStatusMessage(`Payment ${result.status}. Please try again.`)
+          
+          // Update booking with failed status
+          if (bookingReference) {
+            try {
+              await fetch(`/api/bookings/${bookingReference}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  paymentStatus: "failed"
+                })
+              })
+            } catch (err) {
+              console.error("Failed to update booking with payment failure:", err)
+            }
+          }
         }
         // For "pending" or "processing", continue polling
       }
@@ -131,6 +163,23 @@ export default function MobilePaymentPage() {
       if (result.success) {
         setTransactionReference(result.transactionReference)
         setStatusMessage("Payment prompt sent! Please check your phone and enter M-Pesa PIN")
+        
+        // Update booking with payment reference and pending status
+        if (bookingReference && result.transactionReference) {
+          try {
+            await fetch(`/api/bookings/${bookingReference}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                paymentStatus: "processing",
+                paymentReference: result.transactionReference
+              })
+            })
+          } catch (err) {
+            console.error("Failed to update booking payment status:", err)
+          }
+        }
+        
         pollAttemptsRef.current = 0
 
         pollingIntervalRef.current = setInterval(() => {

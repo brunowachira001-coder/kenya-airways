@@ -59,6 +59,7 @@ interface BookingState {
   selectedSeat: { id: string, price: number } | null
   extras: BookingExtras
   currentStep: number
+  bookingReference: string | null
   
   setTripType: (type: TripType) => void
   setOrigin: (origin: string) => void
@@ -77,6 +78,7 @@ interface BookingState {
   setSelectedSeat: (seat: { id: string; price: number } | null) => void
   setExtras: (extras: Partial<BookingExtras>) => void
   setCurrentStep: (step: number) => void
+  setBookingReference: (reference: string | null) => void
   resetBooking: () => void
   resetAll: () => void
 }
@@ -114,6 +116,7 @@ export const useBookingStore = create(
         totalPrice: 0
       },
       currentStep: 1,
+      bookingReference: null,
 
       setTripType: (type) => set({ tripType: type }),
       setOrigin: (origin) => set({ origin }),
@@ -139,11 +142,12 @@ export const useBookingStore = create(
       setSelectedFare: (fare) => set({ selectedFare: fare }),
       setPassengerDetails: (passengerDetails) => set({ passengerDetails }),
       setContactDetails: (contact) => set({ contactDetails: contact }),
-      setSelectedSeat: (seat: { id: string, price: number } | null) => set({ selectedSeat: seat }),
+      setSelectedSeat: (seat: { id: string; price: number } | null) => set({ selectedSeat: seat }),
       setExtras: (extrasUpdate) => set((state) => ({ 
         extras: { ...state.extras, ...extrasUpdate } 
       })),
       setCurrentStep: (currentStep) => set({ currentStep }),
+      setBookingReference: (bookingReference) => set({ bookingReference }),
       resetBooking: () => set({
         selectedOutboundFlight: null,
         selectedReturnFlight: null,
@@ -160,7 +164,8 @@ export const useBookingStore = create(
           holdBooking: false,
           totalPrice: 0
         },
-        currentStep: 1
+        currentStep: 1,
+        bookingReference: null
       }),
       resetAll: () => set({
         tripType: "round-trip",
@@ -190,7 +195,8 @@ export const useBookingStore = create(
           holdBooking: false,
           totalPrice: 0
         },
-        currentStep: 1
+        currentStep: 1,
+        bookingReference: null
       })
     }),
     {
