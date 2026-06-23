@@ -130,8 +130,8 @@ export function DealsSection() {
   const currentDeals = DEALS_DATA[selectedCity] || DEALS_DATA.Nairobi
 
   return (
-    <>
-      <section className="w-full py-4 md:py-6 px-4">
+    <div>
+      <div className="w-full py-4 md:py-6 px-4">
         <div className="max-w-content mx-auto">
           {/* Header Row */}
           <div className="flex flex-col sm:flex-row sm:items-end gap-3 mb-5 relative">
@@ -217,7 +217,7 @@ export function DealsSection() {
             </button>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Drawer Overlay */}
       {drawerDeal && (
@@ -304,6 +304,6 @@ export function DealsSection() {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }

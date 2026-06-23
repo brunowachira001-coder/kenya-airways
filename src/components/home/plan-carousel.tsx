@@ -30,7 +30,7 @@ const PLAN_ITEMS = [
 
 export function PlanCarousel() {
   return (
-    <section className="w-full py-4 md:py-6">
+    <div className="w-full py-4 md:py-6">
       <div className="max-w-[1200px] mx-auto md:px-4">
         <div className="flex items-center justify-between mb-5 px-4 md:px-0">
           <div className="flex items-center gap-3">
@@ -102,6 +102,6 @@ export function PlanCarousel() {
           </Splide>
         </div>
       </div>
-    </section>
+    </div>
   )
 }

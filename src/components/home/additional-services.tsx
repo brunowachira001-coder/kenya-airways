@@ -26,7 +26,7 @@ export function AdditionalServices() {
   ]
 
   return (
-    <section className="w-full py-4 md:py-6 px-4">
+    <div className="w-full py-4 md:py-6 px-4">
       <div className="max-w-content mx-auto">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-5 h-1 bg-[#ed1c24] rounded-sm"></div>
@@ -60,10 +60,11 @@ export function AdditionalServices() {
               <Link 
                 key={index} 
                 href={service.link} 
-                className="flex flex-col items-center text-center p-2 bg-[#f8f8f8] hover:bg-gray-50 rounded-xl overflow-hidden border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all duration-300 group"
+                className="flex flex-col items-center text-center p-2 bg-[#f8f8f8] hover:bg-gray-50 rounded-xl overflow-hidden border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all duration-300 group relative"
               >
                 <div className="relative w-full h-[60px] md:h-[70px] overflow-hidden rounded-lg bg-gray-200 mb-2">
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${service.image})` }} />
+                  <div className="absolute bottom-0 left-0 w-8 h-1 bg-[#ed1c24] rounded-tr-sm" />
                 </div>
                 <h3 className="font-sans text-[10px] md:text-xs font-bold text-[#0d0d0d] group-hover:text-[#ed1c24] transition-colors leading-tight">
                   {service.title}
@@ -73,6 +74,6 @@ export function AdditionalServices() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }

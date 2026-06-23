@@ -31,7 +31,7 @@ const FEATURED = [
 
 export function FeaturedDestinations() {
   return (
-    <section className="w-full py-4 md:py-6">
+    <div className="w-full py-4 md:py-6">
       <div className="max-w-[1200px] mx-auto md:px-4">
         {/* Section Header */}
         <div className="flex items-center gap-3 mb-5 px-4 md:px-0">
@@ -75,7 +75,7 @@ export function FeaturedDestinations() {
           </Splide>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 

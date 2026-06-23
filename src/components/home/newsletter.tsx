@@ -41,7 +41,7 @@ export function Newsletter() {
   }
 
   return (
-    <section className="w-full py-4 md:py-6 px-4 border-t border-gray-100">
+    <div className="w-full py-4 md:py-6 px-4">
       <div className="max-w-content mx-auto">
         {/* Compact container with red accent */}
         <div className="rounded-2xl overflow-hidden relative h-[200px] md:h-[320px]">
@@ -107,6 +107,6 @@ export function Newsletter() {
 
         </div>
       </div>
-    </section>
+    </div>
   )
 }
