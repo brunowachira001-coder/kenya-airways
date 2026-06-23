@@ -4,8 +4,10 @@ import { useState, useRef, useEffect } from "react"
 import { ChevronDown, X, ArrowRight, Plane } from "lucide-react"
 import { useBookingStore } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
+import { DEALS } from "@/lib/deals"
 
-type Deal = {
+// Legacy deal type for backwards compatibility with existing deals-section logic
+type LegacyDeal = {
   id: number
   destination: string
   dateRange: string
@@ -14,31 +16,35 @@ type Deal = {
   destCode: string
 }
 
-const DEALS_DATA: Record<string, Deal[]> = {
-  Nairobi: [
-    { id: 1, destination: "Mombasa", dateRange: "17 Jun 26 to 18 Jun 26", price: "KES 16,595", image: "/dest_mombasa.png", destCode: "MBA" },
-    { id: 2, destination: "Kisumu", dateRange: "17 Jun 26 to 24 Jun 26", price: "KES 17,510", image: "/dest_kisumu.png", destCode: "KIS" },
-    { id: 3, destination: "Dar es Salaam", dateRange: "17 Jun 26 to 18 Jun 26", price: "KES 37,745", image: "/dest_daressalaam.png", destCode: "DAR" },
-    { id: 4, destination: "Entebbe", dateRange: "15 Jun 26 to 16 Jun 26", price: "KES 49,945", image: "/dest_entebbe.png", destCode: "EBB" },
-    { id: 5, destination: "Zanzibar", dateRange: "17 Jun 26 to 21 Jun 26", price: "KES 47,135", image: "/hero_slide_2.png", destCode: "ZNZ" },
-    { id: 6, destination: "Dubai", dateRange: "18 Jun 26 to 25 Jun 26", price: "KES 60,080", image: "/hero_slide_3.png", destCode: "DXB" },
-    { id: 7, destination: "Johannesburg", dateRange: "17 Jun 26 to 24 Jun 26", price: "KES 64,960", image: "/hero_slide_4.png", destCode: "JNB" },
-    { id: 8, destination: "London", dateRange: "12 Jun 26 to 19 Jun 26", price: "KES 99,925", image: "/hero_slide_1.png", destCode: "LHR" }
-  ],
-  Mombasa: [
-    { id: 1, destination: "Nairobi", dateRange: "17 Jun 26 to 18 Jun 26", price: "KES 16,595", image: "/hero_slide_1.png", destCode: "NBO" },
-    { id: 2, destination: "Zanzibar", dateRange: "18 Jun 26 to 21 Jun 26", price: "KES 34,500", image: "/hero_slide_2.png", destCode: "ZNZ" },
-    { id: 3, destination: "Dubai", dateRange: "19 Jun 26 to 26 Jun 26", price: "KES 68,000", image: "/hero_slide_3.png", destCode: "DXB" },
-    { id: 4, destination: "London", dateRange: "20 Jun 26 to 28 Jun 26", price: "KES 110,000", image: "/hero_slide_4.png", destCode: "LHR" }
-  ],
-  Kisumu: [
-    { id: 1, destination: "Nairobi", dateRange: "17 Jun 26 to 18 Jun 26", price: "KES 17,510", image: "/hero_slide_1.png", destCode: "NBO" },
-    { id: 2, destination: "Mombasa", dateRange: "18 Jun 26 to 22 Jun 26", price: "KES 22,000", image: "/dest_mombasa.png", destCode: "MBA" },
-    { id: 3, destination: "Dubai", dateRange: "22 Jun 26 to 30 Jun 26", price: "KES 72,000", image: "/hero_slide_3.png", destCode: "DXB" }
-  ]
+// Legacy data structure for deals-section (origin city keyed)
+const DEALS_DATA: Record<string, LegacyDeal[]> = {
+  Nairobi: DEALS.filter(d => d.originCity === "Nairobi").map(d => ({
+    id: d.id,
+    destination: d.destinationCity,
+    dateRange: d.dateRange,
+    price: d.price,
+    image: d.image,
+    destCode: d.destination
+  })),
+  Mombasa: DEALS.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA"].includes(d.destination)).map(d => ({
+    id: d.id + 100,
+    destination: d.destinationCity,
+    dateRange: d.dateRange,
+    price: d.price,
+    image: d.image,
+    destCode: d.destination
+  })).slice(0, 4),
+  Kisumu: DEALS.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA", "KIS", "DXB"].includes(d.destination)).map(d => ({
+    id: d.id + 200,
+    destination: d.destinationCity,
+    dateRange: d.dateRange,
+    price: d.price,
+    image: d.image,
+    destCode: d.destination
+  })).slice(0, 3)
 }
 
-function DealCard({ deal, onClick }: { deal: Deal, onClick: () => void }) {
+function DealCard({ deal, onClick }: { deal: LegacyDeal, onClick: () => void }) {
   return (
     <div
       onClick={onClick}
@@ -66,7 +72,7 @@ export function DealsSection() {
   
   const [selectedCity, setSelectedCity] = useState("Nairobi")
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [drawerDeal, setDrawerDeal] = useState<Deal | null>(null)
+  const [drawerDeal, setDrawerDeal] = useState<LegacyDeal | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
