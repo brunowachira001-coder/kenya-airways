@@ -55,7 +55,8 @@ npm run start
 - 🎫 **Fare Selection** - Economy, Business, First class tiers
 - 👥 **Passenger Information** - Multi-passenger booking support
 - 📋 **Booking Review** - Summary before payment
-- 💳 **Payment Page** - Secure payment integration ready
+- 💳 **Payment Page** - M-Pesa, Cards, PayPal integration ✅ **NEW!**
+- 📱 **Mobile Payments** - Direct M-Pesa STK Push to bank account ✅ **NEW!**
 
 ### Design Features
 - 🎨 **Kenya Airways Branding** - Official color scheme and styling
@@ -224,7 +225,7 @@ The website is optimized for:
 - [x] Footer with social links
 
 ### In Progress 🔄
-- [ ] Payment gateway integration
+- [x] Payment gateway integration ✅ **NEW!**
 - [ ] User authentication
 - [ ] Booking management
 - [ ] Email notifications

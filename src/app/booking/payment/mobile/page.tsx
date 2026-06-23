@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useBookingStore } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 
 export default function MobilePaymentPage() {
   const router = useRouter()
-  const { 
+  const {
     selectedOutboundFlight,
     selectedReturnFlight,
     selectedFare,
@@ -16,24 +16,153 @@ export default function MobilePaymentPage() {
 
   const [paymentOption, setPaymentOption] = useState<"mobile" | "bank">("mobile")
   const [mobileNumber, setMobileNumber] = useState("")
-  const [amount, setAmount] = useState("")
-  const [countdown, setCountdown] = useState(7 * 60 + 36) // 7 minutes 36 seconds
+  const [countdown, setCountdown] = useState(7 * 60 + 36)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [paymentStatus, setPaymentStatus] = useState<"idle" | "processing" | "success" | "failed">("idle")
+  const [statusMessage, setStatusMessage] = useState("")
+  const [mpesaReceipt, setMpesaReceipt] = useState("")
+  const [transactionReference, setTransactionReference] = useState<string | null>(null)
+  const [phoneError, setPhoneError] = useState("")
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const pollAttemptsRef = useRef(0)
 
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
   const basePrice = selectedOutboundFlight?.price || 45000
   const returnPrice = selectedReturnFlight?.price || 40000
-  
+
   let fareMultiplier = 1
   if (selectedFare === "Economy") fareMultiplier = 1.2
   if (selectedFare === "Business Lite" || selectedFare === "Business") fareMultiplier = 2.5
-  
+
   const outboundTotal = basePrice * fareMultiplier
   const returnTotal = returnPrice * fareMultiplier
   const totalPrice = Math.round((outboundTotal + returnTotal) * totalPassengers)
 
+  // Format phone to 254XXXXXXXXX
+  const formatPhoneNumber = (input: string): string => {
+    const cleaned = input.replace(/[\s\-\+]/g, "")
+    if (cleaned.startsWith("0")) {
+      return "254" + cleaned.slice(1)
+    }
+    if (cleaned.startsWith("7") || cleaned.startsWith("1")) {
+      return "254" + cleaned
+    }
+    return cleaned
+  }
+
+  // Validate phone format: 254[17]\d{8}
+  const validatePhone = (phone: string): boolean => {
+    return /^254[17]\d{8}$/.test(phone)
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    setMobileNumber(input)
+    setPhoneError("")
+
+    const formatted = formatPhoneNumber(input)
+    if (formatted.length >= 10 && !validatePhone(formatted)) {
+      setPhoneError("Phone must start with 7 or 1 and be 9 digits after 254")
+    }
+  }
+
+  const stopPolling = () => {
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current)
+      pollingIntervalRef.current = null
+    }
+  }
+
+  const pollPaymentStatus = async (ref: string) => {
+    try {
+      const response = await fetch(`/api/payment/paynecta/status?transactionReference=${encodeURIComponent(ref)}`)
+      const result = await response.json()
+
+      if (result.success) {
+        if (result.status === "completed") {
+          stopPolling()
+          setPaymentStatus("success")
+          setStatusMessage("Payment successful!")
+          setMpesaReceipt(result.mpesaReceiptNumber || "")
+        } else if (result.status === "failed" || result.status === "cancelled") {
+          stopPolling()
+          setPaymentStatus("failed")
+          setStatusMessage(`Payment ${result.status}. Please try again.`)
+        }
+        // For "pending" or "processing", continue polling
+      }
+    } catch (err) {
+      console.error("Status poll error:", err)
+    }
+
+    pollAttemptsRef.current++
+    if (pollAttemptsRef.current >= 30) {
+      stopPolling()
+      setPaymentStatus("failed")
+      setStatusMessage("Payment timeout. Please check your phone and try again.")
+    }
+  }
+
+  const handlePaynectaPayment = async () => {
+    const formattedPhone = formatPhoneNumber(mobileNumber)
+
+    if (!validatePhone(formattedPhone)) {
+      setPhoneError("Please enter a valid phone number (e.g., 0712345678 or 012345678)")
+      return
+    }
+
+    setIsProcessing(true)
+    setPaymentStatus("processing")
+    setStatusMessage("Initializing payment...")
+    setPhoneError("")
+
+    try {
+      const response = await fetch("/api/payment/paynecta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phoneNumber: formattedPhone,
+          amount: totalPrice,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setTransactionReference(result.transactionReference)
+        setStatusMessage("Payment prompt sent! Please check your phone and enter M-Pesa PIN")
+        pollAttemptsRef.current = 0
+
+        pollingIntervalRef.current = setInterval(() => {
+          pollPaymentStatus(result.transactionReference)
+        }, 3000)
+      } else {
+        setPaymentStatus("failed")
+        setStatusMessage(result.error || "Payment initialization failed")
+      }
+    } catch (err) {
+      console.error("Payment processing error:", err)
+      setPaymentStatus("failed")
+      setStatusMessage("Payment failed. Please try again.")
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  // Navigate when payment is successful
   useEffect(() => {
-    setAmount(totalPrice.toString())
-  }, [totalPrice])
+    if (paymentStatus === "success") {
+      const timer = setTimeout(() => {
+        router.push("/booking/confirmation")
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [paymentStatus, router])
+
+  // Cleanup polling on unmount
+  useEffect(() => {
+    return () => stopPolling()
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -55,6 +184,8 @@ export default function MobilePaymentPage() {
     return `${mins.toString().padStart(2, '0')}m : ${secs.toString().padStart(2, '0')}s`
   }
 
+  const isSubmitDisabled = isProcessing || !mobileNumber || !!phoneError
+
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Warning Banner */}
@@ -72,35 +203,35 @@ export default function MobilePaymentPage() {
           {/* Left Sidebar - Payment Options */}
           <div className="lg:col-span-1">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Pay With</h2>
-            
+
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <button
                 onClick={() => setPaymentOption("mobile")}
                 className={`w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 ${
-                  paymentOption === "mobile" 
-                    ? "border-brand-primary bg-gray-50" 
+                  paymentOption === "mobile"
+                    ? "border-brand-primary bg-gray-50"
                     : "border-transparent hover:bg-gray-50"
                 }`}
               >
-                <input 
-                  type="radio" 
+                <input
+                  type="radio"
                   checked={paymentOption === "mobile"}
                   onChange={() => setPaymentOption("mobile")}
                   className="w-4 h-4"
                 />
                 <span className="font-medium text-sm sm:text-base">Mobile Money</span>
               </button>
-              
+
               <button
                 onClick={() => setPaymentOption("bank")}
                 className={`w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 border-t ${
-                  paymentOption === "bank" 
-                    ? "border-brand-primary bg-gray-50" 
+                  paymentOption === "bank"
+                    ? "border-brand-primary bg-gray-50"
                     : "border-transparent hover:bg-gray-50"
                 }`}
               >
-                <input 
-                  type="radio" 
+                <input
+                  type="radio"
                   checked={paymentOption === "bank"}
                   onChange={() => setPaymentOption("bank")}
                   className="w-4 h-4"
@@ -137,12 +268,18 @@ export default function MobilePaymentPage() {
                         <input
                           type="tel"
                           value={mobileNumber}
-                          onChange={(e) => setMobileNumber(e.target.value)}
-                          placeholder=""
-                          className="w-full border border-gray-300 rounded px-3 py-2 sm:py-3 pl-12 sm:pl-14 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none text-sm"
+                          onChange={handlePhoneChange}
+                          placeholder="7XX XXX XXX"
+                          className={`w-full border rounded px-3 py-2 sm:py-3 pl-12 sm:pl-14 focus:ring-1 outline-none text-sm ${
+                            phoneError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-brand-primary focus:ring-brand-primary"
+                          }`}
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Enter phone number</p>
+                      {phoneError ? (
+                        <p className="text-xs text-red-500 mt-1">{phoneError}</p>
+                      ) : (
+                        <p className="text-xs text-gray-500 mt-1">Enter phone number (7XX or 1XX format)</p>
+                      )}
                     </div>
 
                     <div>
@@ -151,7 +288,7 @@ export default function MobilePaymentPage() {
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 text-sm">KES</span>
                         <input
                           type="text"
-                          value={amount}
+                          value={totalPrice.toLocaleString()}
                           readOnly
                           className="w-full border border-gray-300 rounded px-3 py-2 sm:py-3 pl-12 sm:pl-14 bg-gray-50 text-gray-700 text-sm"
                         />
@@ -164,11 +301,39 @@ export default function MobilePaymentPage() {
 
                     <button
                       type="button"
-                      onClick={() => router.push("/booking/confirmation")}
-                      className="w-full bg-gray-300 hover:bg-gray-400 text-gray-700 py-2.5 sm:py-3 rounded font-medium mt-4 sm:mt-6 transition-colors text-sm sm:text-base"
+                      onClick={handlePaynectaPayment}
+                      disabled={isSubmitDisabled}
+                      className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-300 text-white py-2.5 sm:py-3 rounded font-medium mt-4 sm:mt-6 transition-colors text-sm sm:text-base"
                     >
-                      Proceed with payment
+                      {isProcessing ? "Processing..." : "Pay with M-Pesa"}
                     </button>
+
+                    {paymentStatus === "processing" && (
+                      <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-xs sm:text-sm">
+                        <p className="font-semibold text-yellow-800">⏳ Payment in progress</p>
+                        <p className="text-yellow-700 mt-1">{statusMessage}</p>
+                        {transactionReference && (
+                          <p className="text-yellow-600 mt-1 text-[10px]">Ref: {transactionReference}</p>
+                        )}
+                      </div>
+                    )}
+
+                    {paymentStatus === "success" && (
+                      <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded text-xs sm:text-sm">
+                        <p className="font-semibold text-green-800">✓ Payment successful!</p>
+                        {mpesaReceipt && (
+                          <p className="text-green-700 mt-1">Receipt: {mpesaReceipt}</p>
+                        )}
+                        <p className="text-green-600 mt-1">Redirecting to confirmation...</p>
+                      </div>
+                    )}
+
+                    {paymentStatus === "failed" && (
+                      <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded text-xs sm:text-sm">
+                        <p className="font-semibold text-red-800">Payment failed</p>
+                        <p className="text-red-700 mt-1">{statusMessage}</p>
+                      </div>
+                    )}
                   </form>
                 </div>
               )}
@@ -198,7 +363,7 @@ export default function MobilePaymentPage() {
                 <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Amount Due</span>
-                    <span className="font-medium">KES 0.00</span>
+                    <span className="font-medium">KES {totalPrice.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between border-b pb-2">
                     <span className="text-gray-600">Total Payable</span>
