@@ -30,7 +30,7 @@ const PLAN_ITEMS = [
 
 export function PlanCarousel() {
   return (
-    <section className="w-full py-5 md:py-8 bg-white">
+    <section className="w-full py-4 md:py-6">
       <div className="max-w-[1200px] mx-auto md:px-4">
         <div className="flex items-center justify-between mb-5 px-4 md:px-0">
           <div className="flex items-center gap-3">
@@ -86,7 +86,7 @@ export function PlanCarousel() {
                 <SplideSlide key={index}>
                   <Link 
                     href={item.link}
-                    className="block w-full overflow-hidden relative h-[180px]"
+                    className="block w-full overflow-hidden relative h-[160px]"
                   >
                     <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${item.image}')` }} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />

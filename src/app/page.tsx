@@ -25,11 +25,11 @@ export default function Home() {
       </div>
 
       <QuickActions />
-      <DealsSection />
-      <PlanCarousel />
-      <FeaturedDestinations />
-      <AdditionalServices />
-      <Newsletter />
+      <div className="bg-white"><DealsSection /></div>
+      <div className="bg-[#f8f8f8]"><PlanCarousel /></div>
+      <div className="bg-white"><FeaturedDestinations /></div>
+      <div className="bg-[#f8f8f8]"><AdditionalServices /></div>
+      <div className="bg-white"><Newsletter /></div>
     </div>
   );
 }

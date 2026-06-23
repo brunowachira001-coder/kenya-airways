@@ -31,7 +31,7 @@ const FEATURED = [
 
 export function FeaturedDestinations() {
   return (
-    <section className="w-full py-0 md:py-6 bg-white">
+    <section className="w-full py-4 md:py-6">
       <div className="max-w-[1200px] mx-auto md:px-4">
         {/* Section Header */}
         <div className="flex items-center gap-3 mb-5 px-4 md:px-0">
@@ -81,7 +81,7 @@ export function FeaturedDestinations() {
 
 function FeatCard({ card }: { card: typeof FEATURED[0] }) {
   return (
-    <div className="relative overflow-hidden group shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-[260px] md:h-[280px] rounded-none md:rounded-2xl">
+    <div className="relative overflow-hidden group shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-[220px] md:h-[280px] rounded-none md:rounded-2xl">
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"

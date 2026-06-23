@@ -131,12 +131,12 @@ export function DealsSection() {
 
   return (
     <>
-      <section className="w-full py-6 md:py-8 px-4 bg-white">
+      <section className="w-full py-4 md:py-6 px-4">
         <div className="max-w-content mx-auto">
           {/* Header Row */}
           <div className="flex flex-col sm:flex-row sm:items-end gap-3 mb-5 relative">
-            {/* Best Price Guarantee Badge - Top Right */}
-            <div className="absolute top-0 right-0">
+            {/* Best Price Guarantee Badge - hidden on mobile */}
+            <div className="absolute top-0 right-0 hidden sm:block">
               <img 
                 src="/logo_best_price.svg" 
                 alt="KQ Best Price Guarantee" 
@@ -147,7 +147,7 @@ export function DealsSection() {
             <div className="flex flex-col gap-2 w-full sm:w-auto sm:flex-1">
               <div className="flex items-center gap-3">
                 <div className="w-5 h-1 bg-[#ed1c24] rounded-sm" />
-                <h2 className="font-serif italic text-xl md:text-2xl text-[#0d0d0d]">Deals from</h2>
+                <h2 className="font-serif italic text-base md:text-2xl text-[#0d0d0d]">Deals from</h2>
               </div>
               <div className="relative w-full sm:w-52 z-10" ref={dropdownRef}>
                 <button 
@@ -186,29 +186,29 @@ export function DealsSection() {
             ))}
           </div>
 
-          {/* Mobile: single column vertical list */}
-          <div className="sm:hidden flex flex-col gap-3">
-            {currentDeals.slice(0, 3).map((deal) => (
+          {/* Mobile: 2-column grid — more compact */}
+          <div className="sm:hidden grid grid-cols-2 gap-2">
+            {currentDeals.slice(0, 4).map((deal) => (
               <div
                 key={deal.id}
                 onClick={() => handleCardClick(deal)}
-                className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-row cursor-pointer hover:shadow-md transition-all duration-300 group"
+                className="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col cursor-pointer hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative w-[110px] h-[110px] shrink-0 overflow-hidden rounded-l-lg">
+                <div className="relative w-full h-[100px] overflow-hidden">
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${deal.image})` }} />
-                  <div className="absolute bottom-0 left-0 w-8 h-1 bg-[#ed1c24] rounded-tr-sm" />
+                  <div className="absolute bottom-0 left-0 w-6 h-1 bg-[#ed1c24] rounded-tr-sm" />
                 </div>
-                <div className="px-4 py-3 flex flex-col justify-center flex-grow">
-                  <h3 className="font-serif italic text-lg font-bold text-[#0d0d0d] mb-1 leading-tight">{deal.destination}</h3>
-                  <p className="text-gray-600 text-xs mb-1">{deal.dateRange}</p>
-                  <span className="text-sm font-black text-[#ed1c24]">{deal.price}</span>
+                <div className="px-2 py-1.5 flex flex-col flex-grow">
+                  <h3 className="font-serif italic text-xs font-bold text-[#0d0d0d] leading-tight mb-0.5">{deal.destination}</h3>
+                  <p className="text-gray-500 text-[10px] leading-tight">{deal.dateRange}</p>
+                  <span className="text-[10px] font-black text-[#ed1c24] mt-auto">{deal.price}</span>
                 </div>
               </div>
             ))}
           </div>
 
           {/* View all deals button */}
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-4">
             <button 
               onClick={() => router.push('/deals')}
               className="px-8 py-2.5 border-2 border-gray-900 rounded-full text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors"
