@@ -31,12 +31,12 @@ const FEATURED = [
 
 export function FeaturedDestinations() {
   return (
-    <section className="w-full py-0 md:py-14 bg-white">
+    <section className="w-full py-0 md:py-6 bg-white">
       <div className="max-w-[1200px] mx-auto md:px-4">
         {/* Section Header */}
-        <div className="flex items-center gap-3 mb-6 md:mb-8 px-4 md:px-0">
-          <div className="w-4 md:w-6 h-1 bg-[#ed1c24] rounded-sm" />
-          <h2 className="font-serif italic text-2xl md:text-4xl font-bold text-[#0d0d0d]">Where Will You Go?</h2>
+        <div className="flex items-center gap-3 mb-5 px-4 md:px-0">
+          <div className="w-5 h-1 bg-[#ed1c24] rounded-sm" />
+          <h2 className="font-serif italic text-xl md:text-2xl font-bold text-[#0d0d0d]">Where Will You Go?</h2>
         </div>
 
         {/* Carousel for all screen sizes */}
@@ -47,7 +47,7 @@ export function FeaturedDestinations() {
               type: "loop",
               perPage: 3,
               perMove: 1,
-              gap: "1.25rem",
+              gap: "1rem",
               padding: { left: 0, right: 0 },
               arrows: false,
               pagination: true,
@@ -63,7 +63,7 @@ export function FeaturedDestinations() {
                 },
               },
             }}
-            className="pb-8 [&_.splide__pagination__page.is-active]:bg-[#ed1c24] [&_.splide__pagination__page]:bg-gray-300 [&_.splide__pagination]:bottom-2 [&_.splide__pagination]:z-20"
+            className="pb-6 [&_.splide__pagination__page.is-active]:bg-[#ed1c24] [&_.splide__pagination__page]:bg-gray-300 [&_.splide__pagination]:bottom-2 [&_.splide__pagination]:z-20"
           >
             <SplideTrack>
               {FEATURED.map(card => (
@@ -81,25 +81,25 @@ export function FeaturedDestinations() {
 
 function FeatCard({ card }: { card: typeof FEATURED[0] }) {
   return (
-    <div className="relative overflow-hidden group shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-[380px] md:h-[500px] rounded-none md:rounded-2xl">
+    <div className="relative overflow-hidden group shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-[260px] md:h-[280px] rounded-none md:rounded-2xl">
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
         style={{ backgroundImage: `url(${card.image})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
       {/* KQ red accent marker — signature corner element */}
-      <div className="absolute bottom-0 right-0 w-14 h-1 bg-[#ed1c24] rounded-tl-sm" />
+      <div className="absolute bottom-0 right-0 w-10 h-1 bg-[#ed1c24] rounded-tl-sm" />
 
       {/* Content */}
-      <div className="relative mt-auto text-white z-10 p-6 pb-10 md:p-7">
-        <h3 className="font-serif italic font-bold mb-2 leading-tight text-3xl md:text-3xl">{card.title}</h3>
-        <p className="text-gray-200 mb-5 leading-relaxed text-base md:text-sm line-clamp-2">{card.subtitle}</p>
+      <div className="relative mt-auto text-white z-10 p-5">
+        <h3 className="font-serif italic font-bold mb-1.5 leading-tight text-2xl">{card.title}</h3>
+        <p className="text-gray-200 mb-4 leading-relaxed text-xs line-clamp-2">{card.subtitle}</p>
         <Link
           href={card.link}
-          className="inline-flex items-center gap-2 bg-[#ed1c24] hover:bg-[#c91520] text-white font-bold rounded-md transition-all hover:scale-105 text-sm px-5 py-2.5 shadow-md"
+          className="inline-flex items-center gap-2 bg-[#ed1c24] hover:bg-[#c91520] text-white font-bold rounded-md transition-all hover:scale-105 text-xs px-4 py-2 shadow-md"
         >
-          Book Now <ArrowRight className="w-4 h-4" />
+          Book Now <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
     </div>

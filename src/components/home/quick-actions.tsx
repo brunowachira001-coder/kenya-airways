@@ -14,27 +14,23 @@ export function QuickActions() {
   const actions = [
     {
       title: "Check in",
-      icon: <Plane className="w-5 h-5 mb-2" />,
+      icon: <Plane className="w-5 h-5" />,
       onClick: () => setOpenDrawer('checkin'),
-      description: "Check in online"
     },
     {
       title: "Manage Booking",
-      icon: <ClipboardList className="w-5 h-5 mb-2" />,
+      icon: <ClipboardList className="w-5 h-5" />,
       onClick: () => setOpenDrawer('manage'),
-      description: "Manage your booking"
     },
     {
       title: "Flight schedule",
-      icon: <CalendarDays className="w-5 h-5 mb-2" />,
+      icon: <CalendarDays className="w-5 h-5" />,
       href: "/book-manage/flight-schedule",
-      description: "View flight schedule"
     },
     {
       title: "Flight status",
-      icon: <MapPin className="w-5 h-5 mb-2" />,
+      icon: <MapPin className="w-5 h-5" />,
       href: "/book-manage/flight-status",
-      description: "View flight status"
     }
   ]
 
@@ -58,18 +54,17 @@ export function QuickActions() {
     <>
       <section className="w-full bg-white border-b border-gray-100 relative z-10">
         <div className="max-w-content mx-auto">
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-4 gap-0">
             {actions.map((action, index) => (
               action.href ? (
                 <Link 
                   key={index} 
                   href={action.href}
-                  className="flex flex-col items-center justify-center text-center py-4 px-2 md:py-6 md:px-4 hover:bg-gray-50 active:bg-gray-100 transition-colors group border-r border-gray-100 last:border-r-0"
+                  className="flex flex-col items-center justify-center text-center py-3 px-2 hover:bg-gray-50 active:bg-gray-100 transition-colors group border-r border-gray-100 last:border-r-0"
                 >
-                  <div className="text-[#ed1c24] group-hover:scale-110 transition-transform mb-1.5 md:mb-2">
+                  <div className="text-[#ed1c24] group-hover:scale-110 transition-transform mb-1">
                     {action.icon}
                   </div>
-                  <span className="text-[10px] md:text-xs text-gray-400 mb-0.5 hidden sm:block">{action.description}</span>
                   <span className="text-[11px] md:text-sm font-bold text-[#0d0d0d] group-hover:text-[#ed1c24] transition-colors leading-tight">
                     {action.title}
                   </span>
@@ -78,12 +73,11 @@ export function QuickActions() {
                 <button 
                   key={index} 
                   onClick={action.onClick}
-                  className="flex flex-col items-center justify-center text-center py-4 px-2 md:py-6 md:px-4 hover:bg-gray-50 active:bg-gray-100 transition-colors group border-r border-gray-100 last:border-r-0 cursor-pointer"
+                  className="flex flex-col items-center justify-center text-center py-3 px-2 hover:bg-gray-50 active:bg-gray-100 transition-colors group border-r border-gray-100 last:border-r-0 cursor-pointer"
                 >
-                  <div className="text-[#ed1c24] group-hover:scale-110 transition-transform mb-1.5 md:mb-2">
+                  <div className="text-[#ed1c24] group-hover:scale-110 transition-transform mb-1">
                     {action.icon}
                   </div>
-                  <span className="text-[10px] md:text-xs text-gray-400 mb-0.5 hidden sm:block">{action.description}</span>
                   <span className="text-[11px] md:text-sm font-bold text-[#0d0d0d] group-hover:text-[#ed1c24] transition-colors leading-tight">
                     {action.title}
                   </span>

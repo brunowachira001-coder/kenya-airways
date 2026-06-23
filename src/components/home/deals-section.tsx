@@ -48,18 +48,17 @@ function DealCard({ deal, onClick }: { deal: LegacyDeal, onClick: () => void }) 
   return (
     <div
       onClick={onClick}
-      className="bg-white border border-gray-200 rounded-xl overflow-hidden group flex flex-col cursor-pointer hover:shadow-lg hover:border-gray-300 transition-all duration-300"
+      className="bg-white border border-gray-200 rounded-xl overflow-hidden group flex flex-col cursor-pointer hover:shadow-lg hover:border-gray-300 transition-all duration-300 hover:scale-[1.02]"
     >
-      <div className="relative h-[130px] md:h-[200px] w-full overflow-hidden bg-gray-100">
+      <div className="relative h-[130px] md:h-[160px] w-full overflow-hidden bg-gray-100">
         <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${deal.image})` }} />
-        <div className="absolute bottom-0 left-3 w-7 h-1 bg-[#ed1c24] rounded-t-sm" />
+        <div className="absolute bottom-0 left-3 w-6 h-1 bg-[#ed1c24] rounded-t-sm" />
       </div>
-      <div className="p-2.5 md:p-4 flex flex-col flex-grow">
-        <h3 className="font-sans text-sm md:text-lg font-bold mb-0.5 text-[#0d0d0d] italic group-hover:text-[#ed1c24] transition-colors leading-tight">{deal.destination}</h3>
+      <div className="p-3 flex flex-col flex-grow">
+        <h3 className="font-serif italic text-sm md:text-base font-bold text-[#0d0d0d] group-hover:text-[#ed1c24] transition-colors leading-tight mb-0.5">{deal.destination}</h3>
         <p className="text-gray-500 text-[10px] md:text-xs font-medium mb-0.5">{deal.dateRange}</p>
-        <p className="text-gray-400 text-[10px] md:text-xs mb-1.5">Economy</p>
-        <div className="mt-auto">
-          <span className="text-xs md:text-sm font-black text-[#0d0d0d]">{deal.price}</span>
+        <div className="mt-auto pt-1">
+          <span className="text-xs md:text-sm font-black text-[#ed1c24]">{deal.price}</span>
         </div>
       </div>
     </div>
@@ -74,10 +73,6 @@ export function DealsSection() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [drawerDeal, setDrawerDeal] = useState<LegacyDeal | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    console.log('DealsSection mounted, dropdownOpen:', dropdownOpen)
-  }, [dropdownOpen])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -95,7 +90,6 @@ export function DealsSection() {
     setDestination(deal.destCode)
     setTripType("round-trip")
     
-    // Set dates: tomorrow to tomorrow + 7 days
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
@@ -105,7 +99,6 @@ export function DealsSection() {
     setDepartureDate(tomorrow.toISOString())
     setReturnDate(dayAfter.toISOString())
     
-    // Navigate directly to booking
     const depStr = tomorrow.toISOString().split("T")[0]
     const retStr = dayAfter.toISOString().split("T")[0]
     
@@ -119,7 +112,6 @@ export function DealsSection() {
     setDestination(drawerDeal.destCode)
     setTripType("round-trip")
     
-    // Set dates: tomorrow to tomorrow + 7 days
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
@@ -129,7 +121,6 @@ export function DealsSection() {
     setDepartureDate(tomorrow.toISOString())
     setReturnDate(dayAfter.toISOString())
     
-    // Navigate directly to booking
     const depStr = tomorrow.toISOString().split("T")[0]
     const retStr = dayAfter.toISOString().split("T")[0]
     
@@ -140,10 +131,10 @@ export function DealsSection() {
 
   return (
     <>
-      <section className="w-full py-8 md:py-12 px-4 bg-white">
+      <section className="w-full py-6 md:py-8 px-4 bg-white">
         <div className="max-w-content mx-auto">
           {/* Header Row */}
-          <div className="flex flex-col items-start mb-4 md:mb-10 gap-3 relative">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-3 mb-5 relative">
             {/* Best Price Guarantee Badge - Top Right */}
             <div className="absolute top-0 right-0">
               <img 
@@ -153,21 +144,20 @@ export function DealsSection() {
               />
             </div>
 
-            <div className="flex flex-col gap-2 w-full">
-              <h2 className="font-serif italic text-2xl md:text-4xl text-[#0d0d0d]">Deals from</h2>
-              <div className="relative w-full z-10" ref={dropdownRef}>
+            <div className="flex flex-col gap-2 w-full sm:w-auto sm:flex-1">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-1 bg-[#ed1c24] rounded-sm" />
+                <h2 className="font-serif italic text-xl md:text-2xl text-[#0d0d0d]">Deals from</h2>
+              </div>
+              <div className="relative w-full sm:w-52 z-10" ref={dropdownRef}>
                 <button 
-                  onClick={() => {
-                    console.log('Button clicked, current dropdownOpen:', dropdownOpen)
-                    setDropdownOpen(!dropdownOpen)
-                    console.log('Set dropdownOpen to:', !dropdownOpen)
-                  }}
-                  className="w-full flex items-center justify-between px-4 py-3 border border-gray-300 rounded-md bg-white text-left text-base md:text-lg font-normal text-[#0d0d0d] focus:outline-none focus:border-[#ed1c24] hover:border-gray-400 transition-colors"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="w-full flex items-center justify-between px-4 py-2.5 border border-gray-300 rounded-md bg-white text-left text-sm font-normal text-[#0d0d0d] focus:outline-none focus:border-[#ed1c24] hover:border-gray-400 transition-colors"
                   aria-expanded={dropdownOpen}
                   aria-haspopup="listbox"
                 >
                   {selectedCity} 
-                  <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
                 </button>
                 
                 {dropdownOpen && (
@@ -176,7 +166,7 @@ export function DealsSection() {
                       <button
                         key={city}
                         onClick={() => { setSelectedCity(city); setDropdownOpen(false) }}
-                        className={`block w-full text-left px-4 py-3 text-base hover:bg-gray-50 transition-colors ${selectedCity === city ? "font-bold text-[#ed1c24] bg-red-50" : "text-gray-700"}`}
+                        className={`block w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${selectedCity === city ? "font-bold text-[#ed1c24] bg-red-50" : "text-gray-700"}`}
                         role="option"
                         aria-selected={selectedCity === city}
                       >
@@ -189,53 +179,43 @@ export function DealsSection() {
             </div>
           </div>
 
-          {/* Responsive grid: 1 col mobile, 2 col tablet, 4 col desktop */}
-          <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {/* Grid: 2 col tablet, 4 col desktop */}
+          <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-4 gap-4">
             {currentDeals.map((deal) => (
               <DealCard key={deal.id} deal={deal} onClick={() => handleCardClick(deal)} />
             ))}
           </div>
 
           {/* Mobile: single column vertical list */}
-          <div className="md:hidden flex flex-col gap-4">
+          <div className="sm:hidden flex flex-col gap-3">
             {currentDeals.slice(0, 3).map((deal) => (
               <div
                 key={deal.id}
                 onClick={() => handleCardClick(deal)}
                 className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-row cursor-pointer hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative w-[150px] h-[150px] shrink-0 overflow-hidden rounded-l-lg">
+                <div className="relative w-[110px] h-[110px] shrink-0 overflow-hidden rounded-l-lg">
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${deal.image})` }} />
-                  <div className="absolute bottom-0 left-0 w-10 h-1.5 bg-[#ed1c24] rounded-tr-sm" />
+                  <div className="absolute bottom-0 left-0 w-8 h-1 bg-[#ed1c24] rounded-tr-sm" />
                 </div>
                 <div className="px-4 py-3 flex flex-col justify-center flex-grow">
-                  <h3 className="font-serif italic text-xl font-bold text-[#0d0d0d] mb-2 leading-tight">{deal.destination}</h3>
-                  <p className="text-gray-600 text-xs mb-1 leading-relaxed">{deal.dateRange}</p>
-                  <p className="text-gray-500 text-xs mb-3">Economy Class</p>
-                  <span className="text-base font-bold text-[#0d0d0d]">{deal.price}</span>
+                  <h3 className="font-serif italic text-lg font-bold text-[#0d0d0d] mb-1 leading-tight">{deal.destination}</h3>
+                  <p className="text-gray-600 text-xs mb-1">{deal.dateRange}</p>
+                  <span className="text-sm font-black text-[#ed1c24]">{deal.price}</span>
                 </div>
               </div>
             ))}
           </div>
-          
-          {/* Pagination dots for mobile */}
-          <div className="md:hidden flex justify-center gap-2 mt-6 mb-6">
-            <div className="w-2 h-2 rounded-full bg-[#ed1c24]"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-          </div>
 
           {/* View all deals button */}
-          <div className="flex justify-center mt-0 md:mt-8">
+          <div className="flex justify-center mt-6">
             <button 
               onClick={() => router.push('/deals')}
-              className="px-12 py-3 border-2 border-gray-900 rounded-full text-base font-semibold hover:bg-gray-900 hover:text-white transition-colors"
+              className="px-8 py-2.5 border-2 border-gray-900 rounded-full text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors"
             >
               View all deals
             </button>
           </div>
-
-
         </div>
       </section>
 
@@ -258,7 +238,6 @@ export function DealsSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
               
-              {/* Close Button */}
               <button 
                 onClick={() => setDrawerDeal(null)}
                 className="absolute top-4 right-4 p-2 bg-black/20 hover:bg-black/40 rounded-full text-white backdrop-blur-sm transition-colors"
@@ -266,7 +245,6 @@ export function DealsSection() {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Text Overlay */}
               <div className="absolute bottom-16 left-6 right-6 text-white">
                 <div className="flex items-center gap-2 mb-2 font-bold text-sm tracking-wider uppercase">
                   <span>{selectedCity === "Nairobi" ? "NBO" : selectedCity === "Mombasa" ? "MBA" : "KIS"}</span>
