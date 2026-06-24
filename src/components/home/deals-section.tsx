@@ -186,21 +186,28 @@ export function DealsSection() {
             ))}
           </div>
 
-          {/* Mobile: single-column full-width cards matching KQ (kenya-airways.com) */}
-          <div className="sm:hidden grid grid-cols-1 gap-3">
+          {/* Mobile: stacked full-width cards matching KQ (kenya-airways.com) */}
+          <div className="sm:hidden flex flex-col gap-3">
             {currentDeals.slice(0, 4).map((deal) => (
               <div
                 key={deal.id}
                 onClick={() => handleCardClick(deal)}
-                className="bg-white rounded-xl overflow-hidden flex flex-row cursor-pointer hover:shadow-md transition-all duration-300 group"
+                className="bg-white rounded-xl overflow-hidden flex flex-col cursor-pointer hover:shadow-md transition-all duration-300 group border border-gray-100"
               >
-                <div className="relative w-[140px] h-[130px] flex-shrink-0 overflow-hidden">
+                <div className="relative w-full h-[180px] overflow-hidden">
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${deal.image})` }} />
+                  {/* Subtle bottom gradient for legibility if a label is overlaid */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+                  {/* KQ red accent bar — bottom-left like KQ */}
+                  <div className="absolute bottom-0 left-0 w-6 h-1 bg-[#ed1c24] rounded-tr-sm" />
                 </div>
-                <div className="px-4 py-3 flex flex-col justify-center flex-grow">
-                  <h3 className="font-serif italic text-base font-bold text-[#0d0d0d] leading-tight mb-1">{deal.destination}</h3>
-                  <p className="text-gray-500 text-xs leading-tight mb-1">{deal.dateRange}</p>
-                  <span className="text-sm font-black text-[#ed1c24] mt-1">{deal.price}</span>
+                <div className="px-4 py-3 flex flex-col">
+                  <h3 className="font-serif italic text-lg font-bold text-[#0d0d0d] leading-tight mb-1 group-hover:text-[#ed1c24] transition-colors">{deal.destination}</h3>
+                  <p className="text-gray-500 text-xs leading-tight mb-2">{deal.dateRange}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-base font-black text-[#ed1c24]">{deal.price}</span>
+                    <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Book</span>
+                  </div>
                 </div>
               </div>
             ))}
