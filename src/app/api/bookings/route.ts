@@ -87,7 +87,10 @@ export async function POST(req: NextRequest) {
       totalAmount,
       currency = "KES",
       paymentStatus = "pending",
-      bookingStatus = "confirmed"
+      bookingStatus = "confirmed",
+      extras,
+      flightTotal,
+      extrasTotal,
     } = body
 
     // Validate required fields
@@ -125,12 +128,17 @@ export async function POST(req: NextRequest) {
       cabin_class: cabinClass,
       trip_type: tripType || "return",
       passengers,
-      base_fare: baseFare || 0,
+      base_fare: baseFare ?? (flightTotal ?? 0),
       taxes: taxes || 0,
       total_amount: totalAmount,
       currency,
       payment_status: paymentStatus,
-      booking_status: bookingStatus
+      booking_status: bookingStatus,
+      // Persist extras (baggage, insurance, seat, meals, holdBooking, services) as JSON.
+      // Schema may or may not have an `extras` JSONB column — Supabase will reject the
+      // insert with a 400 if the column is missing; the existing fallback below logs and
+      // retries without the field so the booking still goes through.
+      ...(extras !== undefined ? { extras } : {}),
     }
 
     const { data: booking, error: bookingError } = await supabaseAdmin
@@ -139,7 +147,23 @@ export async function POST(req: NextRequest) {
       .select()
       .single()
 
-    if (bookingError) {
+    // If the DB rejects the `extras` JSONB column (schema migration not applied),
+    // retry without it so the booking still goes through. Extras stay in client state.
+    let finalBooking = booking
+    if (bookingError && /column .*extras/i.test(bookingError.message)) {
+      console.warn("`extras` column missing on bookings table — retrying without it. Run supabase-setup.sql to add the column.")
+      const { extras: _extras, ...bookingDataNoExtras } = bookingData // eslint-disable-line @typescript-eslint/no-unused-vars
+      const retry = await supabaseAdmin
+        .from("bookings")
+        .insert(bookingDataNoExtras)
+        .select()
+        .single()
+      if (retry.error) {
+        console.error("Booking insert error (retry):", retry.error)
+        return NextResponse.json({ error: retry.error.message }, { status: 500 })
+      }
+      finalBooking = retry.data
+    } else if (bookingError) {
       console.error("Booking insert error:", bookingError)
       return NextResponse.json(
         { error: bookingError.message },
@@ -166,7 +190,7 @@ export async function POST(req: NextRequest) {
 
       const { error: passengersError } = await supabaseAdmin
         .from("passengers")
-        .insert(passengerRecords.map(p => ({ ...p, booking_id: booking.id })))
+        .insert(passengerRecords.map(p => ({ ...p, booking_id: finalBooking!.id })))
 
       if (passengersError) {
         console.error("Passengers insert error:", passengersError)
@@ -177,7 +201,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       bookingReference,
-      bookingId: booking.id
+      bookingId: finalBooking!.id,
+      // Echo back what the server received so the client can verify the round-trip.
+      extrasReceived: extras !== undefined,
+      flightTotal: flightTotal ?? null,
+      extrasTotal: extrasTotal ?? null,
     })
   } catch (err) {
     console.error("POST /api/bookings error:", err)

@@ -9,19 +9,29 @@ import Link from "next/link"
 export default function BookingConfirmation() {
   const router = useRouter()
   const store = useBookingStore()
-  const [bookingReference, setBookingReference] = useState("")
   const [showSuccess, setShowSuccess] = useState(false)
 
+  // Use the REAL booking reference assigned by /api/bookings (Supabase or fallback).
+  // The previous version generated a new random local reference here, which made the
+  // confirmation number mismatch the actual database row.
+  const realReference = store.bookingReference
+  const [fallbackReference, setFallbackReference] = useState("")
+  const bookingReference = realReference || fallbackReference
+
   useEffect(() => {
-    // Generate booking reference
-    const ref = `KQ${Math.random().toString(36).substring(2, 9).toUpperCase()}`
-    setBookingReference(ref)
-    
+    // If for some reason the store has no reference (e.g. user landed here directly),
+    // generate a local one so we still show *something* rather than a blank page.
+    if (!realReference) {
+      console.warn("No booking reference in store — generating local fallback. This should not happen in normal flow.")
+      setFallbackReference(`KQ${Math.random().toString(36).substring(2, 9).toUpperCase()}`)
+    }
+
     // Show success animation
     setTimeout(() => setShowSuccess(true), 300)
-  }, [])
+  }, [realReference])
 
   const totalPassengers = store.passengers.adults + store.passengers.children + store.passengers.infants
+  // Compute total consistently with the rest of the flow.
   const baseFare = (store.selectedOutboundFlight?.price || 0) + (store.selectedReturnFlight?.price || 0)
   const totalPrice = store.extras.totalPrice || baseFare
 

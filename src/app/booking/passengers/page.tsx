@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useBookingStore } from "@/store/booking-store"
+import { calculateBookingTotal } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 import { PassengerDetail } from "@/store/booking-store"
 import { Input } from "@/components/ui/input"
@@ -21,7 +22,9 @@ export default function PassengersPage() {
     selectedFare,
     selectedOutboundFlight,
     selectedReturnFlight,
-    setBookingReference
+    setBookingReference,
+    selectedSeat,
+    extras,
   } = useBookingStore()
 
   useEffect(() => {
@@ -75,27 +78,28 @@ export default function PassengersPage() {
       setContactDetails({ email, phone: countryCode + phone })
       setPassengerDetails(paxDetails)
       
-      // Calculate pricing
-      const totalPax = passengers.adults + passengers.children + passengers.infants
-      const basePrice = selectedOutboundFlight?.price || 45000
-      const returnPrice = selectedReturnFlight?.price || 40000
-      
-      let fareMultiplier = 1
-      if (selectedFare === "Economy") fareMultiplier = 1.2
-      if (selectedFare === "Business Lite" || selectedFare === "Business") fareMultiplier = 2.5
-      
-      const outboundTotal = basePrice * fareMultiplier
-      const returnTotal = returnPrice * fareMultiplier
-      const flightTotal = Math.round((outboundTotal + returnTotal) * totalPax)
+      // Use the single source-of-truth price calculator so passengers + extras + seat
+      // all flow into one total. (Previously each page recalculated and produced
+      // different numbers — see /home/bruno/.kimchi/docs/booking-audit.md.)
+      const totals = calculateBookingTotal({
+        selectedOutboundFlight,
+        selectedReturnFlight,
+        selectedFare,
+        passengers,
+        selectedSeat,
+        extras,
+      })
+      const { flightTotal, extrasTotal, grandTotal } = totals
       const taxes = Math.round(flightTotal * 0.15)
-      const totalAmount = flightTotal + taxes
+      const totalAmount = grandTotal + taxes
       
       // Create primary passenger name for the booking
       const primaryPassengerName = paxDetails.length > 0 
         ? `${paxDetails[0].title} ${paxDetails[0].firstName} ${paxDetails[0].lastName}`
         : email
       
-      // Call booking API
+      // Call booking API — payload now includes extras so a single payment covers
+      // baggage + insurance + seat + meals + holdBooking.
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -117,11 +121,24 @@ export default function PassengersPage() {
             gender: p.gender,
             nationality: p.nationality,
             passportNumber: p.passportNumber,
-            passportExpiry: p.passportExpiry
+            passportExpiry: p.passportExpiry,
+            specialMeal: paxDetails.indexOf(p) !== undefined ? extras.meals?.[paxDetails.indexOf(p)] : undefined,
+            specialAssistance: extras.specialRequests ?? [],
           })),
-          baseFare: flightTotal / totalPax,
-          taxes: taxes / totalPax,
+          baseFare: flightTotal,
+          taxes,
           totalAmount,
+          flightTotal,
+          extrasTotal,
+          extras: {
+            extraBaggage: extras.extraBaggage,
+            travelInsurance: extras.travelInsurance,
+            seat: selectedSeat,
+            meals: extras.meals,
+            specialRequests: extras.specialRequests,
+            selectedServices: extras.selectedServices,
+            holdBooking: extras.holdBooking,
+          },
           currency: "KES",
           paymentStatus: "pending",
           bookingStatus: "confirmed"

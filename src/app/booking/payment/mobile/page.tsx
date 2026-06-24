@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import { useBookingStore } from "@/store/booking-store"
+import { calculateBookingTotal } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 
@@ -12,7 +13,9 @@ export default function MobilePaymentPage() {
     selectedReturnFlight,
     selectedFare,
     passengers,
-    bookingReference
+    bookingReference,
+    selectedSeat,
+    extras,
   } = useBookingStore()
 
   const [paymentOption, setPaymentOption] = useState<"mobile" | "bank">("mobile")
@@ -27,17 +30,17 @@ export default function MobilePaymentPage() {
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const pollAttemptsRef = useRef(0)
 
-  const totalPassengers = passengers.adults + passengers.children + passengers.infants
-  const basePrice = selectedOutboundFlight?.price || 45000
-  const returnPrice = selectedReturnFlight?.price || 40000
-
-  let fareMultiplier = 1
-  if (selectedFare === "Economy") fareMultiplier = 1.2
-  if (selectedFare === "Business Lite" || selectedFare === "Business") fareMultiplier = 2.5
-
-  const outboundTotal = basePrice * fareMultiplier
-  const returnTotal = returnPrice * fareMultiplier
-  const totalPrice = Math.round((outboundTotal + returnTotal) * totalPassengers)
+  // Single source of truth — the same calculator used by /booking/passengers and /booking/review.
+  // The amount the user pays here equals the total they saw in review.
+  const totals = calculateBookingTotal({
+    selectedOutboundFlight,
+    selectedReturnFlight,
+    selectedFare,
+    passengers,
+    selectedSeat,
+    extras,
+  })
+  const { flightTotal, extrasTotal, grandTotal: totalPrice } = totals
 
   // Format phone to 254XXXXXXXXX
   const formatPhoneNumber = (input: string): string => {
@@ -411,10 +414,16 @@ export default function MobilePaymentPage() {
                 <h3 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Transaction</h3>
                 <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Amount Due</span>
-                    <span className="font-medium">KES {totalPrice.toLocaleString()}</span>
+                    <span className="text-gray-600">Flights</span>
+                    <span className="font-medium">KES {flightTotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2">
+                  {extrasTotal > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Extras (baggage, seat, insurance, hold)</span>
+                      <span className="font-medium">KES {extrasTotal.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between border-t pt-2">
                     <span className="text-gray-600">Total Payable</span>
                     <span className="font-bold">KES {totalPrice.toLocaleString()}</span>
                   </div>

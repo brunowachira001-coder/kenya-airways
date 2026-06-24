@@ -1,52 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useBookingStore } from "@/store/booking-store"
+import { useEffect } from "react"
+import { useBookingStore, calculateBookingTotal, EXTRA_PRICING } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { ExternalLink } from "lucide-react"
-
-const EXTRA_SERVICES = [
-  {
-    id: "seats",
-    name: "Seats",
-    description: "Select your seat to experience comfort.",
-    price: 2000,
-    image: "/baggage_info.png",
-    buttonText: "Select your seats"
-  },
-  {
-    id: "baggage",
-    name: "Baggage",
-    description: "Ready to make your journey extraordinary with extra baggage? Shop at Kenya Airways will manage your additional luggage.",
-    price: 16965,
-    image: "/baggage_info.png",
-    buttonText: "Add service"
-  },
-  {
-    id: "meals",
-    name: "Special Meals",
-    description: "Would you like a meal customized for your health requirements, food allergies or religious practices? Please ensure to request it in advance for your journey.",
-    price: 0,
-    image: "/duty_free_luxury.png",
-    buttonText: "Add meal",
-    included: true
-  },
-  {
-    id: "assistance",
-    name: "Special assistance",
-    description: "Kenya Airways cares, pre-book your wheelchair 48hrs before departure.",
-    price: 0,
-    image: "/special_care.png",
-    buttonText: "Add service",
-    included: true
-  }
-]
+import { ExternalLink, Luggage, Utensils, ShieldCheck, Armchair } from "lucide-react"
 
 export default function ReviewPage() {
   const router = useRouter()
-  const [selectedServices, setSelectedServices] = useState<Set<string>>(new Set())
-  const [holdBooking, setHoldBooking] = useState(false)
   
   const { 
     setCurrentStep, 
@@ -60,8 +21,10 @@ export default function ReviewPage() {
     passengers,
     passengerDetails,
     contactDetails,
+    extras,
+    selectedSeat,
+    bookingReference,
     setExtras,
-    bookingReference
   } = useBookingStore()
 
   useEffect(() => {
@@ -69,47 +32,33 @@ export default function ReviewPage() {
   }, [setCurrentStep])
 
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
-  const basePrice = selectedOutboundFlight?.price || 45000
-  const returnPrice = selectedReturnFlight?.price || 40000
   
-  let fareMultiplier = 1
-  if (selectedFare === "Economy") fareMultiplier = 1.2
-  if (selectedFare === "Business Lite" || selectedFare === "Business") fareMultiplier = 2.5
+  // Single source of truth — same calculator used by passengers + payment.
+  const totals = calculateBookingTotal({
+    selectedOutboundFlight,
+    selectedReturnFlight,
+    selectedFare,
+    passengers,
+    selectedSeat,
+    extras,
+  })
+  const { flightTotal, baggageTotal, insuranceTotal, seatTotal, holdBookingTotal, extrasTotal, grandTotal } = totals
   
-  const outboundTotal = basePrice * fareMultiplier
-  const returnTotal = returnPrice * fareMultiplier
-  const flightTotal = Math.round((outboundTotal + returnTotal) * totalPassengers)
-  
-  // Calculate extra services total
-  const servicesTotal = Array.from(selectedServices).reduce((sum, serviceId) => {
-    const service = EXTRA_SERVICES.find(s => s.id === serviceId)
-    return sum + (service?.price || 0) * totalPassengers
-  }, 0)
-  
-  const holdBookingPrice = holdBooking ? 2610 : 0
-  const totalPrice = flightTotal + servicesTotal + holdBookingPrice
-  
-  const toggleService = (serviceId: string) => {
-    setSelectedServices(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(serviceId)) {
-        newSet.delete(serviceId)
-      } else {
-        newSet.add(serviceId)
-      }
-      return newSet
-    })
-  }
-
   const handleCheckout = () => {
-    // Save selected services and total price to store
-    setExtras({
-      selectedServices: Array.from(selectedServices),
-      holdBooking: holdBooking,
-      totalPrice: totalPrice
-    })
+    // Persist the final total into the store so /booking/payment/* can show it.
+    setExtras({ totalPrice: grandTotal })
     router.push("/booking/payment/mobile")
   }
+
+  const handleEditExtras = () => {
+    router.push("/booking/extras")
+  }
+
+  const handleEditSeat = () => {
+    router.push("/booking/seat-selection")
+  }
+
+  const formatKES = (n: number) => `KES ${n.toLocaleString()}`
 
   const formatDate = (dateStr: string | undefined) => {
     if (!dateStr) return ""
@@ -128,7 +77,7 @@ export default function ReviewPage() {
       <div className="bg-gray-50 border-b border-gray-200 py-3 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center sm:text-right">
           <span className="text-xs sm:text-sm font-medium block sm:inline">Total price for your flight: </span>
-          <span className="text-lg sm:text-xl font-bold">KES {totalPrice.toLocaleString()}</span>
+          <span className="text-lg sm:text-xl font-bold">{formatKES(grandTotal)}</span>
         </div>
       </div>
 
@@ -300,122 +249,131 @@ export default function ReviewPage() {
           ))}
         </div>
 
-        {/* Extra Services */}
+        {/* Your Extras (read-only summary — selected via /booking/extras and /booking/seat-selection) */}
         <div className="mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4">Extra services</h2>
-          
-          {/* Desktop: Grid layout */}
-          <div className="hidden sm:grid sm:grid-cols-2 gap-4">
-            {EXTRA_SERVICES.map(service => (
-              <div key={service.id} className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 relative">
-                <div className="flex gap-4 sm:gap-6">
-                  <img src={service.image} alt={service.name} className="w-32 sm:w-48 h-32 object-cover rounded flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-base sm:text-lg">{service.name}</h3>
-                      {!service.included && (
-                        <label className="flex items-center cursor-pointer ml-2">
-                          <input
-                            type="checkbox"
-                            checked={selectedServices.has(service.id)}
-                            onChange={() => toggleService(service.id)}
-                            className="w-5 h-5 rounded border-gray-300 text-brand-primary focus:ring-brand-primary cursor-pointer"
-                          />
-                        </label>
-                      )}
-                    </div>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-3">{service.description}</p>
-                    <p className="text-xs sm:text-sm font-medium mb-4">
-                      {service.included ? "Included" : `From KES ${service.price.toLocaleString()}`}
-                    </p>
-                    {selectedServices.has(service.id) && !service.included && (
-                      <p className="text-xs font-semibold text-green-600 mb-2">
-                        Added: +KES {(service.price * totalPassengers).toLocaleString()}
-                      </p>
-                    )}
-                    <button 
-                      className={`border rounded px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-colors ${
-                        selectedServices.has(service.id) 
-                          ? 'border-brand-primary bg-brand-primary/5 text-brand-primary' 
-                          : 'border-gray-300 hover:bg-gray-50'
-                      }`}
-                      onClick={() => !service.included && toggleService(service.id)}
-                      disabled={service.included}
-                    >
-                      {service.buttonText}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile: Horizontal carousel */}
-          <div className="sm:hidden -mx-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar">
-            <div className="flex gap-4 px-4 pb-4">
-              {EXTRA_SERVICES.map(service => (
-                <div key={service.id} className="bg-white border border-gray-200 rounded-lg p-4 snap-center flex-shrink-0 w-[320px] relative">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="font-semibold text-base">{service.name}</h3>
-                    {!service.included && (
-                      <label className="flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={selectedServices.has(service.id)}
-                          onChange={() => toggleService(service.id)}
-                          className="w-5 h-5 rounded border-gray-300 text-brand-primary focus:ring-brand-primary cursor-pointer"
-                        />
-                      </label>
-                    )}
-                  </div>
-                  <img src={service.image} alt={service.name} className="w-full h-40 object-cover rounded mb-3" />
-                  <p className="text-xs text-gray-600 mb-3 line-clamp-2">{service.description}</p>
-                  <p className="text-xs font-medium mb-3">
-                    {service.included ? "Included" : `From KES ${service.price.toLocaleString()}`}
-                  </p>
-                  {selectedServices.has(service.id) && !service.included && (
-                    <p className="text-xs font-semibold text-green-600 mb-2">
-                      Added: +KES {(service.price * totalPassengers).toLocaleString()}
-                    </p>
-                  )}
-                  <button 
-                    className={`w-full border rounded px-4 py-2 text-xs font-medium transition-colors ${
-                      selectedServices.has(service.id) 
-                        ? 'border-brand-primary bg-brand-primary/5 text-brand-primary' 
-                        : 'border-gray-300 hover:bg-gray-50'
-                    }`}
-                    onClick={() => !service.included && toggleService(service.id)}
-                    disabled={service.included}
-                  >
-                    {service.buttonText}
-                  </button>
-                </div>
-              ))}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl sm:text-2xl font-semibold">Your extras</h2>
+            <div className="flex gap-2">
+              <button
+                onClick={handleEditSeat}
+                className="text-xs sm:text-sm border border-gray-300 px-3 py-1.5 rounded hover:bg-gray-50"
+              >
+                Edit seat
+              </button>
+              <button
+                onClick={handleEditExtras}
+                className="text-xs sm:text-sm border border-gray-300 px-3 py-1.5 rounded hover:bg-gray-50"
+              >
+                Edit extras
+              </button>
             </div>
           </div>
 
-          {/* Pagination dots for mobile */}
-          <div className="flex justify-center gap-2 mt-4 sm:hidden">
-            {EXTRA_SERVICES.map((_, idx) => (
-              <div key={idx} className={`w-2 h-2 rounded-full ${idx === 0 ? 'bg-brand-primary' : 'bg-gray-300'}`} />
-            ))}
+          <div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-200">
+            {/* Baggage */}
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <Luggage className="w-5 h-5 text-gray-500" />
+                <div>
+                  <p className="font-semibold text-sm">Extra baggage</p>
+                  <p className="text-xs text-gray-500">
+                    {(extras.extraBaggage ?? 0) === 0
+                      ? 'No extra bags'
+                      : `+${extras.extraBaggage} bag${(extras.extraBaggage ?? 0) > 1 ? 's' : ''} (23 kg each)`}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm font-semibold">
+                {baggageTotal > 0 ? formatKES(baggageTotal) : 'Included'}
+              </p>
+            </div>
+
+            {/* Seat */}
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <Armchair className="w-5 h-5 text-gray-500" />
+                <div>
+                  <p className="font-semibold text-sm">Seat selection</p>
+                  <p className="text-xs text-gray-500">
+                    {selectedSeat?.id
+                      ? `Seat ${selectedSeat.id}${seatTotal > 0 ? ' (extra legroom)' : ''}`
+                      : 'No seat selected'}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm font-semibold">
+                {seatTotal > 0 ? formatKES(seatTotal) : (selectedSeat ? 'Included' : '—')}
+              </p>
+            </div>
+
+            {/* Meals */}
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <Utensils className="w-5 h-5 text-gray-500" />
+                <div>
+                  <p className="font-semibold text-sm">Meals</p>
+                  <p className="text-xs text-gray-500">
+                    {Object.values(extras.meals ?? {}).filter(Boolean).length > 0
+                      ? `${Object.values(extras.meals ?? {}).filter(Boolean).length} special meal${Object.values(extras.meals ?? {}).filter(Boolean).length > 1 ? 's' : ''} requested`
+                      : 'Standard meals included'}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-green-700">Included</p>
+            </div>
+
+            {/* Travel insurance */}
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-gray-500" />
+                <div>
+                  <p className="font-semibold text-sm">Travel insurance</p>
+                  <p className="text-xs text-gray-500">
+                    {extras.travelInsurance ? `KES ${EXTRA_PRICING.travelInsurancePerPax.toLocaleString()} × ${totalPassengers} pax` : 'Not selected'}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm font-semibold">
+                {insuranceTotal > 0 ? formatKES(insuranceTotal) : '—'}
+              </p>
+            </div>
+
+            {/* Special assistance */}
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="4" r="2" />
+                  <path d="M7 22V12l2-5h6l2 5v10" />
+                  <path d="M9 12h6" />
+                </svg>
+                <div>
+                  <p className="font-semibold text-sm">Special assistance</p>
+                  <p className="text-xs text-gray-500">
+                    {(extras.specialRequests ?? []).length > 0
+                      ? (extras.specialRequests ?? []).join(', ')
+                      : 'None requested'}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-green-700">Included</p>
+            </div>
           </div>
         </div>
 
-        {/* Hold Booking */}
+        {/* Hold Booking — toggled inline here for convenience, persisted via the store */}
         <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3 flex-1">
-              <input 
-                type="checkbox" 
-                checked={holdBooking}
-                onChange={(e) => setHoldBooking(e.target.checked)}
-                className="w-4 h-4 sm:w-5 sm:h-5 mt-1 rounded border-gray-300 text-brand-primary focus:ring-brand-primary cursor-pointer flex-shrink-0" 
+              <input
+                type="checkbox"
+                checked={!!extras.holdBooking}
+                onChange={(e) => setExtras({ holdBooking: e.target.checked })}
+                className="w-4 h-4 sm:w-5 sm:h-5 mt-1 rounded border-gray-300 text-brand-primary focus:ring-brand-primary cursor-pointer flex-shrink-0"
               />
               <div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Need time to think?</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Hold my booking until Sunday, 14 June 23:43 GMT</p>
-                <p className="text-xs sm:text-sm font-semibold">+KES 2,610</p>
+                <p className="text-xs sm:text-sm text-gray-600">Hold my booking for 72 hours so you can confirm later.</p>
+                <p className="text-xs sm:text-sm font-semibold">+{formatKES(EXTRA_PRICING.holdBookingFee)}</p>
               </div>
             </div>
             <div className="text-brand-primary flex-shrink-0">
@@ -428,34 +386,48 @@ export default function ReviewPage() {
 
         {/* Total Price Section */}
         <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
-          {/* Price Breakdown */}
-          {(servicesTotal > 0 || holdBookingPrice > 0) && (
-            <div className="mb-4 pb-4 border-b border-gray-200 text-sm">
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-600">Flight total:</span>
-                <span className="font-semibold">KES {flightTotal.toLocaleString()}</span>
-              </div>
-              {servicesTotal > 0 && (
-                <div className="flex justify-between mb-2">
-                  <span className="text-gray-600">Extra services:</span>
-                  <span className="font-semibold text-green-600">+KES {servicesTotal.toLocaleString()}</span>
-                </div>
-              )}
-              {holdBookingPrice > 0 && (
-                <div className="flex justify-between mb-2">
-                  <span className="text-gray-600">Hold booking:</span>
-                  <span className="font-semibold text-green-600">+KES {holdBookingPrice.toLocaleString()}</span>
-                </div>
-              )}
+          {/* Price Breakdown — driven by calculateBookingTotal() so it matches the rest of the flow. */}
+          <div className="mb-4 pb-4 border-b border-gray-200 text-sm">
+            <div className="flex justify-between mb-2">
+              <span className="text-gray-600">Flights ({totalPassengers} pax):</span>
+              <span className="font-semibold">{formatKES(flightTotal)}</span>
             </div>
-          )}
-          
+            {baggageTotal > 0 && (
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Extra baggage:</span>
+                <span className="font-semibold text-gray-800">+{formatKES(baggageTotal)}</span>
+              </div>
+            )}
+            {seatTotal > 0 && (
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Seat selection:</span>
+                <span className="font-semibold text-gray-800">+{formatKES(seatTotal)}</span>
+              </div>
+            )}
+            {insuranceTotal > 0 && (
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Travel insurance:</span>
+                <span className="font-semibold text-gray-800">+{formatKES(insuranceTotal)}</span>
+              </div>
+            )}
+            {holdBookingTotal > 0 && (
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Hold booking:</span>
+                <span className="font-semibold text-gray-800">+{formatKES(holdBookingTotal)}</span>
+              </div>
+            )}
+            <div className="flex justify-between mb-2">
+              <span className="text-gray-600">Extras subtotal:</span>
+              <span className="font-semibold text-gray-800">{formatKES(extrasTotal)}</span>
+            </div>
+          </div>
+
           <div className="text-center sm:text-right mb-4">
             <p className="text-base sm:text-lg mb-2">
-              Total price: <span className="text-2xl sm:text-3xl font-bold">KES {totalPrice.toLocaleString()}</span>
+              Total price: <span className="text-2xl sm:text-3xl font-bold">{formatKES(grandTotal)}</span>
             </p>
             <p className="text-xs sm:text-sm text-gray-600">
-              Round trip price for all passengers (including taxes, fees and discounts). 
+              Round trip price for all passengers (flights + extras, before taxes).
               <button className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1">
                 See price details
                 <ExternalLink className="w-3 h-3" />

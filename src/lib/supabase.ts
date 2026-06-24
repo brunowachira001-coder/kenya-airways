@@ -46,6 +46,7 @@ export interface Booking {
   booking_status?: string
   payment_reference?: string
   mpesa_receipt?: string
+  extras?: Record<string, unknown> // JSONB — baggage, insurance, seat, meals, holdBooking, services
   created_at?: string
   updated_at?: string
 }

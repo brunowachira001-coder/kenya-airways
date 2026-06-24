@@ -3,6 +3,80 @@ import { persist } from "zustand/middleware"
 
 export type TripType = "round-trip" | "one-way" | "multi-city"
 
+// Pricing constants for extras — single source of truth across the booking flow.
+// Used by /booking/extras (radio + per-passenger counts) and /booking/review (display only).
+export const EXTRA_PRICING = {
+  extraBaggagePerBag: 4500, // KES per extra 23kg bag
+  travelInsurancePerPax: 2800, // KES per passenger
+  extraLegroomSeat: 2500, // KES for rows 1–2
+  holdBookingFee: 2610, // KES flat
+} as const
+
+/**
+ * Calculate the total booking price as ONE sum, used by every page that
+ * displays or submits the amount. Prevents per-page price drift (the old
+ * bug where passengers/extras/payment each calculated a different total).
+ *
+ * Layout: flights × fare multiplier × passengers + extras + holdBooking.
+ * Tax (15%) is added only when explicitly required (booking creation).
+ */
+export function calculateBookingTotal(state: {
+  selectedOutboundFlight: SelectedFlight | null
+  selectedReturnFlight: SelectedFlight | null
+  selectedFare: string | null
+  passengers: PassengerCounts
+  selectedSeat: { price: number } | null
+  extras: BookingExtras
+}): {
+  outboundBase: number
+  returnBase: number
+  fareMultiplier: number
+  flightTotal: number
+  baggageTotal: number
+  insuranceTotal: number
+  seatTotal: number
+  mealsIncluded: boolean
+  specialAssistanceIncluded: boolean
+  holdBookingTotal: number
+  extrasTotal: number
+  grandTotal: number
+} {
+  const totalPassengers = state.passengers.adults + state.passengers.children
+  const outboundBase = state.selectedOutboundFlight?.price ?? 0
+  const returnBase = state.selectedReturnFlight?.price ?? 0
+
+  let fareMultiplier = 1
+  if (state.selectedFare === "Economy") fareMultiplier = 1.2
+  if (state.selectedFare === "Business Lite" || state.selectedFare === "Business") fareMultiplier = 2.5
+
+  const flightTotal = Math.round((outboundBase + returnBase) * fareMultiplier * totalPassengers)
+
+  const baggageTotal = (state.extras.extraBaggage ?? 0) * EXTRA_PRICING.extraBaggagePerBag
+  const insuranceTotal = state.extras.travelInsurance
+    ? EXTRA_PRICING.travelInsurancePerPax * totalPassengers
+    : 0
+  const seatTotal = state.selectedSeat?.price ?? 0
+  const holdBookingTotal = state.extras.holdBooking ? EXTRA_PRICING.holdBookingFee : 0
+
+  const extrasTotal = baggageTotal + insuranceTotal + seatTotal + holdBookingTotal
+  const grandTotal = flightTotal + extrasTotal
+
+  return {
+    outboundBase,
+    returnBase,
+    fareMultiplier,
+    flightTotal,
+    baggageTotal,
+    insuranceTotal,
+    seatTotal,
+    mealsIncluded: true,
+    specialAssistanceIncluded: true,
+    holdBookingTotal,
+    extrasTotal,
+    grandTotal,
+  }
+}
+
 export interface PassengerCounts {
   adults: number
   children: number

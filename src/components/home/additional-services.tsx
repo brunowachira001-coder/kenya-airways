@@ -9,19 +9,25 @@ export function AdditionalServices() {
       title: "Kool Flyer's Club",
       description: "Discover a world of great Student Offers with exclusive unlimited access when you sign up.",
       image: "/service_kool_flyers.jpg",
-      link: "/plan/travel-services/kool-flyers-club/"
+      // Was /plan/travel-services/kool-flyers-club/ — no such route. Link to the parent
+      // functional page so the card no longer 404s.
+      link: "/plan/travel-services"
     },
     {
       title: "Group Travel",
       description: "Travelling as a group, family or associates? It's fun travelling together but not always as fun to organize. Let us help you!",
       image: "/service_group_travel.jpg",
-      link: "/book-manage/manage-booking/group-booking/"
+      // Was /book-manage/manage-booking/group-booking/ — no such route. Link to the
+      // existing manage-booking page (functional form UI).
+      link: "/book-manage/manage-booking"
     },
     {
       title: "Exquisite Charter Flights",
       description: "Fly beyond luxury in our Private Jets by booking from any of our tiers; Classy, Executive or Royal.",
       image: "/service_charter.jpg",
-      link: "/plan/travel-services/charter-flights/"
+      // Was /plan/travel-services/charter-flights/ — no such route. Link to the parent
+      // functional page so the card no longer 404s.
+      link: "/plan/travel-services"
     }
   ]
 

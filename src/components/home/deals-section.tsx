@@ -186,22 +186,21 @@ export function DealsSection() {
             ))}
           </div>
 
-          {/* Mobile: 2-column grid — more compact */}
-          <div className="sm:hidden grid grid-cols-2 gap-2">
+          {/* Mobile: single-column full-width cards matching KQ (kenya-airways.com) */}
+          <div className="sm:hidden grid grid-cols-1 gap-3">
             {currentDeals.slice(0, 4).map((deal) => (
               <div
                 key={deal.id}
                 onClick={() => handleCardClick(deal)}
-                className="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col cursor-pointer hover:shadow-md transition-all duration-300 group"
+                className="bg-white rounded-xl overflow-hidden flex flex-row cursor-pointer hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative w-full h-[100px] overflow-hidden">
+                <div className="relative w-[140px] h-[130px] flex-shrink-0 overflow-hidden">
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${deal.image})` }} />
-                  <div className="absolute bottom-0 left-0 w-6 h-1 bg-[#ed1c24] rounded-tr-sm" />
                 </div>
-                <div className="px-2 py-1.5 flex flex-col flex-grow">
-                  <h3 className="font-serif italic text-xs font-bold text-[#0d0d0d] leading-tight mb-0.5">{deal.destination}</h3>
-                  <p className="text-gray-500 text-[10px] leading-tight">{deal.dateRange}</p>
-                  <span className="text-[10px] font-black text-[#ed1c24] mt-auto">{deal.price}</span>
+                <div className="px-4 py-3 flex flex-col justify-center flex-grow">
+                  <h3 className="font-serif italic text-base font-bold text-[#0d0d0d] leading-tight mb-1">{deal.destination}</h3>
+                  <p className="text-gray-500 text-xs leading-tight mb-1">{deal.dateRange}</p>
+                  <span className="text-sm font-black text-[#ed1c24] mt-1">{deal.price}</span>
                 </div>
               </div>
             ))}
