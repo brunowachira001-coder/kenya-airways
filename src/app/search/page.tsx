@@ -144,9 +144,15 @@ function SearchContent() {
       setError(null);
       setFlights([]);
 
+      // 10s timeout so the loading state can never get stuck
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       try {
-        const url = `/api/flights/search?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&depart=${encodeURIComponent(departDate)}`;
-        const res = await fetch(url);
+        const url = `/api/flights/search?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&depart=${encodeURIComponent(departDate)}&adults=${encodeURIComponent(String(adults))}`;
+        const res = await fetch(url, { signal: controller.signal });
+
+        clearTimeout(timeoutId);
 
         if (!res.ok) {
           const data = await res.json();
@@ -156,14 +162,19 @@ function SearchContent() {
         const data = await res.json();
         setFlights(data.flights || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
+        clearTimeout(timeoutId);
+        if (err instanceof Error && err.name === "AbortError") {
+          setError("Search is taking longer than expected. Please try again.");
+        } else {
+          setError(err instanceof Error ? err.message : "Something went wrong");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchFlights();
-  }, [origin, destination, departDate]);
+  }, [origin, destination, departDate, adults]);
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";

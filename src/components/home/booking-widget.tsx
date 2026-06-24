@@ -282,10 +282,10 @@ export function BookingWidget() {
                         </div>
                         <div className="flex items-center gap-3">
                           <button type="button" onClick={() => updatePassengers("adults", Math.max(1, passengers.adults - 1))} disabled={passengers.adults <= 1}
-                            className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">−</button>
-                          <span className="w-5 text-center font-semibold text-sm">{passengers.adults}</span>
+                            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-base font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">−</button>
+                          <span className="w-7 text-center font-semibold text-sm">{passengers.adults}</span>
                           <button type="button" onClick={() => updatePassengers("adults", Math.min(9, passengers.adults + 1))} disabled={totalPassengers >= 9}
-                            className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">+</button>
+                            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-base font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">+</button>
                         </div>
                       </div>
 
@@ -296,10 +296,10 @@ export function BookingWidget() {
                         </div>
                         <div className="flex items-center gap-3">
                           <button type="button" onClick={() => updatePassengers("children", Math.max(0, passengers.children - 1))} disabled={passengers.children <= 0}
-                            className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">−</button>
-                          <span className="w-5 text-center font-semibold text-sm">{passengers.children}</span>
+                            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-base font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">−</button>
+                          <span className="w-7 text-center font-semibold text-sm">{passengers.children}</span>
                           <button type="button" onClick={() => updatePassengers("children", Math.min(9, passengers.children + 1))} disabled={totalPassengers >= 9}
-                            className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">+</button>
+                            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-base font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">+</button>
                         </div>
                       </div>
 
@@ -310,10 +310,10 @@ export function BookingWidget() {
                         </div>
                         <div className="flex items-center gap-3">
                           <button type="button" onClick={() => updatePassengers("infants", Math.max(0, passengers.infants - 1))} disabled={passengers.infants <= 0}
-                            className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">−</button>
-                          <span className="w-5 text-center font-semibold text-sm">{passengers.infants}</span>
+                            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-base font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">−</button>
+                          <span className="w-7 text-center font-semibold text-sm">{passengers.infants}</span>
                           <button type="button" onClick={() => updatePassengers("infants", Math.min(passengers.adults, passengers.infants + 1))} disabled={passengers.infants >= passengers.adults}
-                            className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">+</button>
+                            className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-base font-bold hover:bg-gray-100 disabled:opacity-40 transition-colors">+</button>
                         </div>
                       </div>
 
