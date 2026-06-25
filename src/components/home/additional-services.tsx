@@ -45,7 +45,7 @@ export function AdditionalServices() {
           {/* Duty Free — large card with full-width image */}
           <Link
             href="/duty-free"
-            className="relative block w-full h-[220px] md:h-[180px] rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 order-1"
+            className="relative block w-full h-[360px] md:h-[180px] rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 order-1"
           >
             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(/duty_free_luxury.png)` }} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
@@ -64,7 +64,7 @@ export function AdditionalServices() {
             <Link
               key={index}
               href={service.link}
-              className={`relative flex w-full rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 bg-white border border-gray-100 md:flex-col md:border-0 order-${index + 2}`}
+              className={`relative flex w-full shrink-0 rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 bg-white border border-gray-100 md:flex-col md:border-0 order-${index + 2}`}
             >
               {/* Image — 140x140 square on mobile, full-width on desktop */}
               <div className="relative w-[140px] h-[140px] md:w-full md:h-[120px] flex-shrink-0 overflow-hidden">

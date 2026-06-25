@@ -41,10 +41,10 @@ export function Newsletter() {
   }
 
   return (
-    <div className="w-full py-4 md:py-6 px-4">
-      <div className="max-w-content mx-auto">
+    <div className="w-full py-4 md:py-6 px-2 sm:px-4">
+      <div className="w-full md:max-w-[1100px] md:mx-auto">
         {/* Compact container with red accent */}
-        <div className="rounded-2xl overflow-hidden relative h-[200px] md:h-[320px]">
+        <div className="rounded-2xl overflow-hidden relative h-[360px] md:h-[320px]">
           
           {/* Full background image */}
           <img 
@@ -54,9 +54,9 @@ export function Newsletter() {
           />
 
           {/* Dark overlay — bottom section on mobile, right side on desktop */}
-          <div className="absolute bottom-0 left-0 right-0 md:inset-y-0 md:right-0 md:left-auto md:w-1/2 lg:w-2/5 bg-[#1c2a38]/92 md:bg-[#1c2a38]/85 backdrop-blur-sm p-4 md:p-10 md:flex md:items-center">
+          <div className="absolute bottom-0 left-0 right-0 md:inset-y-0 md:right-0 md:left-auto md:w-1/2 lg:w-2/5 bg-[#1c2a38]/92 md:bg-[#1c2a38]/85 backdrop-blur-sm p-3 md:p-10 md:flex md:items-center">
             <div className="w-full">
-              <h2 className="font-sans text-base md:text-xl font-bold mb-1 text-white">Get the Latest Offers</h2>
+              <h2 className="font-sans text-2xl md:text-3xl font-bold mb-1 text-white">Get the Latest Offers</h2>
               <p className="text-gray-300 text-[10px] md:text-xs mb-3 md:mb-4">
                 Subscribe for news and exclusive offers.
               </p>
