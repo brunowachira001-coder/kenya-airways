@@ -148,7 +148,7 @@ export function BookingWidget() {
   const sortedOtherAirports = [...otherAirports].sort((a, b) => a.city.localeCompare(b.city))
 
   return (
-    <div className="bg-[#1c2a38] md:bg-[#1c2a38]/90 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-[1100px] mx-auto overflow-hidden relative z-20 text-white border border-white/10">
+    <div className="bg-[#1c2a38] md:bg-[#1c2a38]/90 backdrop-blur-md rounded-xl shadow-2xl w-[calc(100%-2rem)] sm:w-full max-w-[1100px] mx-auto overflow-hidden relative z-20 text-white border border-white/10">
       <Tabs defaultValue="flights" className="w-full">
         <div className="bg-transparent text-white w-full overflow-x-auto border-b border-white/10">
           <TabsList className="h-11 bg-transparent p-0 flex justify-start w-full min-w-max rounded-none">

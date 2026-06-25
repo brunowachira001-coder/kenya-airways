@@ -39,46 +39,46 @@ export function AdditionalServices() {
           <h2 className="font-sans text-base md:text-2xl font-bold text-[#0d0d0d]">Additional Services</h2>
         </div>
 
-        {/* 2x2 grid on mobile, 4-col on desktop — matches KQ layout */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {/* Duty Free banner card */}
+        {/* Mobile: 1 big Duty Free card on top + 3 stacked service cards (image-left) — matches KQ layout */}
+        {/* Desktop: 4-col grid */}
+        <div className="flex flex-col md:grid md:grid-cols-4 md:gap-3 gap-3">
+          {/* Duty Free — large card with full-width image */}
           <Link
             href="/duty-free"
-            className="relative block w-full rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
+            className="relative block w-full h-[220px] md:h-[180px] rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 order-1"
           >
-            <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
-              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(/duty_free_luxury.png)` }} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              {/* KQ red accent — bottom-right corner */}
-              <div className="absolute bottom-0 right-0 w-6 h-1 bg-[#ed1c24] rounded-tl-sm" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 flex justify-between items-end">
-                <h3 className="text-white text-sm md:text-base font-bold font-sans leading-tight">Duty Free Shopping</h3>
-                <div className="w-7 h-7 md:w-8 md:h-8 bg-[#ed1c24] text-white rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-md shrink-0 ml-2">
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
+            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(/duty_free_luxury.png)` }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+            {/* KQ red accent — bottom-right */}
+            <div className="absolute bottom-0 right-0 w-8 h-1 bg-[#ed1c24] rounded-tl-sm" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-end">
+              <h3 className="text-white text-lg md:text-base font-bold font-sans leading-tight">Duty Free Shopping</h3>
+              <div className="w-8 h-8 bg-[#ed1c24] text-white rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-md shrink-0 ml-2">
+                <ArrowRight className="w-4 h-4" />
               </div>
             </div>
           </Link>
 
-          {/* Services cards — image on top, title + arrow below */}
+          {/* Service cards — horizontal layout on mobile (image left, text right) */}
           {services.map((service, index) => (
             <Link
               key={index}
               href={service.link}
-              className="relative block w-full rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 bg-white"
+              className={`relative flex w-full rounded-xl overflow-hidden group shadow-sm hover:shadow-lg transition-all duration-300 bg-white border border-gray-100 md:flex-col md:border-0 order-${index + 2}`}
             >
-              <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
+              {/* Image — 140x140 square on mobile, full-width on desktop */}
+              <div className="relative w-[140px] h-[140px] md:w-full md:h-[120px] flex-shrink-0 overflow-hidden">
                 <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${service.image})` }} />
-                {/* KQ red accent — bottom-left */}
-                <div className="absolute bottom-0 left-0 w-6 h-1 bg-[#ed1c24] rounded-tr-sm" />
-                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
-                  <div className="flex justify-between items-end">
-                    <h3 className="text-white text-sm md:text-base font-bold font-sans leading-tight">{service.title}</h3>
-                    <div className="w-7 h-7 md:w-8 md:h-8 bg-[#ed1c24] text-white rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-md shrink-0 ml-2">
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                </div>
+                <div className="absolute bottom-0 left-0 w-8 h-1 bg-[#ed1c24] rounded-tr-sm" />
+              </div>
+              {/* Text — right side on mobile, below on desktop */}
+              <div className="flex-1 md:flex-none px-4 py-3 md:px-0 md:py-2 flex flex-col justify-center">
+                <h3 className="font-sans text-sm md:text-xs font-bold text-[#0d0d0d] group-hover:text-[#ed1c24] transition-colors leading-tight">
+                  {service.title}
+                </h3>
+                <p className="hidden md:block text-gray-500 text-[10px] mt-1 leading-tight line-clamp-2">
+                  {service.description}
+                </p>
               </div>
             </Link>
           ))}

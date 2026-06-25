@@ -149,17 +149,38 @@ export function DealsSection() {
                 <div className="w-5 h-1 bg-[#ed1c24] rounded-sm" />
                 <h2 className="font-serif italic text-base md:text-2xl text-[#0d0d0d]">Deals from</h2>
               </div>
-              <div className="relative w-full sm:w-52 z-10" ref={dropdownRef}>
-                <button 
+
+              {/* Mobile: horizontal scrollable region tabs (matches KQ) */}
+              <div className="sm:hidden -mx-4 px-4 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex gap-2 w-max">
+                  {Object.keys(DEALS_DATA).map((city) => (
+                    <button
+                      key={city}
+                      onClick={() => setSelectedCity(city)}
+                      className={`px-5 py-2.5 rounded-md text-sm font-semibold whitespace-nowrap transition-colors border ${
+                        selectedCity === city
+                          ? "bg-[#ed1c24] text-white border-[#ed1c24]"
+                          : "bg-white text-[#0d0d0d] border-gray-300 hover:border-gray-400"
+                      }`}
+                    >
+                      {city}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop: dropdown (kept for wider viewports) */}
+              <div className="hidden sm:block relative w-full sm:w-52 z-10" ref={dropdownRef}>
+                <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="w-full flex items-center justify-between px-4 py-2.5 border border-gray-300 rounded-md bg-white text-left text-sm font-normal text-[#0d0d0d] focus:outline-none focus:border-[#ed1c24] hover:border-gray-400 transition-colors"
                   aria-expanded={dropdownOpen}
                   aria-haspopup="listbox"
                 >
-                  {selectedCity} 
+                  {selectedCity}
                   <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
                 </button>
-                
+
                 {dropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-xl z-[60] py-1 w-full max-h-60 overflow-auto" role="listbox">
                     {Object.keys(DEALS_DATA).map((city) => (
