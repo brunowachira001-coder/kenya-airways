@@ -59,8 +59,8 @@ export default function PaymentPage() {
   
   // Use the total price from the store if available, otherwise calculate it
   const totalPrice = extras.totalPrice || (() => {
-    const basePrice = selectedOutboundFlight?.price || 27000
-    const returnPrice = selectedReturnFlight?.price || 24000
+    const basePrice = selectedOutboundFlight?.price || 22500
+    const returnPrice = selectedReturnFlight?.price || 20000
     
     let fareMultiplier = 1
     if (selectedFare === "Economy") fareMultiplier = 1.2

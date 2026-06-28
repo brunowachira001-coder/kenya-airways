@@ -22,7 +22,7 @@ export default function SeatSelectionPage() {
     if (isOccupied(row, col)) return
     
     const isExtraLegroom = row <= 2
-    const price = isExtraLegroom ? 1500 : 0
+    const price = isExtraLegroom ? 1250 : 0
     const seatId = `${row}${col}`
 
     if (selectedSeat?.id === seatId) {

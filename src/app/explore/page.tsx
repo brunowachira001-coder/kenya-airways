@@ -5,11 +5,11 @@ import { useBookingStore } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 
 const DESTINATIONS = [
-  { city: "Mombasa", code: "MBA", country: "Kenya", image: "/dest_mombasa.png", price: "KES 4,800" },
-  { city: "Dubai", code: "DXB", country: "UAE", image: "/dest_dubai.png", price: "KES 27,300" },
-  { city: "Mumbai", code: "BOM", country: "India", image: "/dest_mumbai.png", price: "KES 31,300" },
-  { city: "London", code: "LHR", country: "UK", image: "/hero_slide_2.png", price: "KES 53,900" },
-  { city: "New York", code: "JFK", country: "USA", image: "/hero_slide_3.png", price: "KES 69,000" },
+  { city: "Mombasa", code: "MBA", country: "Kenya", image: "/dest_mombasa.png", price: "KES 4,000" },
+  { city: "Dubai", code: "DXB", country: "UAE", image: "/dest_dubai.png", price: "KES 22,750" },
+  { city: "Mumbai", code: "BOM", country: "India", image: "/dest_mumbai.png", price: "KES 26,050" },
+  { city: "London", code: "LHR", country: "UK", image: "/hero_slide_2.png", price: "KES 44,950" },
+  { city: "New York", code: "JFK", country: "USA", image: "/hero_slide_3.png", price: "KES 57,500" },
 ]
 
 export default function ExplorePage() {
