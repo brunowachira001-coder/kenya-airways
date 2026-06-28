@@ -6,10 +6,10 @@ export type TripType = "round-trip" | "one-way" | "multi-city"
 // Pricing constants for extras — single source of truth across the booking flow.
 // Used by /booking/extras (radio + per-passenger counts) and /booking/review (display only).
 export const EXTRA_PRICING = {
-  extraBaggagePerBag: 4500, // KES per extra 23kg bag
-  travelInsurancePerPax: 2800, // KES per passenger
-  extraLegroomSeat: 2500, // KES for rows 1–2
-  holdBookingFee: 2610, // KES flat
+  extraBaggagePerBag: 2700, // KES per extra 23kg bag (40% off)
+  travelInsurancePerPax: 1680, // KES per passenger (40% off)
+  extraLegroomSeat: 1500, // KES for rows 1–2 (40% off)
+  holdBookingFee: 1566, // KES flat (40% off)
 } as const
 
 /**

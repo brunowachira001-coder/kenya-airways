@@ -15,7 +15,7 @@ export function TripSummary() {
   const returnPrice = selectedReturnFlight ? selectedReturnFlight.price * totalPassengers : 0
   const baseFare = outboundPrice + returnPrice
   
-  const extrasPrice = extras.extraBaggage * 5000 + (extras.travelInsurance ? 2500 * totalPassengers : 0) // rough mock
+  const extrasPrice = extras.extraBaggage * 3000 + (extras.travelInsurance ? 1500 * totalPassengers : 0) // rough mock (40% discount applied)
   const total = baseFare + extrasPrice
 
   return (
