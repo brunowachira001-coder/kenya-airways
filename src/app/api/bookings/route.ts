@@ -149,9 +149,14 @@ export async function POST(req: NextRequest) {
 
     // If the DB rejects the `extras` JSONB column (schema migration not applied),
     // retry without it so the booking still goes through. Extras stay in client state.
+    // Supabase error format is: "Could not find the 'extras' column of 'bookings' in the schema cache"
+    // (note: 'extras' precedes 'column', so the regex matches that order too).
     let finalBooking = booking
-    if (bookingError && /column .*extras/i.test(bookingError.message)) {
-      console.warn("`extras` column missing on bookings table — retrying without it. Run supabase-setup.sql to add the column.")
+    if (
+      bookingError &&
+      /'extras'.*column|column.*'extras'|extras.*schema cache/i.test(bookingError.message)
+    ) {
+      console.warn("`extras` column missing on bookings table — retrying without it. Run supabase-setup.sql (section 7b) to add the column.")
       const { extras: _extras, ...bookingDataNoExtras } = bookingData // eslint-disable-line @typescript-eslint/no-unused-vars
       const retry = await supabaseAdmin
         .from("bookings")

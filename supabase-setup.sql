@@ -44,7 +44,11 @@ CREATE TABLE IF NOT EXISTS bookings (
   -- Status
   payment_status VARCHAR(20) DEFAULT 'pending', -- pending, paid, failed, refunded
   booking_status VARCHAR(20) DEFAULT 'confirmed', -- confirmed, cancelled, completed
-  
+
+  -- Extras (JSONB) — baggage, insurance, seat, meals, holdBooking, services.
+  -- Persisted by /api/bookings so the booking survives a server restart.
+  extras JSONB,
+
   -- Timestamps
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
@@ -301,6 +305,15 @@ INSERT INTO bookings (
 INSERT INTO newsletter_subscribers (email) 
 VALUES ('subscriber@example.com');
 */
+
+-- ============================================
+-- 7b. IDEMPOTENT MIGRATIONS (safe to re-run)
+-- ============================================
+-- Use these for existing databases created before a given column was added.
+-- Each statement uses IF NOT EXISTS / DO blocks so it can be re-run safely.
+
+-- Add the `extras` JSONB column for bookings (fixes: "could not find the 'extras' column of 'bookings' in the schema cache").
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS extras JSONB;
 
 -- ============================================
 -- 8. VIEWS (Optional - for reporting)
