@@ -117,7 +117,7 @@ export function formatDealDateRange(
 + // price derived from priceNumber at render
 ```
 
-Defaults: 28 curated deals get offsets spread 1–14 days.
+Defaults for 28 curated deals: outbound offsets drawn from `{1, 3, 5, 7, 10, 14}`; return offset = outbound + 3 or + 7 (alternating). Resulting date spans are 1d–4d, 3d–10d, 5d–12d, etc.
 
 **Pricing centralization** (`src/lib/pricing.ts`):
 
@@ -238,7 +238,7 @@ rm -rf .next && npm run dev   # then exercise flows in browser
 
 | Risk | Mitigation |
 |---|---|
-| Mesh adds ~4,556 objects in module memory | Acceptable — ~500KB in memory, ~50KB after JSON. Modern browsers handle easily. |
+| Mesh adds ~4,556 objects in module memory | Mesh lives **server-side only** — `searchFlights()` is only called by `/api/flights/search/route.ts`. Client always calls the API, never imports flights.ts directly. ~500KB server memory, zero client bundle impact. |
 | SSR/CSR hydration mismatch on `new Date()` | All date formatters are client-side (`'use client'`). Server renders placeholder; client hydrates with real dates. |
 | `kqairways.sbs` may not be reachable from my environment | User confirms deployment first; if unreachable, fall back to Vercel preview URL. |
 | Mesh routes might not match "real" KQ flights | Acknowledged. Mesh is for search coverage; real bookings still go through Supabase/payment. |
