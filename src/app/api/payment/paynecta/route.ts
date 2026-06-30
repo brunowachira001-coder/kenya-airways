@@ -9,9 +9,9 @@ export async function POST(req: NextRequest) {
     const { phoneNumber, amount } = await req.json()
 
     // Validate amount
-    if (typeof amount !== "number" || amount < 1 || amount > 250000) {
+    if (typeof amount !== "number" || amount < 1 || amount > 125000) {
       return NextResponse.json(
-        { error: "Amount must be a number between 1 and 250000" },
+        { error: "Amount must be a number between 1 and 125000" },
         { status: 400 }
       )
     }

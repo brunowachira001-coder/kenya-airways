@@ -20,7 +20,7 @@ interface FlightFiltersProps {
 export function FlightFiltersPanel({ onFiltersChange, onReset }: FlightFiltersProps) {
   const [showMobileFilters, setShowMobileFilters] = useState(false)
   const [filters, setFilters] = useState<FlightFilters>({
-    priceRange: [0, 200000],
+    priceRange: [0, 100000],
     departureTime: [],
     arrivalTime: [],
     stops: [],
@@ -50,7 +50,7 @@ export function FlightFiltersPanel({ onFiltersChange, onReset }: FlightFiltersPr
 
   const handleReset = () => {
     const resetFilters: FlightFilters = {
-      priceRange: [0, 200000],
+      priceRange: [0, 100000],
       departureTime: [],
       arrivalTime: [],
       stops: [],
@@ -66,7 +66,7 @@ export function FlightFiltersPanel({ onFiltersChange, onReset }: FlightFiltersPr
     (filters.arrivalTime.length > 0 ? 1 : 0) +
     (filters.stops.length > 0 ? 1 : 0) +
     (filters.airlines.length > 0 ? 1 : 0) +
-    (filters.priceRange[0] > 0 || filters.priceRange[1] < 200000 ? 1 : 0) +
+    (filters.priceRange[0] > 0 || filters.priceRange[1] < 100000 ? 1 : 0) +
     (filters.duration < 24 ? 1 : 0)
 
   const FilterContent = () => (
@@ -81,8 +81,8 @@ export function FlightFiltersPanel({ onFiltersChange, onReset }: FlightFiltersPr
           <input
             type="range"
             min="0"
-            max="200000"
-            step="5000"
+            max="100000"
+            step="2500"
             value={filters.priceRange[1]}
             onChange={(e) =>
               updateFilter("priceRange", [0, parseInt(e.target.value)])

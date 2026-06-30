@@ -55,7 +55,7 @@ export default function FareSelectPage() {
   }, [setCurrentStep])
 
   // Simple mock
-  const basePrice = selectedOutboundFlight?.price || 45000
+  const basePrice = selectedOutboundFlight?.price || 22500
   
   // Calculate total passengers and price
   const totalPassengers = passengers.adults + passengers.children + passengers.infants

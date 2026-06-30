@@ -52,7 +52,7 @@ export default function SeatSelectionPage() {
             <div className="flex items-center gap-2"><div className="w-4 h-4 bg-green-100 border border-green-300 rounded"></div> Available</div>
             <div className="flex items-center gap-2"><div className="w-4 h-4 bg-gray-200 border border-gray-300 rounded"></div> Occupied</div>
             <div className="flex items-center gap-2"><div className="w-4 h-4 bg-[#ed1c24] border border-[#ed1c24] rounded"></div> Selected</div>
-            <div className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-100 border border-blue-300 rounded"></div> Extra Legroom (+KES 2,500)</div>
+            <div className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-100 border border-blue-300 rounded"></div> Extra Legroom (+KES 1,250)</div>
           </div>
 
           <div className="w-full max-w-[400px] mx-auto bg-gray-50 border border-gray-200 rounded-[40px] p-8 pb-16 shadow-inner relative">
@@ -67,7 +67,7 @@ export default function SeatSelectionPage() {
                       <button
                         key={`${row}${col}`}
                         onClick={() => handleSeatClick(row, col)}
-                        title={isOccupied(row, col) ? "Occupied" : `Seat ${row}${col} - ${row <= 2 ? 'Extra Legroom (KES 2,500)' : 'Included'}`}
+                        title={isOccupied(row, col) ? "Occupied" : `Seat ${row}${col} - ${row <= 2 ? 'Extra Legroom (KES 1,250)' : 'Included'}`}
                         className={`w-10 h-10 rounded-t-lg rounded-b flex items-center justify-center text-xs font-semibold border ${getSeatColor(row, col)} transition-colors`}
                       >
                         {col}
@@ -83,7 +83,7 @@ export default function SeatSelectionPage() {
                       <button
                         key={`${row}${col}`}
                         onClick={() => handleSeatClick(row, col)}
-                        title={isOccupied(row, col) ? "Occupied" : `Seat ${row}${col} - ${row <= 2 ? 'Extra Legroom (KES 2,500)' : 'Included'}`}
+                        title={isOccupied(row, col) ? "Occupied" : `Seat ${row}${col} - ${row <= 2 ? 'Extra Legroom (KES 1,250)' : 'Included'}`}
                         className={`w-10 h-10 rounded-t-lg rounded-b flex items-center justify-center text-xs font-semibold border ${getSeatColor(row, col)} transition-colors`}
                       >
                         {col}
