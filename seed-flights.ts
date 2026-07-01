@@ -67,13 +67,13 @@ const BASE_FLIGHT_SCHEDULES: BaseFlightSchedule[] = [
   { flightNumber: 'KQ002', origin: 'NBO', destination: 'JFK', departureTime: '23:59', arrivalTime: '06:59', durationMinutes: 900, aircraft: 'Boeing 787-8', economyPrice: 49500, businessPrice: 204000, stops: 0 },
   { flightNumber: 'KQ001', origin: 'JFK', destination: 'NBO', departureTime: '18:00', arrivalTime: '15:00', durationMinutes: 840, aircraft: 'Boeing 787-8', economyPrice: 48600, businessPrice: 201000, stops: 0 },
 
-  // NBO ↔ CDG (Paris)
-  { flightNumber: 'KQ113', origin: 'NBO', destination: 'CDG', departureTime: '22:00', arrivalTime: '05:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 23400, businessPrice: 99000, stops: 0, operatingDays: [1, 3, 5, 6] },
-  { flightNumber: 'KQ112', origin: 'CDG', destination: 'NBO', departureTime: '10:00', arrivalTime: '19:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 22800, businessPrice: 96000, stops: 0, operatingDays: [1, 3, 5, 6] },
+  // NBO ↔ CDG (Paris) - Now daily
+  { flightNumber: 'KQ113', origin: 'NBO', destination: 'CDG', departureTime: '22:00', arrivalTime: '05:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 23400, businessPrice: 99000, stops: 0 },
+  { flightNumber: 'KQ112', origin: 'CDG', destination: 'NBO', departureTime: '10:00', arrivalTime: '19:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 22800, businessPrice: 96000, stops: 0 },
 
-  // NBO ↔ AMS (Amsterdam)
-  { flightNumber: 'KQ115', origin: 'NBO', destination: 'AMS', departureTime: '21:00', arrivalTime: '04:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 22500, businessPrice: 94500, stops: 0, operatingDays: [0, 2, 4] },
-  { flightNumber: 'KQ114', origin: 'AMS', destination: 'NBO', departureTime: '11:00', arrivalTime: '20:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 21900, businessPrice: 91500, stops: 0, operatingDays: [0, 2, 4] },
+  // NBO ↔ AMS (Amsterdam) - Now daily
+  { flightNumber: 'KQ115', origin: 'NBO', destination: 'AMS', departureTime: '21:00', arrivalTime: '04:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 22500, businessPrice: 94500, stops: 0 },
+  { flightNumber: 'KQ114', origin: 'AMS', destination: 'NBO', departureTime: '11:00', arrivalTime: '20:30', durationMinutes: 510, aircraft: 'Boeing 787-8', economyPrice: 21900, businessPrice: 91500, stops: 0 },
 
   // NBO ↔ DOH (Doha)
   { flightNumber: 'KQ305', origin: 'NBO', destination: 'DOH', departureTime: '22:30', arrivalTime: '03:00', durationMinutes: 330, aircraft: 'Boeing 737-800', economyPrice: 16500, businessPrice: 60000, stops: 0 },
@@ -107,25 +107,25 @@ const BASE_FLIGHT_SCHEDULES: BaseFlightSchedule[] = [
   { flightNumber: 'KQ622', origin: 'NBO', destination: 'KIS', departureTime: '13:00', arrivalTime: '14:15', durationMinutes: 75, aircraft: 'Embraer E190', economyPrice: 2100, businessPrice: 5100, stops: 0 },
   { flightNumber: 'KQ621', origin: 'KIS', destination: 'NBO', departureTime: '09:00', arrivalTime: '10:15', durationMinutes: 75, aircraft: 'Embraer E190', economyPrice: 2300, businessPrice: 5400, stops: 0 },
 
-  // More European routes
-  { flightNumber: 'KQ117', origin: 'NBO', destination: 'FRA', departureTime: '21:30', arrivalTime: '05:30', durationMinutes: 480, aircraft: 'Boeing 787-8', economyPrice: 24000, businessPrice: 102000, stops: 0, operatingDays: [1, 3, 5] },
-  { flightNumber: 'KQ121', origin: 'NBO', destination: 'FCO', departureTime: '22:00', arrivalTime: '06:00', durationMinutes: 480, aircraft: 'Boeing 787-8', economyPrice: 23700, businessPrice: 100500, stops: 0, operatingDays: [1, 3, 5, 6] },
+  // More European routes - Now daily
+  { flightNumber: 'KQ117', origin: 'NBO', destination: 'FRA', departureTime: '21:30', arrivalTime: '05:30', durationMinutes: 480, aircraft: 'Boeing 787-8', economyPrice: 24000, businessPrice: 102000, stops: 0 },
+  { flightNumber: 'KQ121', origin: 'NBO', destination: 'FCO', departureTime: '22:00', arrivalTime: '06:00', durationMinutes: 480, aircraft: 'Boeing 787-8', economyPrice: 23700, businessPrice: 100500, stops: 0 },
 
   // Middle East
   { flightNumber: 'KQ307', origin: 'NBO', destination: 'AUH', departureTime: '21:00', arrivalTime: '03:00', durationMinutes: 300, aircraft: 'Boeing 787-8', economyPrice: 16200, businessPrice: 62400, stops: 0 },
   { flightNumber: 'KQ310', origin: 'NBO', destination: 'JED', departureTime: '22:30', arrivalTime: '03:30', durationMinutes: 300, aircraft: 'Boeing 787-8', economyPrice: 16500, businessPrice: 64500, stops: 0 },
 
-  // Southern Africa
-  { flightNumber: 'KQ580', origin: 'NBO', destination: 'MRU', departureTime: '09:00', arrivalTime: '13:00', durationMinutes: 240, aircraft: 'Boeing 787-8', economyPrice: 20400, businessPrice: 78000, stops: 0, operatingDays: [1, 4, 6] },
-  { flightNumber: 'KQ581', origin: 'MRU', destination: 'NBO', departureTime: '14:00', arrivalTime: '18:00', durationMinutes: 240, aircraft: 'Boeing 787-8', economyPrice: 20400, businessPrice: 78000, stops: 0, operatingDays: [1, 4, 6] },
+  // Southern Africa - Mauritius (Now daily)
+  { flightNumber: 'KQ580', origin: 'NBO', destination: 'MRU', departureTime: '09:00', arrivalTime: '13:00', durationMinutes: 240, aircraft: 'Boeing 787-8', economyPrice: 20400, businessPrice: 78000, stops: 0 },
+  { flightNumber: 'KQ581', origin: 'MRU', destination: 'NBO', departureTime: '14:00', arrivalTime: '18:00', durationMinutes: 240, aircraft: 'Boeing 787-8', economyPrice: 20400, businessPrice: 78000, stops: 0 },
 
   { flightNumber: 'KQ405', origin: 'NBO', destination: 'CPT', departureTime: '08:30', arrivalTime: '14:30', durationMinutes: 300, aircraft: 'Boeing 737-800', economyPrice: 14400, businessPrice: 58500, stops: 1 },
 
   // Asia
   { flightNumber: 'KQ886', origin: 'NBO', destination: 'BKK', departureTime: '22:00', arrivalTime: '10:00', durationMinutes: 600, aircraft: 'Boeing 787-8', economyPrice: 29400, businessPrice: 117000, stops: 0 },
 
-  // North America
-  { flightNumber: 'KQ104', origin: 'NBO', destination: 'YYZ', departureTime: '22:00', arrivalTime: '06:00', durationMinutes: 840, aircraft: 'Boeing 787-8', economyPrice: 46500, businessPrice: 186000, stops: 0, operatingDays: [1, 4, 6] },
+  // North America - Toronto (Now daily)
+  { flightNumber: 'KQ104', origin: 'NBO', destination: 'YYZ', departureTime: '22:00', arrivalTime: '06:00', durationMinutes: 840, aircraft: 'Boeing 787-8', economyPrice: 46500, businessPrice: 186000, stops: 0 },
 
   // West Africa
   { flightNumber: 'KQ492', origin: 'NBO', destination: 'LOS', departureTime: '22:00', arrivalTime: '04:00', durationMinutes: 360, aircraft: 'Boeing 737-800', economyPrice: 22500, businessPrice: 88500, stops: 0 },
