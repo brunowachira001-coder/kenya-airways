@@ -28,7 +28,7 @@ function FareTiers({
 }: {
   flight: Flight;
   cls: "economy" | "business";
-  onSelect: () => void;
+  onSelect: (tierIndex: number) => void;
 }) {
   const basePrice = cls === "economy" ? flight.economyPrice : flight.businessPrice;
   const tiers = [
@@ -97,7 +97,7 @@ function FareTiers({
               ))}
             </div>
             <button
-              onClick={onSelect}
+              onClick={() => onSelect(i)}
               className={`w-full mt-4 py-2 font-bold text-xs rounded-lg ${
                 t.recommended
                   ? "bg-[#ed1c24] text-white hover:bg-[#d61920]"
@@ -470,8 +470,7 @@ function SearchContent() {
                   <FareTiers
                     flight={flight}
                     cls={expanded.cls}
-                    onSelect={() => {
-                      const tierIndex = 1; // default to "recommended" (Standard)
+                    onSelect={(tierIndex) => {
                       handleSelect(flight, expanded.cls, tierIndex);
                     }}
                   />
