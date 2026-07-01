@@ -47,7 +47,18 @@ const FARES = [
 
 export default function FareSelectPage() {
   const router = useRouter()
-  const { setCurrentStep, selectedFare, setSelectedFare, selectedOutboundFlight, passengers } = useBookingStore()
+  const { 
+    setCurrentStep, 
+    selectedFare, 
+    setSelectedFare, 
+    selectedOutboundFlight, 
+    passengers,
+    origin,
+    destination,
+    departureDate,
+    returnDate,
+    cabinClass
+  } = useBookingStore()
   const [showSummary, setShowSummary] = useState(false)
 
   useEffect(() => {
@@ -174,7 +185,20 @@ export default function FareSelectPage() {
 
           <div className="mt-8 flex justify-between items-center">
             <button 
-              onClick={() => router.push("/search")}
+              onClick={() => {
+                // Build search URL with original search parameters
+                const params = new URLSearchParams()
+                if (origin) params.set('from', origin)
+                if (destination) params.set('to', destination)
+                if (departureDate) params.set('depart', departureDate)
+                if (returnDate) params.set('return', returnDate)
+                params.set('adults', passengers.adults.toString())
+                if (passengers.children > 0) params.set('children', passengers.children.toString())
+                if (passengers.infants > 0) params.set('infants', passengers.infants.toString())
+                if (cabinClass) params.set('cabin', cabinClass.toLowerCase())
+                
+                router.push(`/search?${params.toString()}`)
+              }}
               className="text-gray-600 font-semibold hover:underline"
             >
               Back to flights
