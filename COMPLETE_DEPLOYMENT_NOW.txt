@@ -1,0 +1,72 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║          🚀 KENYA AIRWAYS - FINAL DEPLOYMENT STEPS                   ║
+║              Deploy to: https://kqairways.sbs                        ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+📅 Date: July 1, 2026, 14:20
+✅ Status: Code pushed to GitHub
+⏱️  Time Remaining: 3 minutes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    ✅ COMPLETED:
+    
+    [✓] Code changes written
+    [✓] Files committed to Git
+    [✓] Pushed to GitHub
+    [✓] Vercel auto-deployment triggered
+    
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    ⚠️  ACTION REQUIRED (2 STEPS):
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 STEP 1: RUN SQL MIGRATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏱️  Time: 2 minutes
+🔗 Link: https://supabase.com/dashboard
+
+Instructions:
+1. Open Supabase Dashboard
+2. Select project: zkyyfvoiwwyovutoaznm
+3. Click: SQL Editor → New Query
+4. Display the SQL file:
+   
+   $ cat /home/bruno/kk/supabase-flights-migration.sql
+   
+5. Copy ALL the SQL output
+6. Paste into Supabase SQL Editor
+7. Click "Run" button
+8. Wait for: "Flights Table Migration Complete!"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 STEP 2: SEED THE DATABASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏱️  Time: 1 minute
+💻 Command:
+
+    cd /home/bruno/kk
+    npx tsx seed-flights.ts
+
+Expected Output:
+    🌱 Starting flight seeding...
+    📅 Generating flights for next 7 days from 2026-07-01
+    ✈️  Generated 350+ flight records
+    📥 Inserting flights into database...
+    ✅ Flight seeding complete!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 AFTER COMPLETION: Visit https://kqairways.sbs
+
+✅ Current dates everywhere (01 Jul 26 to 08 Jul 26)
+✅ Flight search working with real database data
+✅ 350+ flights across 50+ routes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
