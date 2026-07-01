@@ -198,7 +198,7 @@ export function generateMeshDeals(): Deal[] {
     const origin = AIRPORTS.find((a) => a.iata === f.origin)!
     const destination = AIRPORTS.find((a) => a.iata === f.destination)!
     const outOffset = 1 + Math.floor(seeded(f.flightNumber, 11) * 13) // 1..14
-    // // const retOffset = outOffset + 3 + Math.floor(seeded(f.flightNumber, 12) * 4) // Not used in Deal type // +3..+6
+    const durationDays = 3 + Math.floor(seeded(f.flightNumber, 12) * 4) // 3..6 days
     return {
       id: 10000 + i,
       origin: f.origin,
@@ -211,7 +211,9 @@ export function generateMeshDeals(): Deal[] {
       price: `KES ${f.economyPrice.toLocaleString()}`,
       priceNumber: f.economyPrice,
       image: heroImages[i % heroImages.length],
-      cabinClass: "Economy",
+      cabinClass: "Economy" as const,
+      startDaysFromNow: outOffset,
+      durationDays: durationDays,
     }
   })
 }
