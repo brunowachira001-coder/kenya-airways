@@ -60,6 +60,7 @@ export default function FareSelectPage() {
     cabinClass
   } = useBookingStore()
   const [showSummary, setShowSummary] = useState(false)
+  const [showPriceDetails, setShowPriceDetails] = useState(false)
 
   useEffect(() => {
     setCurrentStep(2)
@@ -94,12 +95,44 @@ export default function FareSelectPage() {
             </p>
             <p className="text-sm text-gray-600">
               Round trip price for all passengers (including taxes, fees and discounts). 
-              <button className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1">
+              <button 
+                onClick={() => setShowPriceDetails(!showPriceDetails)}
+                className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1"
+              >
                 See price details
                 <ExternalLink className="w-3 h-3" />
               </button>
             </p>
           </div>
+
+          {/* Price Details Breakdown */}
+          {showPriceDetails && (
+            <div className="mb-6 p-4 bg-gray-50 rounded border border-gray-200">
+              <h3 className="font-semibold mb-3">Price Breakdown</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Base Fare (per passenger)</span>
+                  <span className="font-medium">KES {basePrice.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Fare Type Multiplier ({selectedFare || "Standard"})</span>
+                  <span className="font-medium">×{fareMultiplier}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Number of Passengers</span>
+                  <span className="font-medium">×{totalPassengers}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Round Trip</span>
+                  <span className="font-medium">×2</span>
+                </div>
+                <div className="border-t pt-2 flex justify-between font-semibold">
+                  <span>Total Amount</span>
+                  <span className="text-brand-primary">KES {totalPrice.toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-3 justify-center mb-6 text-sm">
             <button className="text-gray-600 hover:underline inline-flex items-center gap-1">

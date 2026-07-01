@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useBookingStore, calculateBookingTotal, EXTRA_PRICING } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -8,6 +8,7 @@ import { ExternalLink, Luggage, Utensils, ShieldCheck, Armchair } from "lucide-r
 
 export default function ReviewPage() {
   const router = useRouter()
+  const [showPriceDetails, setShowPriceDetails] = useState(false)
   
   const { 
     setCurrentStep, 
@@ -428,12 +429,59 @@ export default function ReviewPage() {
             </p>
             <p className="text-xs sm:text-sm text-gray-600">
               Round trip price for all passengers (flights + extras, before taxes).
-              <button className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1">
+              <button 
+                onClick={() => setShowPriceDetails(!showPriceDetails)}
+                className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1"
+              >
                 See price details
                 <ExternalLink className="w-3 h-3" />
               </button>
             </p>
           </div>
+
+          {/* Price Details Breakdown */}
+          {showPriceDetails && (
+            <div className="mb-6 p-4 bg-gray-50 rounded border border-gray-200">
+              <h3 className="font-semibold mb-3">Price Breakdown</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Flight Total</span>
+                  <span className="font-medium">KES {flightTotal.toLocaleString()}</span>
+                </div>
+                {baggageTotal > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Extra Baggage</span>
+                    <span className="font-medium">KES {baggageTotal.toLocaleString()}</span>
+                  </div>
+                )}
+                {insuranceTotal > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Travel Insurance</span>
+                    <span className="font-medium">KES {insuranceTotal.toLocaleString()}</span>
+                  </div>
+                )}
+                {seatTotal > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Seat Selection</span>
+                    <span className="font-medium">KES {seatTotal.toLocaleString()}</span>
+                  </div>
+                )}
+                {holdBookingTotal > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Hold Booking</span>
+                    <span className="font-medium">KES {holdBookingTotal.toLocaleString()}</span>
+                  </div>
+                )}
+                <div className="border-t pt-2 flex justify-between font-semibold">
+                  <span>Grand Total</span>
+                  <span className="text-brand-primary">KES {grandTotal.toLocaleString()}</span>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  * Taxes and fees are included in the flight total
+                </p>
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-6 text-xs sm:text-sm border-t pt-4">
             <button className="text-gray-600 hover:underline inline-flex items-center gap-1">
