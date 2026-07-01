@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useBookingStore } from "@/store/booking-store"
+import { useBookingStore, calculateBookingTotal } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
 import { TripSummary } from "@/components/booking/trip-summary"
 import { Check, ExternalLink } from "lucide-react"
@@ -51,7 +51,9 @@ export default function FareSelectPage() {
     setCurrentStep, 
     selectedFare, 
     setSelectedFare, 
-    selectedOutboundFlight, 
+    selectedOutboundFlight,
+    selectedReturnFlight,
+    tripType,
     passengers,
     origin,
     destination,
@@ -68,12 +70,23 @@ export default function FareSelectPage() {
 
   // Simple mock
   const basePrice = selectedOutboundFlight?.price || 22500
-  
-  // Calculate total passengers and price
+
+  // Calculate total passengers
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
   const selectedFareData = FARES.find(f => f.name === selectedFare)
   const fareMultiplier = selectedFareData?.priceMultiplier || 1
-  const totalPrice = Math.round(basePrice * fareMultiplier * 2 * totalPassengers) // *2 for round trip
+
+  // Use the single-source-of-truth calculator so price matches review/payment pages.
+  // For one-way trips selectedReturnFlight is null, so returnBase = 0 → no doubling.
+  const totals = calculateBookingTotal({
+    selectedOutboundFlight,
+    selectedReturnFlight,
+    selectedFare,
+    passengers,
+    selectedSeat: null,
+    extras: { seats: [], extraBaggage: 0, travelInsurance: false, meals: {}, specialRequests: [] },
+  })
+  const totalPrice = totals.flightTotal
 
   const handleContinue = () => {
     if (selectedFare) {
@@ -94,7 +107,7 @@ export default function FareSelectPage() {
               Total price: <span className="text-3xl font-bold ml-2">KES {totalPrice.toLocaleString()}</span>
             </p>
             <p className="text-sm text-gray-600">
-              Round trip price for all passengers (including taxes, fees and discounts). 
+              {tripType === "round-trip" ? "Round trip price" : "One-way price"} for all passengers (including taxes, fees and discounts).{" "}
               <button 
                 onClick={() => setShowPriceDetails(!showPriceDetails)}
                 className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1"
@@ -122,10 +135,18 @@ export default function FareSelectPage() {
                   <span className="text-gray-600">Number of Passengers</span>
                   <span className="font-medium">×{totalPassengers}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Round Trip</span>
-                  <span className="font-medium">×2</span>
-                </div>
+                {tripType === "round-trip" && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Round Trip (outbound + return)</span>
+                    <span className="font-medium">×2</span>
+                  </div>
+                )}
+                {tripType === "one-way" && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Trip Type</span>
+                    <span className="font-medium">One Way</span>
+                  </div>
+                )}
                 <div className="border-t pt-2 flex justify-between font-semibold">
                   <span>Total Amount</span>
                   <span className="text-brand-primary">KES {totalPrice.toLocaleString()}</span>
@@ -188,6 +209,7 @@ export default function FareSelectPage() {
                   <div className={`p-4 text-center border-b ${isSelected ? "bg-brand-primary/5" : ""}`}>
                     <h3 className="font-bold text-lg">{fare.name}</h3>
                     <p className="text-2xl font-bold text-brand-secondary mt-2">KES {price.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">per person, one way</p>
                   </div>
                   
                   <ul className="p-4 space-y-4">
