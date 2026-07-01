@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { searchFlights } from "@/lib/flights";
 
 export const dynamic = "force-dynamic";
 
@@ -63,8 +64,8 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Fetch flights from database
-    const { data: flights, error } = await supabase
+    // Try Supabase first
+    const { data: dbFlights, error } = await supabase
       .from("flights")
       .select("*")
       .eq("origin", origin.toUpperCase())
@@ -75,29 +76,36 @@ export async function GET(req: NextRequest) {
       .order("departure_time", { ascending: true });
 
     if (error) {
-      console.error("[flights/search] Database error:", error);
-      return NextResponse.json(
-        { success: false, error: "Failed to fetch flights" },
-        { status: 500 }
-      );
+      console.warn("[flights/search] Database error, falling back to static data:", error.message);
     }
 
-    // Transform database response to match frontend Flight interface
-    const transformedFlights = (flights || []).map((f) => ({
-      id: f.id,
-      origin: f.origin,
-      destination: f.destination,
-      airline: f.airline,
-      flightNumber: f.flight_number,
-      departureTime: f.departure_time,
-      arrivalTime: f.arrival_time,
-      duration: formatDuration(f.duration_minutes),
-      aircraft: f.aircraft,
-      economyPrice: f.economy_price,
-      businessPrice: f.business_price,
-      stops: f.stops,
-      availableSeats: f.available_seats,
-    }));
+    // If Supabase returned flights, use them; otherwise fall back to static data
+    let transformedFlights;
+
+    if (!error && dbFlights && dbFlights.length > 0) {
+      transformedFlights = dbFlights.map((f) => ({
+        id: f.id,
+        origin: f.origin,
+        destination: f.destination,
+        airline: f.airline,
+        flightNumber: f.flight_number,
+        departureTime: f.departure_time,
+        arrivalTime: f.arrival_time,
+        duration: formatDuration(f.duration_minutes),
+        aircraft: f.aircraft,
+        economyPrice: f.economy_price,
+        businessPrice: f.business_price,
+        stops: f.stops,
+        availableSeats: f.available_seats,
+      }));
+    } else {
+      // Fall back to static flight library — covers all routes, date-varied prices
+      const staticFlights = searchFlights(origin.toUpperCase(), destination.toUpperCase(), travelDate);
+      transformedFlights = staticFlights.map((f) => ({
+        ...f,
+        availableSeats: 9,
+      }));
+    }
 
     return NextResponse.json(
       {
