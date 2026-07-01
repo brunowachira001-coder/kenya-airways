@@ -1,0 +1,85 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                   KENYA AIRWAYS - DEPLOYMENT                      ║
+║                  Database Migration Required                      ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+📅 Date: July 1, 2026, 13:27
+🎯 Goal: Deploy flights with current dates to kqairways.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ STEP 1: RUN SQL MIGRATION (You must do this manually)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open: https://supabase.com/dashboard
+2. Select your project
+3. Click: SQL Editor → New Query
+4. Copy ALL content from: supabase-flights-migration.sql
+5. Paste and click "Run"
+6. Wait for success message
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ STEP 2: RUN DEPLOYMENT SCRIPT (Automatic after Step 1)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After SQL migration succeeds, run:
+
+    cd /home/bruno/kk
+    ./deploy-flights.sh
+
+This will:
+✓ Seed 350+ flights (next 7 days)
+✓ Commit all changes
+✓ Push to GitHub
+✓ Deploy to kqairways.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 WHAT GETS DEPLOYED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Database: 
+   - flights table with 17 columns
+   - 6 performance indexes
+   - 350+ flight records (Jul 1-7, 2026)
+
+✅ Code:
+   - API now queries database
+   - All dates show current week
+   - No more hardcoded past dates
+
+✅ Files:
+   - Migration SQL
+   - Seed script
+   - Documentation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🧪 TESTING AFTER DEPLOYMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Visit: https://kqairways.com
+2. Check deals: Should show "01 Jul 26 to 08 Jul 26"
+3. Search: NBO → MBA, today's date
+4. Expect: 6+ flights showing
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- DEPLOYMENT_CHECKLIST.md - Full checklist
+- FLIGHTS_MIGRATION_GUIDE.md - Complete guide
+- QUICK_START.md - TL;DR reference
+- IMPLEMENTATION_SUMMARY.md - Full summary
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏰ TIME REQUIRED: 5 minutes total
+   - Step 1 (SQL): 2 minutes
+   - Step 2 (Deploy): 3 minutes
+
+🚀 Ready? Start with Step 1 above!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

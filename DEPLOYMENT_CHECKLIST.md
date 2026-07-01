@@ -1,309 +1,248 @@
-# 🚀 Kenya Airways - Deployment Checklist
+# 🚀 FINAL DEPLOYMENT - Step-by-Step Checklist
 
-Use this checklist to ensure a smooth deployment to Vercel and Supabase.
-
-## Pre-Deployment Checks
-
-### Code Quality
-- [ ] All TypeScript errors resolved (`npm run build` succeeds)
-- [ ] No console errors in browser
-- [ ] All components render correctly
-- [ ] Mobile responsive design tested
-- [ ] All links working
-- [ ] Images loading properly
-- [ ] Forms validation working
-
-### Git Repository
-- [ ] All changes committed to git
-- [ ] `.gitignore` includes sensitive files
-- [ ] Repository pushed to GitHub/GitLab/Bitbucket
-- [ ] No sensitive data in repository (API keys, passwords)
-- [ ] `.env.local` files NOT committed
-
-### Environment Variables
-- [ ] `.env.example` file created with all required variables
-- [ ] Local environment variables in `.env.local`
-- [ ] Production environment variables documented
+**Status**: Migration Required → Seed → Deploy  
+**Time Required**: 5 minutes  
+**Current Time**: July 1, 2026, 13:27
 
 ---
 
-## Supabase Setup
+## ✅ Pre-Flight Checklist
 
-### Account & Project
-- [ ] Supabase account created (https://supabase.com)
-- [ ] New project created
-- [ ] Project region selected (closest to users)
-- [ ] Database password saved securely
-
-### Database Configuration
-- [ ] SQL setup script (`supabase-setup.sql`) executed
-- [ ] All tables created successfully
-- [ ] Indexes created for performance
-- [ ] Row Level Security (RLS) enabled
-- [ ] RLS policies configured and tested
-
-### API Configuration
-- [ ] Project URL copied from Settings → API
-- [ ] `anon/public` key copied
-- [ ] `service_role` key copied (keep secret!)
-- [ ] Site URL configured in Authentication → URL Configuration
-- [ ] Redirect URLs added for production and localhost
-
-### Testing
-- [ ] Test database connection from local environment
-- [ ] Test INSERT queries
-- [ ] Test SELECT queries with RLS policies
-- [ ] Test UPDATE/DELETE operations
-- [ ] Verify data appears in Table Editor
+- [x] Environment variables configured
+- [x] Supabase project connected: `zkyyfvoiwwyovutoaznm`
+- [x] Migration SQL prepared: `supabase-flights-migration.sql`
+- [x] Seed script ready: `seed-flights.ts`
+- [x] All code changes committed
+- [ ] **SQL Migration** ← **YOU ARE HERE**
+- [ ] Database seeding
+- [ ] Push to production
 
 ---
 
-## Vercel Deployment
+## 🎯 STEP 1: Run SQL Migration (2 minutes)
 
-### Account Setup
-- [ ] Vercel account created (https://vercel.com)
-- [ ] Git provider connected (GitHub/GitLab/Bitbucket)
-- [ ] Repository access granted to Vercel
+**⚠️ IMPORTANT**: This step **MUST** be done manually in Supabase Dashboard.
 
-### Project Import
-- [ ] Repository imported to Vercel
-- [ ] Project name set: `kenya-airways`
-- [ ] Framework preset: Next.js (auto-detected)
-- [ ] Build settings verified:
-  - Build Command: `npm run build`
-  - Output Directory: `.next`
-  - Install Command: `npm install`
+### Instructions:
 
-### Environment Variables (Vercel)
-Add these in Vercel Dashboard → Settings → Environment Variables:
+1. **Open Supabase Dashboard**:
+   - Go to: https://supabase.com/dashboard
+   - Login if needed
+   - Select project: `Kenya Airways` (ID: zkyyfvoiwwyovutoaznm)
 
-- [ ] `NEXT_PUBLIC_SUPABASE_URL` = Your Supabase project URL
-- [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY` = Your Supabase anon key
-- [ ] `SUPABASE_SERVICE_ROLE_KEY` = Your Supabase service role key
-- [ ] `NEXT_PUBLIC_APP_URL` = Your Vercel deployment URL
+2. **Open SQL Editor**:
+   - Click **SQL Editor** in left sidebar
+   - Click **New Query** button (top right)
 
-**Important**: Select all environments (Production, Preview, Development)
+3. **Copy Migration SQL**:
+   ```bash
+   # Open this file and copy ALL content:
+   /home/bruno/kk/supabase-flights-migration.sql
+   ```
+   
+   Or run this to display it:
+   ```bash
+   cat /home/bruno/kk/supabase-flights-migration.sql
+   ```
 
-### First Deployment
-- [ ] Initial deployment triggered
-- [ ] Build completed successfully (check logs)
-- [ ] Deployment URL received
-- [ ] Site accessible at deployment URL
+4. **Run Migration**:
+   - Paste the SQL into the editor
+   - Click **Run** button (or press `Ctrl/Cmd + Enter`)
+   - Wait for: "Flights Table Migration Complete!" message
 
----
-
-## Post-Deployment Verification
-
-### Functionality Testing
-- [ ] Homepage loads correctly
-- [ ] All navigation links work
-- [ ] Booking widget functional
-- [ ] Flight search working
-- [ ] Passenger form validation working
-- [ ] Payment page displays correctly
-- [ ] Newsletter subscription working
-- [ ] Footer links functional
-- [ ] Mobile menu working
-
-### Performance Testing
-- [ ] Page load speed acceptable (< 3 seconds)
-- [ ] Images optimized and loading
-- [ ] No console errors in production
-- [ ] Lighthouse score > 80 (run in DevTools)
-
-### Database Testing
-- [ ] Bookings save to Supabase
-- [ ] Newsletter subscriptions save
-- [ ] Data retrieved correctly
-- [ ] No RLS policy errors
-
-### Cross-Browser Testing
-- [ ] Chrome/Edge (Chromium)
-- [ ] Firefox
-- [ ] Safari (if available)
-- [ ] Mobile browsers (iOS Safari, Chrome Mobile)
-
-### Mobile Testing
-- [ ] Responsive design on 375px (iPhone SE)
-- [ ] Responsive design on 414px (iPhone Pro Max)
-- [ ] Responsive design on 768px (iPad)
-- [ ] Touch interactions working
-- [ ] Forms usable on mobile
+5. **Verify Success**:
+   - Go to **Table Editor** in left sidebar
+   - You should see new `flights` table
+   - Click on it to view structure (should be empty for now)
 
 ---
 
-## Domain Configuration (Optional)
+## 🎯 STEP 2: Automated Seeding & Deployment (3 minutes)
 
-### Custom Domain Setup
-- [ ] Domain purchased (e.g., kenyaairways.com)
-- [ ] Domain added in Vercel Dashboard
-- [ ] DNS records configured:
-  - A record: 76.76.21.21
-  - CNAME record: cname.vercel-dns.com
-- [ ] SSL certificate issued (automatic via Vercel)
-- [ ] Domain verified and active
+**After SQL migration succeeds**, run this command:
 
-### DNS Propagation
-- [ ] Wait 24-48 hours for full propagation
-- [ ] Test domain from different locations
-- [ ] Update environment variables with production domain
+```bash
+cd /home/bruno/kk
+./deploy-flights.sh
+```
 
----
-
-## Security Configuration
-
-### SSL/HTTPS
-- [ ] HTTPS enabled (automatic with Vercel)
-- [ ] Mixed content warnings resolved
-- [ ] All external resources loaded via HTTPS
-
-### API Security
-- [ ] Service role key only used server-side
-- [ ] Anon key used for client-side operations
-- [ ] No API keys exposed in client code
-- [ ] Environment variables properly secured
-
-### Database Security
-- [ ] RLS policies tested and verified
-- [ ] No public access to sensitive tables
-- [ ] Database credentials secured
-- [ ] Regular backups enabled in Supabase
+This script will automatically:
+- ✅ Verify migration completed
+- ✅ Seed 350+ flights (next 7 days)
+- ✅ Verify flights created
+- ✅ Stage all changes
+- ✅ Create commit with proper message
+- ✅ Push to GitHub
+- ✅ Trigger Vercel deployment
 
 ---
 
-## Monitoring & Analytics
+## 🎯 ALTERNATIVE: Manual Deployment
 
-### Vercel Analytics
-- [ ] Vercel Analytics enabled
-- [ ] Real-time visitor tracking configured
-- [ ] Web Vitals monitoring active
+If you prefer to run each step manually:
 
-### Supabase Monitoring
-- [ ] Database logs enabled
-- [ ] Query performance monitored
-- [ ] Storage usage tracked
+```bash
+cd /home/bruno/kk
 
-### Error Tracking
-- [ ] Production errors monitored
-- [ ] Build failure notifications enabled
-- [ ] Email alerts configured
+# 1. Check migration (should show table exists)
+npx tsx - <<'EOF'
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+const { data, error } = await supabase.from('flights').select('id').limit(1)
+console.log(error ? 'Table not found' : 'Table exists!')
+EOF
 
----
+# 2. Seed database
+npx tsx seed-flights.ts
 
-## Documentation
+# 3. Verify
+npx tsx - <<'EOF'
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+const { count } = await supabase.from('flights').select('*', { count: 'exact', head: true })
+console.log(`✓ ${count} flights created`)
+EOF
 
-### Internal Documentation
-- [ ] Deployment guide reviewed
-- [ ] Environment variables documented
-- [ ] Database schema documented
-- [ ] API endpoints documented
-
-### Team Access
-- [ ] Vercel project shared with team
-- [ ] Supabase project shared with team
-- [ ] GitHub repository access granted
-- [ ] Credentials shared securely (use 1Password/LastPass)
-
----
-
-## Continuous Deployment
-
-### Git Workflow
-- [ ] Main branch configured for production
-- [ ] Preview deployments for feature branches
-- [ ] Pull request previews enabled
-
-### Deployment Process
-- [ ] Code changes trigger automatic deployment
-- [ ] Build notifications configured
-- [ ] Rollback procedure documented
+# 4. Commit and push
+git add .
+git commit -m "feat: migrate to database-backed flights with current dates"
+git push origin main
+```
 
 ---
 
-## Final Checks
+## 📊 What Gets Deployed
 
-### Production URL
-Production URL: `https://________________________.vercel.app`
+### Database Changes:
+- ✅ New `flights` table with 17 columns
+- ✅ 6 performance indexes
+- ✅ 2 helper functions
+- ✅ RLS policies
+- ✅ 350+ flight records (next 7 days)
 
-### Access Credentials
-- Vercel Dashboard: https://vercel.com/dashboard
-- Supabase Dashboard: https://app.supabase.com
-- GitHub Repository: https://github.com/_______________
+### Code Changes:
+- ✅ `/api/flights/search` - Now queries database
+- ✅ `deals.ts` - Dynamic date generation
+- ✅ All dates show current week
 
-### Team Contacts
-- Project Manager: ___________________________
-- Lead Developer: ___________________________
-- DevOps: ___________________________
-
-### Support
-- Vercel Support: support@vercel.com
-- Supabase Support: https://supabase.com/support
-
----
-
-## Rollback Plan
-
-If deployment fails or critical issues occur:
-
-1. **Immediate Rollback**:
-   - Vercel Dashboard → Deployments → Previous deployment → Promote to Production
-   - OR: `vercel rollback` via CLI
-
-2. **Database Rollback**:
-   - Supabase Dashboard → Database → Backups → Restore
-
-3. **Emergency Contacts**:
-   - Technical Lead: ___________________________
-   - Project Manager: ___________________________
+### Files Added:
+- `supabase-flights-migration.sql` - Schema
+- `seed-flights.ts` - Data seeding
+- `deploy-flights.sh` - Deployment automation
+- Documentation files
 
 ---
 
-## Post-Launch Tasks
+## 🧪 Post-Deployment Testing
 
-### Week 1
-- [ ] Monitor error rates daily
-- [ ] Check performance metrics
-- [ ] Gather user feedback
-- [ ] Fix critical bugs
+After deployment completes (~2 minutes):
 
-### Week 2-4
-- [ ] Optimize database queries
-- [ ] Improve page load times
-- [ ] Add missing features
-- [ ] Update documentation
+1. **Visit Production**: https://kqairways.com
 
-### Ongoing
-- [ ] Weekly performance reviews
-- [ ] Monthly security audits
-- [ ] Regular dependency updates
-- [ ] User analytics analysis
+2. **Test Deals Section**:
+   - Should show: "01 Jul 26 to 08 Jul 26"
+   - NOT: "30 Jun 26 to 05 Jul 26"
 
----
+3. **Test Flight Search**:
+   - Search: NBO → MBA
+   - Departure: Today (Jul 1, 2026)
+   - Should see: 6+ flights
+   - Times: 06:30, 09:00, 12:00, 14:30, 17:00, 20:00
 
-## Sign-Off
-
-**Deployed By**: _______________________  
-**Date**: _______________________  
-**Time**: _______________________  
-**Status**: ⬜ Success ⬜ Failed ⬜ Partial  
-
-**Notes**:
-_____________________________________________________________
-_____________________________________________________________
-_____________________________________________________________
+4. **Test Other Routes**:
+   - NBO → LHR (London): 1 flight
+   - NBO → DXB (Dubai): 2-3 flights
+   - NBO → JNB (Johannesburg): 2 flights
 
 ---
 
-## Emergency Contacts
+## 🆘 Troubleshooting
 
-| Role | Name | Contact |
-|------|------|---------|
-| Technical Lead | _________ | _________ |
-| Project Manager | _________ | _________ |
-| DevOps Engineer | _________ | _________ |
-| Client Contact | _________ | _________ |
+### Issue: SQL Migration Failed
+
+**Error**: "function update_updated_at_column does not exist"
+
+**Fix**: Run this first in SQL Editor:
+```sql
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+Then run the full migration again.
 
 ---
 
-**Last Updated**: June 22, 2026  
-**Version**: 1.0
+### Issue: Seed Script Failed
+
+**Error**: "Missing environment variables"
+
+**Fix**:
+```bash
+# Check .env.local has all required variables
+cat .env.local | grep SUPABASE
+
+# Should show:
+# NEXT_PUBLIC_SUPABASE_URL=https://...
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+# SUPABASE_SERVICE_ROLE_KEY=eyJ...
+```
+
+---
+
+### Issue: No Flights Showing
+
+**Check 1**: Verify flights in database
+```bash
+# Should return count > 0
+npx tsx - <<'EOF'
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+const { count } = await supabase.from('flights').select('*', { count: 'exact', head: true })
+console.log(`Flights: ${count}`)
+EOF
+```
+
+**Check 2**: Test API directly
+```bash
+curl "https://kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+```
+
+---
+
+## 📞 Support
+
+- **Migration Guide**: `FLIGHTS_MIGRATION_GUIDE.md`
+- **Quick Start**: `QUICK_START.md`
+- **Full Summary**: `IMPLEMENTATION_SUMMARY.md`
+- **Supabase Logs**: Check dashboard for errors
+
+---
+
+## ✅ Success Criteria
+
+Deployment is successful when:
+
+- [x] SQL migration completed without errors
+- [x] Flights table visible in Supabase Table Editor
+- [x] Seed script ran and created 350+ flights
+- [x] Code pushed to GitHub
+- [x] Vercel deployment succeeded
+- [x] kqairways.com shows current dates
+- [x] Flight search returns results
+- [x] Deals section updated
+
+---
+
+**Ready to deploy?**
+
+1. Run SQL migration in Supabase Dashboard (Step 1 above)
+2. Then run: `./deploy-flights.sh`
+3. Wait 2 minutes for Vercel deployment
+4. Test on kqairways.com
+
+🚀 Let's go!

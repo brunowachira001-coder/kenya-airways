@@ -1,3 +1,5 @@
+import { generateDateRange } from './date-utils'
+
 export type Deal = {
   id: number
   origin: string          // IATA code: "NBO", "MBA"
@@ -6,56 +8,80 @@ export type Deal = {
   destinationCity: string
   country: string
   region: "Africa" | "Europe" | "Asia" | "America" | "Middle East"
-  dateRange: string       // "17 Jun 26 to 18 Jun 26"
+  dateRange: string       // Dynamic: "01 Jul 26 to 08 Jul 26" (always current)
   price: string           // "KES 99,925"
   priceNumber: number     // 99925 (for sorting/filtering)
   image: string           // "/hero_slide_X.png" or "/dest_xxx.png"
   cabinClass: "Economy" | "Business"
+  startDaysFromNow: number // Days from today to start date
+  durationDays: number     // Duration of the trip
 }
 
-export const DEALS: Deal[] = [
-  // Africa deals (8+)
-  { id: 1, origin: "NBO", destination: "MBA", originCity: "Nairobi", destinationCity: "Mombasa", country: "Kenya", region: "Africa", dateRange: "17 Jun 26 to 18 Jun 26", price: "KES 4,150", priceNumber: 4150, image: "/dest_mombasa.png", cabinClass: "Economy" },
-  { id: 2, origin: "NBO", destination: "ZNZ", originCity: "Nairobi", destinationCity: "Zanzibar", country: "Tanzania", region: "Africa", dateRange: "17 Jun 26 to 21 Jun 26", price: "KES 11,800", priceNumber: 11800, image: "/hero_slide_2.png", cabinClass: "Economy" },
-  { id: 3, origin: "NBO", destination: "DAR", originCity: "Nairobi", destinationCity: "Dar es Salaam", country: "Tanzania", region: "Africa", dateRange: "17 Jun 26 to 18 Jun 26", price: "KES 9,400", priceNumber: 9400, image: "/dest_daressalaam.png", cabinClass: "Economy" },
-  { id: 4, origin: "NBO", destination: "JNB", originCity: "Nairobi", destinationCity: "Johannesburg", country: "South Africa", region: "Africa", dateRange: "17 Jun 26 to 24 Jun 26", price: "KES 16,250", priceNumber: 16250, image: "/hero_slide_4.png", cabinClass: "Economy" },
-  { id: 5, origin: "NBO", destination: "CPT", originCity: "Nairobi", destinationCity: "Cape Town", country: "South Africa", region: "Africa", dateRange: "20 Jun 26 to 27 Jun 26", price: "KES 19,650", priceNumber: 19650, image: "/hero_slide_1.png", cabinClass: "Economy" },
-  { id: 6, origin: "NBO", destination: "MRU", originCity: "Nairobi", destinationCity: "Mauritius", country: "Mauritius", region: "Africa", dateRange: "18 Jun 26 to 25 Jun 26", price: "KES 22,450", priceNumber: 22450, image: "/hero_slide_3.png", cabinClass: "Economy" },
-  { id: 7, origin: "NBO", destination: "ADD", originCity: "Nairobi", destinationCity: "Addis Ababa", country: "Ethiopia", region: "Africa", dateRange: "17 Jun 26 to 19 Jun 26", price: "KES 8,100", priceNumber: 8100, image: "/hero_slide_2.png", cabinClass: "Economy" },
-  { id: 8, origin: "NBO", destination: "LOS", originCity: "Nairobi", destinationCity: "Lagos", country: "Nigeria", region: "Africa", dateRange: "22 Jun 26 to 29 Jun 26", price: "KES 18,200", priceNumber: 18200, image: "/hero_slide_4.png", cabinClass: "Economy" },
+// Base deal data without dynamic dates
+const BASE_DEALS: Omit<Deal, 'dateRange'>[] = [
+  // Africa deals (8+) - Short haul trips (1-7 days duration)
+  { id: 1, origin: "NBO", destination: "MBA", originCity: "Nairobi", destinationCity: "Mombasa", country: "Kenya", region: "Africa", price: "KES 16,595", priceNumber: 16595, image: "/dest_mombasa.png", cabinClass: "Economy", startDaysFromNow: 3, durationDays: 1 },
+  { id: 2, origin: "NBO", destination: "ZNZ", originCity: "Nairobi", destinationCity: "Zanzibar", country: "Tanzania", region: "Africa", price: "KES 24,800", priceNumber: 24800, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 5, durationDays: 4 },
+  { id: 3, origin: "NBO", destination: "DAR", originCity: "Nairobi", destinationCity: "Dar es Salaam", country: "Tanzania", region: "Africa", price: "KES 37,745", priceNumber: 37745, image: "/dest_daressalaam.png", cabinClass: "Economy", startDaysFromNow: 2, durationDays: 1 },
+  { id: 4, origin: "NBO", destination: "JNB", originCity: "Nairobi", destinationCity: "Johannesburg", country: "South Africa", region: "Africa", price: "KES 42,650", priceNumber: 42650, image: "/hero_slide_4.png", cabinClass: "Economy", startDaysFromNow: 7, durationDays: 7 },
+  { id: 5, origin: "NBO", destination: "CPT", originCity: "Nairobi", destinationCity: "Cape Town", country: "South Africa", region: "Africa", price: "KES 48,950", priceNumber: 48950, image: "/hero_slide_1.png", cabinClass: "Economy", startDaysFromNow: 10, durationDays: 7 },
+  { id: 6, origin: "NBO", destination: "MRU", originCity: "Nairobi", destinationCity: "Mauritius", country: "Mauritius", region: "Africa", price: "KES 55,450", priceNumber: 55450, image: "/hero_slide_3.png", cabinClass: "Economy", startDaysFromNow: 8, durationDays: 7 },
+  { id: 7, origin: "NBO", destination: "ADD", originCity: "Nairobi", destinationCity: "Addis Ababa", country: "Ethiopia", region: "Africa", price: "KES 21,100", priceNumber: 21100, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 4, durationDays: 2 },
+  { id: 8, origin: "NBO", destination: "LOS", originCity: "Nairobi", destinationCity: "Lagos", country: "Nigeria", region: "Africa", price: "KES 38,200", priceNumber: 38200, image: "/hero_slide_4.png", cabinClass: "Economy", startDaysFromNow: 12, durationDays: 7 },
 
-  // Europe deals (5+)
-  { id: 9, origin: "NBO", destination: "LHR", originCity: "Nairobi", destinationCity: "London", country: "United Kingdom", region: "Europe", dateRange: "12 Jun 26 to 19 Jun 26", price: "KES 12,500", priceNumber: 12500, image: "/hero_slide_1.png", cabinClass: "Economy" },
-  { id: 10, origin: "NBO", destination: "CDG", originCity: "Nairobi", destinationCity: "Paris", country: "France", region: "Europe", dateRange: "15 Jun 26 to 22 Jun 26", price: "KES 26,350", priceNumber: 26350, image: "/hero_slide_2.png", cabinClass: "Economy" },
-  { id: 11, origin: "NBO", destination: "AMS", originCity: "Nairobi", destinationCity: "Amsterdam", country: "Netherlands", region: "Europe", dateRange: "18 Jun 26 to 25 Jun 26", price: "KES 28,150", priceNumber: 28150, image: "/hero_slide_3.png", cabinClass: "Economy" },
-  { id: 12, origin: "NBO", destination: "FRA", originCity: "Nairobi", destinationCity: "Frankfurt", country: "Germany", region: "Europe", dateRange: "20 Jun 26 to 28 Jun 26", price: "KES 27,200", priceNumber: 27200, image: "/hero_slide_4.png", cabinClass: "Economy" },
-  { id: 13, origin: "NBO", destination: "FCO", originCity: "Nairobi", destinationCity: "Rome", country: "Italy", region: "Europe", dateRange: "22 Jun 26 to 30 Jun 26", price: "KES 28,800", priceNumber: 28800, image: "/hero_slide_1.png", cabinClass: "Economy" },
+  // Europe deals (5+) - Long haul (7-13 days)
+  { id: 9, origin: "NBO", destination: "LHR", originCity: "Nairobi", destinationCity: "London", country: "United Kingdom", region: "Europe", price: "KES 99,925", priceNumber: 99925, image: "/hero_slide_1.png", cabinClass: "Economy", startDaysFromNow: 14, durationDays: 7 },
+  { id: 10, origin: "NBO", destination: "CDG", originCity: "Nairobi", destinationCity: "Paris", country: "France", region: "Europe", price: "KES 105,350", priceNumber: 105350, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 15, durationDays: 7 },
+  { id: 11, origin: "NBO", destination: "AMS", originCity: "Nairobi", destinationCity: "Amsterdam", country: "Netherlands", region: "Europe", price: "KES 108,150", priceNumber: 108150, image: "/hero_slide_3.png", cabinClass: "Economy", startDaysFromNow: 18, durationDays: 7 },
+  { id: 12, origin: "NBO", destination: "FRA", originCity: "Nairobi", destinationCity: "Frankfurt", country: "Germany", region: "Europe", price: "KES 102,200", priceNumber: 102200, image: "/hero_slide_4.png", cabinClass: "Economy", startDaysFromNow: 20, durationDays: 8 },
+  { id: 13, origin: "NBO", destination: "FCO", originCity: "Nairobi", destinationCity: "Rome", country: "Italy", region: "Europe", price: "KES 111,800", priceNumber: 111800, image: "/hero_slide_1.png", cabinClass: "Economy", startDaysFromNow: 22, durationDays: 8 },
 
-  // Asia deals (4+)
-  { id: 14, origin: "NBO", destination: "DXB", originCity: "Nairobi", destinationCity: "Dubai", country: "UAE", region: "Asia", dateRange: "18 Jun 26 to 25 Jun 26", price: "KES 15,000", priceNumber: 15000, image: "/hero_slide_3.png", cabinClass: "Economy" },
-  { id: 15, origin: "NBO", destination: "BOM", originCity: "Nairobi", destinationCity: "Mumbai", country: "India", region: "Asia", dateRange: "17 Jun 26 to 24 Jun 26", price: "KES 18,850", priceNumber: 18850, image: "/dest_mumbai.png", cabinClass: "Economy" },
-  { id: 16, origin: "NBO", destination: "DEL", originCity: "Nairobi", destinationCity: "Delhi", country: "India", region: "Asia", dateRange: "19 Jun 26 to 26 Jun 26", price: "KES 19,700", priceNumber: 19700, image: "/hero_slide_2.png", cabinClass: "Economy" },
-  { id: 17, origin: "NBO", destination: "BKK", originCity: "Nairobi", destinationCity: "Bangkok", country: "Thailand", region: "Asia", dateRange: "21 Jun 26 to 29 Jun 26", price: "KES 23,900", priceNumber: 23900, image: "/hero_slide_1.png", cabinClass: "Economy" },
+  // Asia deals (4+) - Medium to long haul (5-8 days)
+  { id: 14, origin: "NBO", destination: "DXB", originCity: "Nairobi", destinationCity: "Dubai", country: "UAE", region: "Asia", price: "KES 58,000", priceNumber: 58000, image: "/hero_slide_3.png", cabinClass: "Economy", startDaysFromNow: 6, durationDays: 7 },
+  { id: 15, origin: "NBO", destination: "BOM", originCity: "Nairobi", destinationCity: "Mumbai", country: "India", region: "Asia", price: "KES 68,850", priceNumber: 68850, image: "/dest_mumbai.png", cabinClass: "Economy", startDaysFromNow: 8, durationDays: 7 },
+  { id: 16, origin: "NBO", destination: "DEL", originCity: "Nairobi", destinationCity: "Delhi", country: "India", region: "Asia", price: "KES 71,700", priceNumber: 71700, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 9, durationDays: 7 },
+  { id: 17, origin: "NBO", destination: "BKK", originCity: "Nairobi", destinationCity: "Bangkok", country: "Thailand", region: "Asia", price: "KES 85,900", priceNumber: 85900, image: "/hero_slide_1.png", cabinClass: "Economy", startDaysFromNow: 11, durationDays: 8 },
 
-  // Middle East deals (3+)
-  { id: 18, origin: "NBO", destination: "AUH", originCity: "Nairobi", destinationCity: "Abu Dhabi", country: "UAE", region: "Middle East", dateRange: "17 Jun 26 to 24 Jun 26", price: "KES 14,550", priceNumber: 14550, image: "/hero_slide_2.png", cabinClass: "Economy" },
-  { id: 19, origin: "NBO", destination: "DOH", originCity: "Nairobi", destinationCity: "Doha", country: "Qatar", region: "Middle East", dateRange: "18 Jun 26 to 25 Jun 26", price: "KES 15,700", priceNumber: 15700, image: "/hero_slide_3.png", cabinClass: "Economy" },
-  { id: 20, origin: "NBO", destination: "JED", originCity: "Nairobi", destinationCity: "Jeddah", country: "Saudi Arabia", region: "Middle East", dateRange: "20 Jun 26 to 27 Jun 26", price: "KES 17,150", priceNumber: 17150, image: "/hero_slide_4.png", cabinClass: "Economy" },
+  // Middle East deals (3+) - Short to medium haul (4-7 days)
+  { id: 18, origin: "NBO", destination: "AUH", originCity: "Nairobi", destinationCity: "Abu Dhabi", country: "UAE", region: "Middle East", price: "KES 54,550", priceNumber: 54550, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 5, durationDays: 7 },
+  { id: 19, origin: "NBO", destination: "DOH", originCity: "Nairobi", destinationCity: "Doha", country: "Qatar", region: "Middle East", price: "KES 59,700", priceNumber: 59700, image: "/hero_slide_3.png", cabinClass: "Economy", startDaysFromNow: 7, durationDays: 7 },
+  { id: 20, origin: "NBO", destination: "JED", originCity: "Nairobi", destinationCity: "Jeddah", country: "Saudi Arabia", region: "Middle East", price: "KES 62,150", priceNumber: 62150, image: "/hero_slide_4.png", cabinClass: "Economy", startDaysFromNow: 10, durationDays: 7 },
 
-  // America deals (2+)
-  { id: 21, origin: "NBO", destination: "JFK", originCity: "Nairobi", destinationCity: "New York", country: "USA", region: "America", dateRange: "15 Jun 26 to 28 Jun 26", price: "KES 36,450", priceNumber: 36450, image: "/hero_slide_1.png", cabinClass: "Economy" },
-  { id: 22, origin: "NBO", destination: "YYZ", originCity: "Nairobi", destinationCity: "Toronto", country: "Canada", region: "America", dateRange: "17 Jun 26 to 30 Jun 26", price: "KES 38,100", priceNumber: 38100, image: "/hero_slide_2.png", cabinClass: "Economy" },
+  // America deals (2+) - Very long haul (10-13 days)
+  { id: 21, origin: "NBO", destination: "JFK", originCity: "Nairobi", destinationCity: "New York", country: "USA", region: "America", price: "KES 145,450", priceNumber: 145450, image: "/hero_slide_1.png", cabinClass: "Economy", startDaysFromNow: 21, durationDays: 13 },
+  { id: 22, origin: "NBO", destination: "YYZ", originCity: "Nairobi", destinationCity: "Toronto", country: "Canada", region: "America", price: "KES 152,100", priceNumber: 152100, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 23, durationDays: 13 },
 
   // Additional Africa deals for variety
-  { id: 23, origin: "NBO", destination: "KIS", originCity: "Nairobi", destinationCity: "Kisumu", country: "Kenya", region: "Africa", dateRange: "17 Jun 26 to 24 Jun 26", price: "KES 4,400", priceNumber: 4400, image: "/dest_kisumu.png", cabinClass: "Economy" },
-  { id: 24, origin: "NBO", destination: "EBB", originCity: "Nairobi", destinationCity: "Entebbe", country: "Uganda", region: "Africa", dateRange: "15 Jun 26 to 16 Jun 26", price: "KES 12,500", priceNumber: 12500, image: "/dest_entebbe.png", cabinClass: "Economy" },
-  { id: 25, origin: "NBO", destination: "NBO", originCity: "Nairobi", destinationCity: "Nairobi", country: "Kenya", region: "Africa", dateRange: "17 Jun 26 to 23 Jun 26", price: "KES 3,200", priceNumber: 3200, image: "/hero_slide_1.png", cabinClass: "Economy" },
+  { id: 23, origin: "NBO", destination: "KIS", originCity: "Nairobi", destinationCity: "Kisumu", country: "Kenya", region: "Africa", price: "KES 17,510", priceNumber: 17510, image: "/dest_kisumu.png", cabinClass: "Economy", startDaysFromNow: 3, durationDays: 7 },
+  { id: 24, origin: "NBO", destination: "EBB", originCity: "Nairobi", destinationCity: "Entebbe", country: "Uganda", region: "Africa", price: "KES 28,500", priceNumber: 28500, image: "/dest_entebbe.png", cabinClass: "Economy", startDaysFromNow: 4, durationDays: 1 },
 
   // Business class deals
-  { id: 26, origin: "NBO", destination: "LHR", originCity: "Nairobi", destinationCity: "London", country: "United Kingdom", region: "Europe", dateRange: "12 Jun 26 to 19 Jun 26", price: "KES 121,250", priceNumber: 121250, image: "/hero_slide_3.png", cabinClass: "Business" },
-  { id: 27, origin: "NBO", destination: "JFK", originCity: "Nairobi", destinationCity: "New York", country: "USA", region: "America", dateRange: "15 Jun 26 to 28 Jun 26", price: "KES 130,000", priceNumber: 130000, image: "/hero_slide_4.png", cabinClass: "Business" },
-  { id: 28, origin: "NBO", destination: "DXB", originCity: "Nairobi", destinationCity: "Dubai", country: "UAE", region: "Asia", dateRange: "18 Jun 26 to 25 Jun 26", price: "KES 46,250", priceNumber: 46250, image: "/hero_slide_1.png", cabinClass: "Business" },
+  { id: 26, origin: "NBO", destination: "LHR", originCity: "Nairobi", destinationCity: "London", country: "United Kingdom", region: "Europe", price: "KES 310,250", priceNumber: 310250, image: "/hero_slide_3.png", cabinClass: "Business", startDaysFromNow: 14, durationDays: 7 },
+  { id: 27, origin: "NBO", destination: "JFK", originCity: "Nairobi", destinationCity: "New York", country: "USA", region: "America", price: "KES 425,000", priceNumber: 425000, image: "/hero_slide_4.png", cabinClass: "Business", startDaysFromNow: 21, durationDays: 13 },
+  { id: 28, origin: "NBO", destination: "DXB", originCity: "Nairobi", destinationCity: "Dubai", country: "UAE", region: "Asia", price: "KES 146,250", priceNumber: 146250, image: "/hero_slide_1.png", cabinClass: "Business", startDaysFromNow: 6, durationDays: 7 },
 ]
+
+/**
+ * Generate deals with dynamic dates
+ * This function is called to create the DEALS array with current dates
+ */
+function generateDealsWithDynamicDates(): Deal[] {
+  return BASE_DEALS.map(deal => ({
+    ...deal,
+    dateRange: generateDateRange(deal.startDaysFromNow, deal.durationDays)
+  }))
+}
+
+// Export the deals array with dynamic dates
+export const DEALS: Deal[] = generateDealsWithDynamicDates()
+
+/**
+ * Refresh deals with current dates
+ * Call this function to regenerate deals with updated dates
+ */
+export function refreshDeals(): Deal[] {
+  return generateDealsWithDynamicDates()
+}
 
 /**
  * Get deals filtered by region
