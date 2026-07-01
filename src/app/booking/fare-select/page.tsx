@@ -190,8 +190,15 @@ export default function FareSelectPage() {
                 const params = new URLSearchParams()
                 if (origin) params.set('from', origin)
                 if (destination) params.set('to', destination)
-                if (departureDate) params.set('depart', departureDate)
-                if (returnDate) params.set('return', returnDate)
+                // Extract only the date part (YYYY-MM-DD) from ISO strings
+                if (departureDate) {
+                  const dateOnly = departureDate.split('T')[0]
+                  params.set('depart', dateOnly)
+                }
+                if (returnDate) {
+                  const dateOnly = returnDate.split('T')[0]
+                  params.set('return', dateOnly)
+                }
                 params.set('adults', passengers.adults.toString())
                 if (passengers.children > 0) params.set('children', passengers.children.toString())
                 if (passengers.infants > 0) params.set('infants', passengers.infants.toString())
