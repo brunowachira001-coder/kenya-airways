@@ -31,31 +31,37 @@ function FareTiers({
   onSelect: (tierIndex: number) => void;
 }) {
   const basePrice = cls === "economy" ? flight.economyPrice : flight.businessPrice;
+  
+  // Calculate tier prices as percentages of base price
+  // Best Buy: base price (0%)
+  // Standard: +15% (recommended for most travelers)
+  // Flex: +35% (more flexibility)
+  // Super Flex: +60% (full flexibility)
   const tiers = [
     {
       label: cls === "economy" ? "Best Buy" : "Business Saver",
-      delta: 0,
+      multiplier: 1.0,
       refund: "Not allowed",
-      rebook: "KES 3,263/pax",
+      rebook: "Fee applies",
       recommended: false,
     },
     {
       label: cls === "economy" ? "Economy Standard" : "Business Standard",
-      delta: 3395,
+      multiplier: 1.15,
       refund: "Not allowed",
-      rebook: "KES 3,263/pax",
+      rebook: "Fee applies",
       recommended: true,
     },
     {
       label: cls === "economy" ? "Economy Flex" : "Business Flex",
-      delta: 19575,
-      refund: "KES 6,525 penalty",
+      multiplier: 1.35,
+      refund: "Fee applies",
       rebook: "Changeable",
       recommended: false,
     },
     {
       label: cls === "economy" ? "Economy Super Flex" : "Business Super Flex",
-      delta: 49715,
+      multiplier: 1.6,
       refund: "Allowed",
       rebook: "Allowed",
       recommended: false,
@@ -77,7 +83,7 @@ function FareTiers({
               </div>
             )}
             <p className="text-base sm:text-xl font-bold text-center text-[#0d0d0d] mb-0.5">
-              KES {(basePrice + t.delta).toLocaleString()}
+              KES {Math.round(basePrice * t.multiplier).toLocaleString()}
             </p>
             <p className="text-[10px] text-gray-500 text-center mb-3">{t.label}</p>
             <div className="flex flex-col gap-3 text-[10px] text-gray-500 flex-1">
@@ -187,8 +193,9 @@ function SearchContent() {
 
   const handleSelect = (flight: Flight, tier: "economy" | "business", tierIndex: number) => {
     const basePrice = tier === "economy" ? flight.economyPrice : flight.businessPrice;
-    const deltas = [0, 3395, 19575, 49715];
-    const totalPrice = basePrice + (deltas[tierIndex] || 0);
+    // Tier multipliers: 1.0, 1.15, 1.35, 1.6
+    const multipliers = [1.0, 1.15, 1.35, 1.6];
+    const totalPrice = Math.round(basePrice * (multipliers[tierIndex] || 1.0));
 
     setSelectedOutboundFlight({
       id: flight.id,
