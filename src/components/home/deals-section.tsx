@@ -14,6 +14,7 @@ type LegacyDeal = {
   price: string
   image: string
   destCode: string
+  tripType: "one-way" | "round-trip"
 }
 
 // Legacy data structure for deals-section (origin city keyed)
@@ -24,7 +25,8 @@ const DEALS_DATA: Record<string, LegacyDeal[]> = {
     dateRange: d.dateRange,
     price: d.price,
     image: d.image,
-    destCode: d.destination
+    destCode: d.destination,
+    tripType: d.tripType
   })),
   Mombasa: DEALS.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA"].includes(d.destination)).map(d => ({
     id: d.id + 100,
@@ -32,7 +34,8 @@ const DEALS_DATA: Record<string, LegacyDeal[]> = {
     dateRange: d.dateRange,
     price: d.price,
     image: d.image,
-    destCode: d.destination
+    destCode: d.destination,
+    tripType: d.tripType
   })).slice(0, 4),
   Kisumu: DEALS.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA", "KIS", "DXB"].includes(d.destination)).map(d => ({
     id: d.id + 200,
@@ -40,7 +43,8 @@ const DEALS_DATA: Record<string, LegacyDeal[]> = {
     dateRange: d.dateRange,
     price: d.price,
     image: d.image,
-    destCode: d.destination
+    destCode: d.destination,
+    tripType: d.tripType
   })).slice(0, 3)
 }
 
@@ -88,21 +92,17 @@ export function DealsSection() {
     const originCode = selectedCity === "Nairobi" ? "NBO" : selectedCity === "Mombasa" ? "MBA" : "KIS"
     setOrigin(originCode)
     setDestination(deal.destCode)
-    setTripType("round-trip")
-    
+    setTripType("one-way")
+
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
-    const dayAfter = new Date(today)
-    dayAfter.setDate(dayAfter.getDate() + 8)
-    
+
     setDepartureDate(tomorrow.toISOString())
-    setReturnDate(dayAfter.toISOString())
-    
+    setReturnDate("")
+
     const depStr = tomorrow.toISOString().split("T")[0]
-    const retStr = dayAfter.toISOString().split("T")[0]
-    
-    router.push(`/search?from=${originCode}&to=${deal.destCode}&depart=${depStr}&return=${retStr}&adults=1&cabin=economy`)
+    router.push(`/search?from=${originCode}&to=${deal.destCode}&depart=${depStr}&adults=1&cabin=economy`)
   }
 
   const handleBookNow = () => {
@@ -110,21 +110,17 @@ export function DealsSection() {
     const originCode = selectedCity === "Nairobi" ? "NBO" : selectedCity === "Mombasa" ? "MBA" : "KIS"
     setOrigin(originCode)
     setDestination(drawerDeal.destCode)
-    setTripType("round-trip")
-    
+    setTripType("one-way")
+
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
-    const dayAfter = new Date(today)
-    dayAfter.setDate(dayAfter.getDate() + 8)
-    
+
     setDepartureDate(tomorrow.toISOString())
-    setReturnDate(dayAfter.toISOString())
-    
+    setReturnDate("")
+
     const depStr = tomorrow.toISOString().split("T")[0]
-    const retStr = dayAfter.toISOString().split("T")[0]
-    
-    router.push(`/search?from=${originCode}&to=${drawerDeal.destCode}&depart=${depStr}&return=${retStr}&adults=1&cabin=economy`)
+    router.push(`/search?from=${originCode}&to=${drawerDeal.destCode}&depart=${depStr}&adults=1&cabin=economy`)
   }
 
   const currentDeals = DEALS_DATA[selectedCity] || DEALS_DATA.Nairobi
@@ -277,7 +273,7 @@ export function DealsSection() {
                 </h2>
                 
                 <div className="space-y-1 text-sm">
-                  <p className="font-semibold text-gray-200">Round Trip in Economy Class</p>
+                  <p className="font-semibold text-gray-200">One Way in Economy Class</p>
                   <p className="font-bold text-xl text-white">From {drawerDeal.price}</p>
                 </div>
                 
@@ -316,7 +312,7 @@ export function DealsSection() {
             <div className="p-8 pt-10 flex-grow">
               <h3 className="font-bold text-lg text-black mb-4">Fare Guidelines</h3>
               <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                All Kenya Airways flight tickets are subject to availability and are governed by the Kenya Airways <a href="#" className="underline text-black">Conditions of Carriage</a> and relevant ticket conditions stated during the booking process. The fares may vary due to currency fluctuations and government tax regulations, depending on the booked itinerary. Please note the fare being displayed is for a return flight.
+                All Kenya Airways flight tickets are subject to availability and are governed by the Kenya Airways <a href="#" className="underline text-black">Conditions of Carriage</a> and relevant ticket conditions stated during the booking process. The fares may vary due to currency fluctuations and government tax regulations, depending on the booked itinerary. Please note the fare being displayed is for a one-way flight.
               </p>
               <p className="text-gray-600 text-sm leading-relaxed">
                 It is essential to review the applicable fare rules and ticket conditions to understand the specific terms and guidelines. We recommend booking early to secure the best fare. Safe Travels!

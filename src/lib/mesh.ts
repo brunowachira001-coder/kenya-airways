@@ -214,6 +214,7 @@ export function generateMeshDeals(): Deal[] {
       cabinClass: "Economy" as const,
       startDaysFromNow: outOffset,
       durationDays: durationDays,
+      tripType: "round-trip" as const,
     }
   })
 }

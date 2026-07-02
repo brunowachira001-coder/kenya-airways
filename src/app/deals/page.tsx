@@ -25,6 +25,10 @@ function DealCard({ deal, onBookNow }: { deal: Deal; onBookNow: (deal: Deal) => 
         <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full">
           {deal.cabinClass}
         </div>
+        {/* Trip type badge */}
+        <div className="absolute top-3 left-3 bg-[#ed1c24]/90 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+          One Way
+        </div>
       </div>
 
       {/* Content */}
@@ -173,29 +177,23 @@ export default function DealsPage() {
   const filteredDeals = getDealsByRegion(selectedRegion === "All" ? undefined : selectedRegion)
 
   const handleBookNow = (deal: Deal) => {
-    // Set booking store values
     setOrigin(deal.origin)
     setDestination(deal.destination)
-    setTripType("round-trip")
+    setTripType("one-way")
     setCabinClass(deal.cabinClass)
-    
-    // Set dates: tomorrow to tomorrow + 7 days
+
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
-    const dayAfter = new Date(today)
-    dayAfter.setDate(dayAfter.getDate() + 8)
-    
+
     setDepartureDate(tomorrow.toISOString())
-    setReturnDate(dayAfter.toISOString())
-    
-    // Build search URL
+    setReturnDate("")
+
     const depStr = tomorrow.toISOString().split("T")[0]
-    const retStr = dayAfter.toISOString().split("T")[0]
     const cabinParam = deal.cabinClass.toLowerCase()
-    
+
     router.push(
-      `/search?from=${deal.origin}&to=${deal.destination}&depart=${depStr}&return=${retStr}&adults=1&cabin=${cabinParam}`
+      `/search?from=${deal.origin}&to=${deal.destination}&depart=${depStr}&adults=1&cabin=${cabinParam}`
     )
   }
 
