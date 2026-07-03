@@ -268,7 +268,17 @@ function SearchContent() {
   const adults = parseInt(searchParams.get("adults") || "1");
   const isRoundTrip = !!returnDate;
 
-  const { setSelectedOutboundFlight, setSelectedReturnFlight } = useBookingStore();
+  const { setSelectedOutboundFlight, setSelectedReturnFlight, setOrigin, setDestination, setDepartureDate, setReturnDate, setTripType, updatePassengers } = useBookingStore();
+
+  // Persist search params into the booking store so downstream pages have the data
+  useEffect(() => {
+    if (origin) setOrigin(origin);
+    if (destination) setDestination(destination);
+    if (departDate) setDepartureDate(departDate + "T00:00:00");
+    if (returnDate) setReturnDate(returnDate + "T00:00:00");
+    setTripType(isRoundTrip ? "round-trip" : "one-way");
+    updatePassengers("adults", adults);
+  }, [origin, destination, departDate, returnDate, isRoundTrip, adults]);
 
   // Outbound flights state
   const [flights, setFlights] = useState<Flight[]>([]);
