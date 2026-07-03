@@ -18,7 +18,7 @@ const OFFERS = [
     subtitle: "Use Code: ASANTE10",
     image: "/hero_nairobi_stopover.png",
     cta: "Book Now",
-    link: "/search"
+    link: "/search?from=NBO&to=DXB&depart=2026-07-15&adults=1"
   },
   {
     id: 3,

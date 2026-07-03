@@ -5,27 +5,34 @@ import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
+// Generate a date N days from now for search links
+function futureDate(days: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split("T")[0];
+}
+
 const FEATURED = [
   {
     id: 1,
     title: "Nairobi Stopover",
     subtitle: "Turn your layover into an adventure. 24–96 hours in Nairobi at no extra cost.",
     image: "/hero_nairobi_stopover.png",
-    link: "/search"
+    link: `/search?from=MBA&to=NBO&depart=${futureDate(7)}&adults=1`
   },
   {
     id: 2,
     title: "Fly to Dubai",
     subtitle: "Direct flights from Nairobi resumed. Non-stop travel with the Pride of Africa.",
     image: "/hero_dubai_desert.png",
-    link: "/search"
+    link: `/search?from=NBO&to=DXB&depart=${futureDate(14)}&adults=1`
   },
   {
     id: 3,
     title: "World Cup 2026",
     subtitle: "From Africa to New York. Your gateway to the world's biggest game.",
     image: "/hero_slide_3.png",
-    link: "/search"
+    link: `/search?from=NBO&to=JFK&depart=${futureDate(30)}&adults=1`
   }
 ]
 

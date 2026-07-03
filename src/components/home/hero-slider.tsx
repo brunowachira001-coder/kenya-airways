@@ -15,7 +15,7 @@ const HERO_SLIDES = [
     promoCode: "Use Code: VISAKQ",
     hasCountdown: false,
     ctaText: "Book Now",
-    ctaLink: "/search"
+    ctaLink: "/search?from=NBO&to=MBA&depart=2026-07-15&adults=1"
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ const HERO_SLIDES = [
     subtitle: "Transform a 24 to 96-hour connection into an unforgettable Nairobi escape at no extra cost to your ticket.",
     hasCountdown: false,
     ctaText: "Book Your Stopover",
-    ctaLink: "/search"
+    ctaLink: "/search?from=MBA&to=NBO&depart=2026-07-15&adults=1"
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const HERO_SLIDES = [
     subtitle: "Direct flights from Nairobi have officially resumed. Experience seamless, non-stop travel once again with the Pride of Africa.",
     hasCountdown: false,
     ctaText: "Book Now",
-    ctaLink: "/search"
+    ctaLink: "/search?from=NBO&to=DXB&depart=2026-07-15&adults=1"
   },
   {
     id: 4,
@@ -45,7 +45,7 @@ const HERO_SLIDES = [
     hasCountdown: true,
     targetDate: "2026-08-15T23:59:59",
     ctaText: "Book Now",
-    ctaLink: "/search"
+    ctaLink: "/search?from=NBO&to=JFK&depart=2026-08-01&adults=1"
   }
 ]
 
