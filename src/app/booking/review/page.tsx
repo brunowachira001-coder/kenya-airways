@@ -5,14 +5,16 @@ import { useBookingStore, calculateBookingTotal, EXTRA_PRICING } from "@/store/b
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { ExternalLink, Luggage, Utensils, ShieldCheck, Armchair } from "lucide-react"
+import { getCityName } from "@/lib/airports"
+import { searchFlights } from "@/lib/flights"
 
 export default function ReviewPage() {
   const router = useRouter()
   const [showPriceDetails, setShowPriceDetails] = useState(false)
   
-  const { 
-    setCurrentStep, 
-    selectedOutboundFlight, 
+  const {
+    setCurrentStep,
+    selectedOutboundFlight,
     selectedReturnFlight,
     selectedFare,
     origin,
@@ -25,14 +27,29 @@ export default function ReviewPage() {
     extras,
     selectedSeat,
     bookingReference,
+    tripType,
     setExtras,
   } = useBookingStore()
 
   useEffect(() => {
     setCurrentStep(5)
-  }, [setCurrentStep])
+    if (!selectedOutboundFlight) {
+      router.replace("/search")
+    }
+  }, [setCurrentStep, selectedOutboundFlight, router])
 
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
+
+  // Look up actual flight details from the flights library
+  const outboundFlights = selectedOutboundFlight && origin && destination && departureDate
+    ? searchFlights(origin, destination, departureDate.split("T")[0])
+    : []
+  const outboundFlight = outboundFlights.find(f => f.id === selectedOutboundFlight?.id) || outboundFlights[0]
+
+  const returnFlights = selectedReturnFlight && destination && origin && returnDate
+    ? searchFlights(destination, origin, returnDate.split("T")[0])
+    : []
+  const returnFlight = returnFlights.find(f => f.id === selectedReturnFlight?.id) || returnFlights[0]
   
   // Single source of truth — same calculator used by passengers + payment.
   const totals = calculateBookingTotal({
@@ -129,16 +146,16 @@ export default function ReviewPage() {
         {/* Your Flights */}
         <div className="mb-6 sm:mb-8">
           <h2 className="text-xl sm:text-2xl font-semibold mb-4">Your flights</h2>
-          
+
           {/* Outbound Flight */}
           <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 mb-4">
             <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-3">
               <div>
-                <h3 className="font-semibold text-base sm:text-lg">{origin === "NBO" ? "Nairobi" : origin} to {destination === "DAR" ? "Dar Es Salaam" : destination}</h3>
+                <h3 className="font-semibold text-base sm:text-lg">{getCityName(origin)} to {getCityName(destination)}</h3>
                 <p className="text-xs sm:text-sm text-gray-600">{formatDate(departureDate)}</p>
               </div>
               <button className="flex items-center gap-1 text-xs sm:text-sm">
-                <span>{selectedFare || "Business Lite"}</span>
+                <span>{selectedFare || "Economy"}</span>
                 <span className="text-gray-400">▼</span>
               </button>
             </div>
@@ -147,78 +164,80 @@ export default function ReviewPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-3 sm:gap-6">
                   <div>
-                    <p className="text-xl sm:text-2xl font-bold">18:45</p>
+                    <p className="text-xl sm:text-2xl font-bold">{outboundFlight?.departureTime || "—"}</p>
                     <p className="text-xs sm:text-sm text-gray-600">{origin}</p>
-                    <p className="text-[10px] sm:text-xs text-gray-500">Terminal 1A</p>
                   </div>
-                  
+
                   <div className="flex-1 flex flex-col items-center">
-                    <p className="text-[10px] sm:text-xs text-gray-500 mb-1">nonstop</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500 mb-1">{outboundFlight?.stops === 0 ? "nonstop" : `${outboundFlight?.stops} stop`}</p>
                     <div className="w-full border-t-2 border-gray-300"></div>
                   </div>
-                  
+
                   <div>
-                    <p className="text-xl sm:text-2xl font-bold">20:10</p>
+                    <p className="text-xl sm:text-2xl font-bold">{outboundFlight?.arrivalTime || "—"}</p>
                     <p className="text-xs sm:text-sm text-gray-600">{destination}</p>
-                    <p className="text-[10px] sm:text-xs text-gray-500">Terminal 3</p>
                   </div>
                 </div>
               </div>
 
               <div className="text-left sm:text-right">
-                <p className="text-xs sm:text-sm">Duration 1h 25min</p>
+                <p className="text-xs sm:text-sm">Duration {outboundFlight?.duration || "—"}</p>
                 <p className="text-xs sm:text-sm text-brand-secondary flex items-center gap-1">
                   Operated by Kenya Airways
                   <Image src="/kq_logo_transparent.png" alt="KQ" width={16} height={16} />
                 </p>
+                {outboundFlight && (
+                  <p className="text-[10px] sm:text-xs text-gray-500">{outboundFlight.flightNumber}</p>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Return Flight */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-3">
-              <div>
-                <h3 className="font-semibold text-base sm:text-lg">{destination === "DAR" ? "Dar Es Salaam" : destination} to {origin === "NBO" ? "Nairobi" : origin}</h3>
-                <p className="text-xs sm:text-sm text-gray-600">{formatDate(returnDate)}</p>
+          {/* Return Flight — only shown for round-trip */}
+          {tripType !== "one-way" && returnFlight && (
+            <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-3">
+                <div>
+                  <h3 className="font-semibold text-base sm:text-lg">{getCityName(destination)} to {getCityName(origin)}</h3>
+                  <p className="text-xs sm:text-sm text-gray-600">{formatDate(returnDate)}</p>
+                </div>
+                <button className="flex items-center gap-1 text-xs sm:text-sm">
+                  <span>{selectedFare || "Economy"}</span>
+                  <span className="text-gray-400">▼</span>
+                </button>
               </div>
-              <button className="flex items-center gap-1 text-xs sm:text-sm">
-                <span>Economy Standard</span>
-                <span className="text-gray-400">▼</span>
-              </button>
-            </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 sm:gap-6">
-                  <div>
-                    <p className="text-xl sm:text-2xl font-bold">14:35</p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 sm:gap-6">
+                    <div>
+                    <p className="text-xl sm:text-2xl font-bold">{returnFlight.departureTime}</p>
                     <p className="text-xs sm:text-sm text-gray-600">{destination}</p>
-                    <p className="text-[10px] sm:text-xs text-gray-500">Terminal 3</p>
                   </div>
-                  
+
                   <div className="flex-1 flex flex-col items-center">
-                    <p className="text-[10px] sm:text-xs text-gray-500 mb-1">nonstop</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500 mb-1">{returnFlight.stops === 0 ? "nonstop" : `${returnFlight.stops} stop`}</p>
                     <div className="w-full border-t-2 border-gray-300"></div>
                   </div>
-                  
+
                   <div>
-                    <p className="text-xl sm:text-2xl font-bold">15:55</p>
-                    <p className="text-xs sm:text-sm text-gray-600">{origin}</p>
-                    <p className="text-[10px] sm:text-xs text-gray-500">Terminal 1A</p>
+                    <p className="text-xl sm:text-2xl font-bold">{returnFlight.arrivalTime}</p>
+                      <p className="text-xs sm:text-sm text-gray-600">{origin}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="text-left sm:text-right">
-                <p className="text-xs sm:text-sm">Duration 1h 20min</p>
+                <div className="text-left sm:text-right">
+                <p className="text-xs sm:text-sm">Duration {returnFlight.duration}</p>
                 <p className="text-xs sm:text-sm text-brand-secondary flex items-center gap-1">
                   Operated by Kenya Airways
                   <Image src="/kq_logo_transparent.png" alt="KQ" width={16} height={16} />
                 </p>
+                <p className="text-[10px] sm:text-xs text-gray-500">{returnFlight.flightNumber}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Passenger Details */}

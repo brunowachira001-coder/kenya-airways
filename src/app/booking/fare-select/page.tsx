@@ -73,8 +73,6 @@ export default function FareSelectPage() {
 
   // Calculate total passengers
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
-  const selectedFareData = FARES.find(f => f.name === selectedFare)
-  const fareMultiplier = selectedFareData?.priceMultiplier || 1
 
   // Use the single-source-of-truth calculator so price matches review/payment pages.
   // For one-way trips selectedReturnFlight is null, so returnBase = 0 → no doubling.
@@ -124,32 +122,22 @@ export default function FareSelectPage() {
               <h3 className="font-semibold mb-3">Price Breakdown</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Base Fare (per passenger)</span>
-                  <span className="font-medium">KES {basePrice.toLocaleString()}</span>
+                  <span className="text-gray-600">Outbound Flight</span>
+                  <span className="font-medium">KES {(totals.outboundBase * totals.fareMultiplier).toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Fare Type Multiplier ({selectedFare || "Standard"})</span>
-                  <span className="font-medium">×{fareMultiplier}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Number of Passengers</span>
-                  <span className="font-medium">×{totalPassengers}</span>
-                </div>
-                {tripType === "round-trip" && (
+                {totals.returnBase > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Round Trip (outbound + return)</span>
-                    <span className="font-medium">×2</span>
+                    <span className="text-gray-600">Return Flight</span>
+                    <span className="font-medium">KES {(totals.returnBase * totals.fareMultiplier).toLocaleString()}</span>
                   </div>
                 )}
-                {tripType === "one-way" && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Trip Type</span>
-                    <span className="font-medium">One Way</span>
-                  </div>
-                )}
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Fare ({selectedFare || "Economy Light"}) × {totalPassengers} passenger{totalPassengers !== 1 ? "s" : ""}</span>
+                  <span className="font-medium">×{totals.fareMultiplier}</span>
+                </div>
                 <div className="border-t pt-2 flex justify-between font-semibold">
-                  <span>Total Amount</span>
-                  <span className="text-brand-primary">KES {totalPrice.toLocaleString()}</span>
+                  <span>Total Flight Cost</span>
+                  <span className="text-brand-primary">KES {totals.flightTotal.toLocaleString()}</span>
                 </div>
               </div>
             </div>

@@ -7,7 +7,7 @@ import { TripSummary } from "@/components/booking/trip-summary"
 
 export default function SeatSelectionPage() {
   const router = useRouter()
-  const { setCurrentStep, setSelectedSeat: saveSelectedSeat } = useBookingStore()
+  const { setSelectedSeat: saveSelectedSeat } = useBookingStore()
   const [selectedSeat, setSelectedSeat] = useState<{ id: string, price: number } | null>(null)
 
   // Use a simple seeded check to randomly assign occupied seats consistently
@@ -113,7 +113,7 @@ export default function SeatSelectionPage() {
           
           <div className="flex gap-4">
             <button 
-              onClick={() => { setCurrentStep(5); router.push("/booking/extras") }}
+              onClick={() => { router.push("/booking/extras") }}
               className="px-6 py-3 border border-[#002147] text-[#002147] font-bold rounded-md hover:bg-gray-50 transition-colors"
             >
               Skip seat selection
@@ -123,7 +123,6 @@ export default function SeatSelectionPage() {
                 if (selectedSeat) {
                   saveSelectedSeat(selectedSeat)
                 }
-                setCurrentStep(5)
                 router.push("/booking/extras")
               }}
               className="px-8 py-3 bg-[#c8102e] text-white font-bold rounded-md hover:bg-[#a00c24] transition-colors shadow-sm"

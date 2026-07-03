@@ -9,6 +9,7 @@ import Image from "next/image"
 export default function MobilePaymentPage() {
   const router = useRouter()
   const {
+    setCurrentStep,
     selectedOutboundFlight,
     selectedReturnFlight,
     selectedFare,
@@ -17,6 +18,13 @@ export default function MobilePaymentPage() {
     selectedSeat,
     extras,
   } = useBookingStore()
+
+  useEffect(() => {
+    setCurrentStep(6)
+    if (!selectedOutboundFlight) {
+      router.replace("/search")
+    }
+  }, [setCurrentStep, selectedOutboundFlight, router])
 
   const [paymentOption, setPaymentOption] = useState<"mobile" | "bank">("mobile")
   const [mobileNumber, setMobileNumber] = useState("")

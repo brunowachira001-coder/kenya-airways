@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { CheckCircle, Download, Mail, Printer, Calendar, MapPin, Clock, Users, CreditCard } from "lucide-react"
-import { useBookingStore } from "@/store/booking-store"
+import { useBookingStore, calculateBookingTotal } from "@/store/booking-store"
 import Link from "next/link"
 
 export default function BookingConfirmation() {
@@ -30,13 +30,16 @@ export default function BookingConfirmation() {
     setTimeout(() => setShowSuccess(true), 300)
   }, [realReference])
 
-  const totalPassengers = store.passengers.adults + store.passengers.children + store.passengers.infants
   // Compute total consistently with the rest of the flow.
-  const baseFare = (store.selectedOutboundFlight?.price || 0) + (store.selectedReturnFlight?.price || 0)
-  const totalPrice = store.extras.totalPrice || baseFare
-
-  // Suppress unused variable warning - totalPassengers kept for future use
-  void totalPassengers
+  const totals = calculateBookingTotal({
+    selectedOutboundFlight: store.selectedOutboundFlight,
+    selectedReturnFlight: store.selectedReturnFlight,
+    selectedFare: store.selectedFare,
+    passengers: store.passengers,
+    selectedSeat: store.selectedSeat,
+    extras: store.extras,
+  })
+  const totalPrice = store.extras.totalPrice || totals.grandTotal
 
   const formatDate = (dateStr: string | undefined) => {
     if (!dateStr) return "Not specified"
@@ -251,13 +254,13 @@ export default function BookingConfirmation() {
             </h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600">Base Fare:</span>
-                <span className="font-medium">KES {baseFare.toLocaleString()}</span>
+                <span className="text-gray-600">Flights:</span>
+                <span className="font-medium">KES {totals.flightTotal.toLocaleString()}</span>
               </div>
-              {(store.extras.selectedServices?.length || 0) > 0 && (
+              {totals.extrasTotal > 0 && (
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Extra Services:</span>
-                  <span className="font-medium">KES {((totalPrice - baseFare)).toLocaleString()}</span>
+                  <span className="text-gray-600">Extras:</span>
+                  <span className="font-medium">KES {totals.extrasTotal.toLocaleString()}</span>
                 </div>
               )}
               <div className="pt-2 border-t border-gray-200 flex justify-between font-bold text-base">

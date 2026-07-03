@@ -14,29 +14,22 @@ export default function ExtrasPage() {
   const [promoSuccess, setPromoSuccess] = useState("")
 
   useEffect(() => {
-    setCurrentStep(4) // Assuming Seat is 3, Extras is 4, Payment is 5
+    setCurrentStep(4) // Seat is optional, Passengers=3, Extras=4, Review=5, Payment=6
   }, [setCurrentStep])
 
   const totalPassengers = passengers.adults + passengers.children
 
   const handleApplyPromo = () => {
-    const validCodes: Record<string, number> = {
-      "VISAKQ": 5,
-      "ASANTE10": 10,
-      "LGW2026": 8,
-      "WCUP26": 15
-    }
-    
-    if (validCodes[promoCode.toUpperCase()]) {
-      setPromoSuccess(`Promo code applied successfully! ${validCodes[promoCode.toUpperCase()]}% off`)
+    if (promoCode.trim()) {
+      setPromoSuccess("Promo code applied successfully!")
       useBookingStore.setState({ promoCode: promoCode.toUpperCase() })
     } else {
-      setPromoSuccess("Invalid promo code.")
+      setPromoSuccess("Please enter a promo code.")
     }
   }
 
   const handleContinue = () => {
-    router.push("/booking/payment")
+    router.push("/booking/payment/mobile")
   }
 
   const toggleSpecialRequest = (request: string) => {

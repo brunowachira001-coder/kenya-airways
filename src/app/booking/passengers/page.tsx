@@ -28,8 +28,12 @@ export default function PassengersPage() {
   } = useBookingStore()
 
   useEffect(() => {
-    setCurrentStep(4)
-  }, [setCurrentStep])
+    setCurrentStep(3)
+    // Guard: redirect if no flight selected
+    if (!selectedOutboundFlight) {
+      router.replace("/search")
+    }
+  }, [setCurrentStep, selectedOutboundFlight, router])
 
   const [email, setEmail] = useState(contactDetails?.email || "")
   const [phone, setPhone] = useState(contactDetails?.phone || "")
