@@ -17,14 +17,16 @@ export default function MobilePaymentPage() {
     bookingReference,
     selectedSeat,
     extras,
+    _hydrated,
   } = useBookingStore()
 
   useEffect(() => {
+    if (!_hydrated) return
     setCurrentStep(6)
     if (!selectedOutboundFlight) {
       router.replace("/search")
     }
-  }, [setCurrentStep, selectedOutboundFlight, router])
+  }, [setCurrentStep, selectedOutboundFlight, router, _hydrated])
 
   const [paymentOption, setPaymentOption] = useState<"mobile" | "bank">("mobile")
   const [mobileNumber, setMobileNumber] = useState("")

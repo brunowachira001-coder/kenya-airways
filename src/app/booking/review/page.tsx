@@ -29,14 +29,16 @@ export default function ReviewPage() {
     bookingReference,
     tripType,
     setExtras,
+    _hydrated,
   } = useBookingStore()
 
   useEffect(() => {
+    if (!_hydrated) return
     setCurrentStep(5)
     if (!selectedOutboundFlight) {
       router.replace("/search")
     }
-  }, [setCurrentStep, selectedOutboundFlight, router])
+  }, [setCurrentStep, selectedOutboundFlight, router, _hydrated])
 
   const totalPassengers = passengers.adults + passengers.children + passengers.infants
 

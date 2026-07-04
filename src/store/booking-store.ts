@@ -121,7 +121,7 @@ interface BookingState {
   passengers: PassengerCounts
   cabinClass: string
   promoCode: string
-  
+
   selectedOutboundFlight: SelectedFlight | null
   selectedReturnFlight: SelectedFlight | null
   selectedFare: string | null // "light" | "standard" | "business"
@@ -134,7 +134,8 @@ interface BookingState {
   extras: BookingExtras
   currentStep: number
   bookingReference: string | null
-  
+  _hydrated: boolean
+
   setTripType: (type: TripType) => void
   setOrigin: (origin: string) => void
   setDestination: (destination: string) => void
@@ -143,7 +144,7 @@ interface BookingState {
   updatePassengers: (type: keyof PassengerCounts, count: number) => void
   setCabinClass: (cabin: string) => void
   setPromoCode: (code: string) => void
-  
+
   setSelectedOutboundFlight: (flight: SelectedFlight | null) => void
   setSelectedReturnFlight: (flight: SelectedFlight | null) => void
   setSelectedFare: (fare: string | null) => void
@@ -191,6 +192,7 @@ export const useBookingStore = create(
       },
       currentStep: 1,
       bookingReference: null,
+      _hydrated: false,
 
       setTripType: (type) => set({ tripType: type }),
       setOrigin: (origin) => set({ origin }),
@@ -274,7 +276,12 @@ export const useBookingStore = create(
       })
     }),
     {
-      name: "kq-booking-storage"
+      name: "kq-booking-storage",
+      onRehydrateStorage: () => {
+        return () => {
+          useBookingStore.setState({ _hydrated: true })
+        }
+      }
     }
   )
 )

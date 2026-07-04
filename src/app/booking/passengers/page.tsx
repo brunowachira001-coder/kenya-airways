@@ -9,15 +9,15 @@ import { Input } from "@/components/ui/input"
 
 export default function PassengersPage() {
   const router = useRouter()
-  const { 
-    setCurrentStep, 
-    passengers, 
-    contactDetails, 
-    setContactDetails, 
-    setPassengerDetails, 
-    origin, 
-    destination, 
-    departureDate, 
+  const {
+    setCurrentStep,
+    passengers,
+    contactDetails,
+    setContactDetails,
+    setPassengerDetails,
+    origin,
+    destination,
+    departureDate,
     returnDate,
     selectedFare,
     selectedOutboundFlight,
@@ -25,15 +25,17 @@ export default function PassengersPage() {
     setBookingReference,
     selectedSeat,
     extras,
+    _hydrated,
   } = useBookingStore()
 
   useEffect(() => {
+    if (!_hydrated) return
     setCurrentStep(3)
     // Guard: redirect if no flight selected
     if (!selectedOutboundFlight) {
       router.replace("/search")
     }
-  }, [setCurrentStep, selectedOutboundFlight, router])
+  }, [setCurrentStep, selectedOutboundFlight, router, _hydrated])
 
   const [email, setEmail] = useState(contactDetails?.email || "")
   const [phone, setPhone] = useState(contactDetails?.phone || "")
