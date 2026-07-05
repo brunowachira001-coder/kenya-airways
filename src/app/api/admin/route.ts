@@ -68,7 +68,31 @@ export async function GET(req: NextRequest) {
       bookingsByEmail.set(b.email, list)
     }
 
-    // Process funnel data
+    // Process funnel data — count unique sessions at each step
+    // Build a map of session_id -> highest step reached
+    const sessionMaxStep = new Map<string, number>()
+    for (const v of visits || []) {
+      const current = sessionMaxStep.get(v.session_id) || 0
+      const step = v.step ?? 0
+      if (step > current) sessionMaxStep.set(v.session_id, step)
+    }
+
+    // For bookings without page_visit tracking, count them as reaching at least step 4
+    const bookingEmails = new Set<string>()
+    for (const b of bookings || []) {
+      bookingEmails.add(b.email)
+      // Check if this email already has page visits
+      const hasVisit = (visits || []).some((v) => v.email === b.email)
+      if (!hasVisit) {
+        // This booking has no page visits — treat as a visitor who reached step 4
+        const key = `booking-${b.id}`
+        sessionMaxStep.set(key, 4)
+        if (b.payment_status === "paid") sessionMaxStep.set(key, 7)
+        else if (b.payment_status === "processing") sessionMaxStep.set(key, 6)
+        else sessionMaxStep.set(key, 5) // review step at minimum
+      }
+    }
+
     const funnelSteps = [
       { step: 0, label: "Homepage Visits", page: "home" },
       { step: 1, label: "Searches", page: "search" },
@@ -81,23 +105,11 @@ export async function GET(req: NextRequest) {
     ]
 
     const funnel = funnelSteps.map((s) => {
+      // Count sessions that reached at least this step
       let count = 0
-      if (s.page) {
-        count = (visits || []).filter((v) => v.page === s.page).length
-      } else if (s.step === 3) {
-        count = (visits || []).filter((v) => v.page === "extras" || v.page === "seat-selection").length
-      } else if (s.step === 6) {
-        count = (visits || []).filter((v) => v.page === "payment" || v.page === "payment-mobile").length
-      }
-      // Also count bookings that reached at least this step
-      if (s.step >= 4) {
-        for (const b of bookings || []) {
-          if (b.created_at >= since) count++
-        }
-        // Deduplicate: only count each booking once at the highest step
-        if (s.step === 7) {
-          count = (bookings || []).filter((b) => b.created_at >= since && b.payment_status === "paid").length
-        }
+      const entries = Array.from(sessionMaxStep.values())
+      for (const maxStep of entries) {
+        if (maxStep >= s.step) count++
       }
       return { ...s, count }
     })

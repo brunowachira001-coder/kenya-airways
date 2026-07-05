@@ -20,6 +20,7 @@ import {
 } from "lucide-react"
 import { useBookingStore } from "@/store/booking-store"
 import { getAirport } from "@/lib/airports"
+import { PageTracker } from "@/components/tracking/PageTracker"
 import type { Flight } from "@/lib/flights"
 
 function FareTiers({
@@ -261,6 +262,10 @@ function SearchContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Track search page visit
+  const searchFrom = searchParams.get("from") || "";
+  const searchTo = searchParams.get("to") || "";
+
   const origin = searchParams.get("from") || "";
   const destination = searchParams.get("to") || "";
   const departDate = searchParams.get("depart") || "";
@@ -388,6 +393,7 @@ function SearchContent() {
 
   return (
     <div className="min-h-screen bg-[#f8f8f8] font-sans overflow-x-hidden">
+      <PageTracker page="search" />
       {/* ── Top route header ── */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
         <div className="max-w-[1100px] mx-auto px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-2">
