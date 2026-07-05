@@ -6,10 +6,12 @@ import { PlanCarousel } from "@/components/home/plan-carousel"
 import { FeaturedDestinations } from "@/components/home/featured-destinations"
 import { AdditionalServices } from "@/components/home/additional-services"
 import { Newsletter } from "@/components/home/newsletter"
+import { PageTracker } from "@/components/tracking/PageTracker"
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
+      <PageTracker page="home" />
       <div className="relative w-full">
         <HeroSlider />
         {/* BookingWidget overlay on desktop — positioned at bottom of hero */}

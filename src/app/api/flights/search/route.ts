@@ -107,6 +107,20 @@ export async function GET(req: NextRequest) {
       }));
     }
 
+    // Log search to flight_searches table for analytics
+    supabase.from("flight_searches").insert({
+      origin: origin.toUpperCase(),
+      destination: destination.toUpperCase(),
+      departure_date: travelDate,
+      return_date: searchParams.get("return") || null,
+      passengers: parseInt(searchParams.get("passengers") || "1"),
+      cabin_class: searchParams.get("class") || "economy",
+      user_ip: req.headers.get("x-forwarded-for")?.split(",")[0] || null,
+      user_agent: req.headers.get("user-agent") || null,
+    }).then(({ error }) => {
+      if (error) console.warn("[flights/search] search log error:", error.message)
+    })
+
     return NextResponse.json(
       {
         success: true,
@@ -124,7 +138,7 @@ export async function GET(req: NextRequest) {
           "Cache-Control": "no-store, max-age=0",
         },
       }
-    );
+    )
   } catch (error) {
     console.error("[flights/search] Error:", error);
     return NextResponse.json(

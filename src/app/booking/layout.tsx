@@ -1,8 +1,10 @@
 "use client"
 
 import { ReactNode, useEffect } from "react"
+import { useTrackVisit } from "@/hooks/useTrackVisit"
 
 export default function BookingLayout({ children }: { children: ReactNode }) {
+  useTrackVisit()
   useEffect(() => {
     // Hide all main site elements for booking pages
     const elements = [
