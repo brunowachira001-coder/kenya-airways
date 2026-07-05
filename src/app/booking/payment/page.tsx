@@ -147,7 +147,7 @@ export default function PaymentPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
             <div>
               <p className="text-base sm:text-lg font-semibold">Total price: <span className="text-xl sm:text-2xl font-bold">KES {totalPrice.toLocaleString()}</span></p>
-              <p className="text-xs sm:text-sm text-gray-600">Round trip price for all passengers.</p>
+              <p className="text-xs sm:text-sm text-gray-600">Round trip price for all passengers (including taxes).</p>
             </div>
             <button className="text-gray-400">▼</button>
           </div>

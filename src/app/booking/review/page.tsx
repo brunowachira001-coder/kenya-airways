@@ -62,7 +62,7 @@ export default function ReviewPage() {
     selectedSeat,
     extras,
   })
-  const { flightTotal, baggageTotal, insuranceTotal, seatTotal, holdBookingTotal, extrasTotal, grandTotal } = totals
+  const { flightTotal, baggageTotal, insuranceTotal, seatTotal, holdBookingTotal, extrasTotal, taxes, grandTotal } = totals
   
   const handleCheckout = () => {
     // Persist the final total into the store so /booking/payment/* can show it.
@@ -439,6 +439,10 @@ export default function ReviewPage() {
               </div>
             )}
             <div className="flex justify-between mb-2">
+              <span className="text-gray-600">Taxes (15%):</span>
+              <span className="font-semibold text-gray-800">+{formatKES(taxes)}</span>
+            </div>
+            <div className="flex justify-between mb-2">
               <span className="text-gray-600">Extras subtotal:</span>
               <span className="font-semibold text-gray-800">{formatKES(extrasTotal)}</span>
             </div>
@@ -449,7 +453,7 @@ export default function ReviewPage() {
               Total price: <span className="text-2xl sm:text-3xl font-bold">{formatKES(grandTotal)}</span>
             </p>
             <p className="text-xs sm:text-sm text-gray-600">
-              Round trip price for all passengers (flights + extras, before taxes).
+              Round trip price for all passengers (flights + extras, including taxes).
               <button 
                 onClick={() => setShowPriceDetails(!showPriceDetails)}
                 className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1"

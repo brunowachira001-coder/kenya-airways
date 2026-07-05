@@ -95,9 +95,8 @@ export default function PassengersPage() {
         selectedSeat,
         extras,
       })
-      const { flightTotal, extrasTotal, grandTotal } = totals
-      const taxes = Math.round(flightTotal * 0.15)
-      const totalAmount = grandTotal + taxes
+      const { flightTotal, extrasTotal, grandTotal, taxes } = totals
+      const totalAmount = grandTotal
       
       // Create primary passenger name for the booking
       const primaryPassengerName = paxDetails.length > 0 

@@ -39,6 +39,7 @@ export function calculateBookingTotal(state: {
   specialAssistanceIncluded: boolean
   holdBookingTotal: number
   extrasTotal: number
+  taxes: number
   grandTotal: number
 } {
   const totalPassengers = state.passengers.adults + state.passengers.children
@@ -59,7 +60,8 @@ export function calculateBookingTotal(state: {
   const holdBookingTotal = state.extras.holdBooking ? EXTRA_PRICING.holdBookingFee : 0
 
   const extrasTotal = baggageTotal + insuranceTotal + seatTotal + holdBookingTotal
-  const grandTotal = flightTotal + extrasTotal
+  const taxes = Math.round(flightTotal * 0.15)
+  const grandTotal = flightTotal + extrasTotal + taxes
 
   return {
     outboundBase,
@@ -73,6 +75,7 @@ export function calculateBookingTotal(state: {
     specialAssistanceIncluded: true,
     holdBookingTotal,
     extrasTotal,
+    taxes,
     grandTotal,
   }
 }
