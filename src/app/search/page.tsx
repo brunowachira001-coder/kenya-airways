@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect, Suspense, useMemo } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
   ChevronDown,
+  ChevronUp,
   ShoppingCart,
   RefreshCw,
   PenSquare,
@@ -99,6 +100,7 @@ function FlightList({
   expanded,
   onToggle,
   onSelect,
+  currency,
 }: {
   flights: Flight[];
   loading: boolean;
@@ -106,6 +108,7 @@ function FlightList({
   expanded: { id: string; cls: "economy" | "business" } | null;
   onToggle: (id: string, cls: "economy" | "business") => void;
   onSelect: (flight: Flight, tier: "economy" | "business", tierIndex: number) => void;
+  currency: string;
 }) {
   if (loading) {
     return (
@@ -152,19 +155,6 @@ function FlightList({
 
   return (
     <>
-      {/* Filters & Sort */}
-      <div className="flex items-center justify-between mb-4">
-        <button className="bg-white border border-gray-300 shadow-sm rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-semibold hover:bg-gray-50 text-[#0d0d0d]">
-          <SlidersHorizontal className="w-4 h-4" /> Filters
-        </button>
-        <div className="flex items-center gap-1 text-sm">
-          <span className="text-gray-500 font-medium">Sort by</span>
-          <button className="font-bold text-[#0d0d0d] flex items-center gap-1 hover:text-[#ed1c24]">
-            Cheapest <ChevronDown className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
       {/* Flight Cards */}
       <div className="flex flex-col gap-3">
         {flights.map(flight => (
@@ -220,7 +210,7 @@ function FlightList({
                   <span className="font-bold text-[11px] text-[#0d0d0d] mt-3">Economy</span>
                   <span className="text-[10px] text-gray-400">from</span>
                   <span className="text-base font-extrabold text-[#ed1c24]">
-                    KES {flight.economyPrice.toLocaleString()}
+                    {formatPrice(flight.economyPrice, currency)}
                   </span>
                   <ChevronDown className={`w-4 h-4 text-gray-400 mt-1 transition-transform duration-200 ${expanded?.id === flight.id && expanded.cls === "economy" ? "rotate-180" : ""}`} />
                 </button>
@@ -235,7 +225,7 @@ function FlightList({
                   <span className="font-bold text-[11px] text-[#0d0d0d] mt-3">Business</span>
                   <span className="text-[10px] text-gray-400">from</span>
                   <span className="text-base font-extrabold text-[#0d0d0d]">
-                    KES {flight.businessPrice.toLocaleString()}
+                    {formatPrice(flight.businessPrice, currency)}
                   </span>
                   <ChevronDown className={`w-4 h-4 text-gray-400 mt-1 transition-transform duration-200 ${expanded?.id === flight.id && expanded.cls === "business" ? "rotate-180" : ""}`} />
                 </button>
@@ -257,6 +247,26 @@ function FlightList({
   );
 }
 
+// ── Currency conversion rates (relative to KES) ──────────────────────────────
+const CURRENCIES: Record<string, { rate: number; symbol: string; label: string }> = {
+  KES: { rate: 1, symbol: "KES", label: "Kenyan Shilling" },
+  USD: { rate: 0.0077, symbol: "$", label: "US Dollar" },
+  EUR: { rate: 0.0071, symbol: "€", label: "Euro" },
+  GBP: { rate: 0.0061, symbol: "£", label: "British Pound" },
+  TZS: { rate: 19.5, symbol: "TZS", label: "Tanzanian Shilling" },
+  UGX: { rate: 28.5, symbol: "UGX", label: "Ugandan Shilling" },
+  NGN: { rate: 11.8, symbol: "₦", label: "Nigerian Naira" },
+  ZAR: { rate: 0.14, symbol: "R", label: "South African Rand" },
+  INR: { rate: 0.64, symbol: "₹", label: "Indian Rupee" },
+  AED: { rate: 0.028, symbol: "AED", label: "UAE Dirham" },
+}
+
+function formatPrice(amountKes: number, currency: string): string {
+  const c = CURRENCIES[currency] || CURRENCIES.KES
+  const converted = Math.round(amountKes * c.rate)
+  return `${c.symbol} ${converted.toLocaleString()}`
+}
+
 // ── Main search content ───────────────────────────────────────────────────────
 function SearchContent() {
   const router = useRouter();
@@ -270,8 +280,17 @@ function SearchContent() {
   const destination = searchParams.get("to") || "";
   const departDate = searchParams.get("depart") || "";
   const returnDate = searchParams.get("return") || "";
-  const adults = parseInt(searchParams.get("adults") || "1");
+  const initialAdults = parseInt(searchParams.get("adults") || "1");
   const isRoundTrip = !!returnDate;
+
+  // Sort, currency, and passenger state
+  const [sortBy, setSortBy] = useState<"cheapest" | "fastest" | "earliest">("cheapest");
+  const [showSortMenu, setShowSortMenu] = useState(false);
+  const [currency, setCurrency] = useState("KES");
+  const [showCurrencyMenu, setShowCurrencyMenu] = useState(false);
+  const [adults, setAdults] = useState(initialAdults);
+  const [children, setChildren] = useState(0);
+  const [showPassengerMenu, setShowPassengerMenu] = useState(false);
 
   const { setSelectedOutboundFlight, setSelectedReturnFlight, setOrigin, setDestination, setDepartureDate, setReturnDate, setTripType, updatePassengers } = useBookingStore();
 
@@ -283,7 +302,22 @@ function SearchContent() {
     if (returnDate) setReturnDate(returnDate + "T00:00:00");
     setTripType(isRoundTrip ? "round-trip" : "one-way");
     updatePassengers("adults", adults);
-  }, [origin, destination, departDate, returnDate, isRoundTrip, adults]);
+    updatePassengers("children", children);
+  }, [origin, destination, departDate, returnDate, isRoundTrip, adults, children]);
+
+  // Re-search with new passenger count
+  const handlePassengerChange = (type: "adults" | "children", delta: number) => {
+    const newAdults = type === "adults" ? Math.max(1, adults + delta) : adults;
+    const newChildren = type === "children" ? Math.max(0, children + delta) : children;
+    setAdults(newAdults);
+    setChildren(newChildren);
+    // Update URL with new passenger count
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("adults", String(newAdults));
+    if (newChildren > 0) params.set("children", String(newChildren));
+    else params.delete("children");
+    router.push(`/search?${params.toString()}`);
+  };
 
   // Outbound flights state
   const [flights, setFlights] = useState<Flight[]>([]);
@@ -300,6 +334,53 @@ function SearchContent() {
   // Two-step state: "outbound" | "return"
   const [step, setStep] = useState<"outbound" | "return">("outbound");
   const [pendingOutbound, setPendingOutbound] = useState<{ flight: Flight; tier: "economy" | "business"; price: number } | null>(null);
+
+  // Sort flights
+  const sortedFlights = useMemo(() => {
+    const sorted = [...flights];
+    switch (sortBy) {
+      case "cheapest":
+        sorted.sort((a, b) => a.economyPrice - b.economyPrice);
+        break;
+      case "fastest":
+        sorted.sort((a, b) => {
+          const parseDur = (d: string) => {
+            const h = parseInt(d) || 0;
+            const m = parseInt(d.split(" ")[1]) || 0;
+            return h * 60 + m;
+          };
+          return parseDur(a.duration) - parseDur(b.duration);
+        });
+        break;
+      case "earliest":
+        sorted.sort((a, b) => a.departureTime.localeCompare(b.departureTime));
+        break;
+    }
+    return sorted;
+  }, [flights, sortBy]);
+
+  const sortedReturnFlights = useMemo(() => {
+    const sorted = [...returnFlights];
+    switch (sortBy) {
+      case "cheapest":
+        sorted.sort((a, b) => a.economyPrice - b.economyPrice);
+        break;
+      case "fastest":
+        sorted.sort((a, b) => {
+          const parseDur = (d: string) => {
+            const h = parseInt(d) || 0;
+            const m = parseInt(d.split(" ")[1]) || 0;
+            return h * 60 + m;
+          };
+          return parseDur(a.duration) - parseDur(b.duration);
+        });
+        break;
+      case "earliest":
+        sorted.sort((a, b) => a.departureTime.localeCompare(b.departureTime));
+        break;
+    }
+    return sorted;
+  }, [returnFlights, sortBy]);
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
@@ -422,13 +503,45 @@ function SearchContent() {
               </>
             )}
             <span className="text-gray-300">|</span>
-            <span className="flex items-center gap-1">
-              <svg className="w-3.5 h-3.5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              {adults} Passenger{adults !== 1 ? "s" : ""}
-            </span>
+            <div className="relative">
+              <button
+                onClick={() => setShowPassengerMenu(!showPassengerMenu)}
+                className="flex items-center gap-1 hover:text-[#ed1c24] transition-colors"
+              >
+                <svg className="w-3.5 h-3.5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                {adults + children} Passenger{(adults + children) !== 1 ? "s" : ""}
+                {showPassengerMenu ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              </button>
+              {showPassengerMenu && (
+                <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-30 p-4 w-64">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <p className="font-semibold text-sm text-[#0d0d0d]">Adults</p>
+                      <p className="text-[10px] text-gray-400">12+ years</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button onClick={() => handlePassengerChange("adults", -1)} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-lg font-bold hover:bg-gray-100 disabled:opacity-30" disabled={adults <= 1}>−</button>
+                      <span className="w-6 text-center font-bold text-sm">{adults}</span>
+                      <button onClick={() => handlePassengerChange("adults", 1)} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-lg font-bold hover:bg-gray-100">+</button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-sm text-[#0d0d0d]">Children</p>
+                      <p className="text-[10px] text-gray-400">2–11 years</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button onClick={() => handlePassengerChange("children", -1)} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-lg font-bold hover:bg-gray-100 disabled:opacity-30" disabled={children <= 0}>−</button>
+                      <span className="w-6 text-center font-bold text-sm">{children}</span>
+                      <button onClick={() => handlePassengerChange("children", 1)} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-lg font-bold hover:bg-gray-100">+</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-3 ml-auto">
@@ -486,21 +599,73 @@ function SearchContent() {
                   )}
                 </p>
               </div>
-              <div className="border border-gray-300 rounded-md bg-white px-4 py-2 w-full sm:w-56 cursor-pointer shadow-sm hover:border-gray-400 flex-shrink-0">
-                <span className="text-[10px] text-gray-400 block mb-0.5">Preferred currency</span>
-                <div className="flex justify-between items-center text-sm font-bold text-[#0d0d0d]">
-                  KES – Kenyan Shilling <ChevronDown className="w-4 h-4 text-gray-400" />
+              <div className="relative">
+                <button
+                  onClick={() => setShowCurrencyMenu(!showCurrencyMenu)}
+                  className="border border-gray-300 rounded-md bg-white px-4 py-2 w-full sm:w-56 cursor-pointer shadow-sm hover:border-gray-400 flex-shrink-0 text-left"
+                >
+                  <span className="text-[10px] text-gray-400 block mb-0.5">Preferred currency</span>
+                  <div className="flex justify-between items-center text-sm font-bold text-[#0d0d0d]">
+                    {currency} – {CURRENCIES[currency]?.label || "Kenyan Shilling"}
+                    {showCurrencyMenu ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                  </div>
+                </button>
+                {showCurrencyMenu && (
+                  <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1 w-56 max-h-64 overflow-y-auto">
+                    {Object.entries(CURRENCIES).map(([code, info]) => (
+                      <button
+                        key={code}
+                        onClick={() => { setCurrency(code); setShowCurrencyMenu(false); }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${currency === code ? "font-bold text-[#ed1c24]" : "text-gray-700"}`}
+                      >
+                        {code} – {info.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Filters & Sort */}
+            <div className="flex items-center justify-between mb-4">
+              <button className="bg-white border border-gray-300 shadow-sm rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-semibold hover:bg-gray-50 text-[#0d0d0d]">
+                <SlidersHorizontal className="w-4 h-4" /> Filters
+              </button>
+              <div className="relative">
+                <div className="flex items-center gap-1 text-sm">
+                  <span className="text-gray-500 font-medium">Sort by</span>
+                  <button
+                    onClick={() => setShowSortMenu(!showSortMenu)}
+                    className="font-bold text-[#0d0d0d] flex items-center gap-1 hover:text-[#ed1c24]"
+                  >
+                    {sortBy === "cheapest" ? "Cheapest" : sortBy === "fastest" ? "Fastest" : "Earliest"}
+                    {showSortMenu ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </button>
                 </div>
+                {showSortMenu && (
+                  <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1 w-40">
+                    {(["cheapest", "fastest", "earliest"] as const).map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => { setSortBy(opt); setShowSortMenu(false); }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 capitalize ${sortBy === opt ? "font-bold text-[#ed1c24]" : "text-gray-700"}`}
+                      >
+                        {opt === "cheapest" ? "Cheapest" : opt === "fastest" ? "Fastest" : "Earliest departure"}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
             <FlightList
-              flights={flights}
+              flights={sortedFlights}
               loading={loading}
               error={error}
               expanded={expandedOut}
               onToggle={toggleOut}
               onSelect={handleOutboundSelect}
+              currency={currency}
             />
           </>
         )}
@@ -547,12 +712,13 @@ function SearchContent() {
             </div>
 
             <FlightList
-              flights={returnFlights}
+              flights={sortedReturnFlights}
               loading={returnLoading}
               error={returnError}
               expanded={expandedRet}
               onToggle={toggleRet}
               onSelect={handleReturnSelect}
+              currency={currency}
             />
           </>
         )}
