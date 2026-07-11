@@ -3,6 +3,9 @@ import { supabase, supabaseAdmin } from "@/lib/supabase"
 
 export const dynamic = "force-dynamic"
 
+const VALID_PAYMENT_STATUSES = ["pending", "processing", "paid", "failed", "refunded"]
+const VALID_BOOKING_STATUSES = ["confirmed", "cancelled", "completed", "pending"]
+
 interface RouteParams {
   params: Promise<{ reference: string }>
 }
@@ -66,6 +69,18 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   try {
     const { reference } = await params
 
+    // Require admin authentication for booking updates
+    const authHeader = req.headers.get("authorization")
+    if (!authHeader || !authHeader.startsWith("Basic ")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+    const base64 = authHeader.split(" ")[1]
+    const decoded = atob(base64)
+    const [username, password] = decoded.split(":")
+    if (username !== "admin" || password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     if (!supabaseAdmin) {
       return NextResponse.json(
         { error: "Database not configured" },
@@ -75,6 +90,22 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
     const body = await req.json()
     const { paymentStatus, paymentReference, mpesaReceipt, bookingStatus } = body
+
+    // Validate payment status
+    if (paymentStatus !== undefined && !VALID_PAYMENT_STATUSES.includes(paymentStatus)) {
+      return NextResponse.json(
+        { error: `Invalid payment status. Must be one of: ${VALID_PAYMENT_STATUSES.join(", ")}` },
+        { status: 400 }
+      )
+    }
+
+    // Validate booking status
+    if (bookingStatus !== undefined && !VALID_BOOKING_STATUSES.includes(bookingStatus)) {
+      return NextResponse.json(
+        { error: `Invalid booking status. Must be one of: ${VALID_BOOKING_STATUSES.join(", ")}` },
+        { status: 400 }
+      )
+    }
 
     // Build update object
     const updates: Record<string, string> = {}
@@ -98,9 +129,8 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       .single()
 
     if (error) {
-      console.error("Supabase update error:", error)
       return NextResponse.json(
-        { error: error.message },
+        { error: "Failed to update booking" },
         { status: 500 }
       )
     }
@@ -109,8 +139,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       success: true,
       booking: data
     })
-  } catch (err) {
-    console.error("PATCH /api/bookings/[reference] error:", err)
+  } catch {
     return NextResponse.json(
       { error: "Failed to update booking" },
       { status: 500 }

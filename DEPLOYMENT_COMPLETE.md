@@ -1,8 +1,8 @@
-# ✅ DEPLOYMENT COMPLETE - kqairways.sbs
+# ✅ DEPLOYMENT COMPLETE - www.kqairways.com
 
 **Date**: July 1, 2026, 14:49  
 **Status**: ✅ FULLY OPERATIONAL  
-**Website**: https://kqairways.sbs
+**Website**: https://www.kqairways.com
 
 ---
 
@@ -76,7 +76,7 @@ All flights and destinations now have current dates and are fully operational!
 
 ### 5. API ✅
 - `/api/flights/search` returns database results
-- Tested live: https://kqairways.sbs/api/flights/search?from=NBO&to=MBA&depart=2026-07-01
+- Tested live: https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01
 - Returns 6 flights for NBO-MBA route ✓
 
 ### 6. Dates ✅
@@ -96,7 +96,7 @@ All flights and destinations now have current dates and are fully operational!
 
 ### API Test Results:
 ```bash
-$ curl "https://kqairways.sbs/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+$ curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
 ```
 
 **Response**:
@@ -230,7 +230,7 @@ Set up a daily cron job in Vercel or external service to run the seed script.
 
 ## 🎯 TESTING CHECKLIST
 
-Test these on https://kqairways.sbs:
+Test these on https://www.kqairways.com:
 
 - [ ] **Homepage**: Deals show "01 Jul 26 to 08 Jul 26" ✓
 - [ ] **Search NBO-MBA**: Returns 6 flights ✓
@@ -274,7 +274,7 @@ Test these on https://kqairways.sbs:
 
 **🎉 TASK 100% COMPLETE!**
 
-Your website **kqairways.sbs** now has:
+Your website **www.kqairways.com** now has:
 - ✅ 352 flights with current dates
 - ✅ All 39 routes operational
 - ✅ Zero empty searches

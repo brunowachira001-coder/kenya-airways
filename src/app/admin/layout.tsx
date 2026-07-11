@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -7,9 +9,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span className="text-[#ed1c24] font-bold text-xl">KQ</span>
             <h1 className="text-lg font-semibold">Admin Dashboard</h1>
           </div>
-          <a href="/" className="text-sm text-gray-400 hover:text-white transition-colors">
+          <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">
             Back to Site
-          </a>
+          </Link>
         </div>
       </header>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">

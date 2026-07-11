@@ -272,10 +272,6 @@ function SearchContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Track search page visit
-  const searchFrom = searchParams.get("from") || "";
-  const searchTo = searchParams.get("to") || "";
-
   const origin = searchParams.get("from") || "";
   const destination = searchParams.get("to") || "";
   const departDate = searchParams.get("depart") || "";

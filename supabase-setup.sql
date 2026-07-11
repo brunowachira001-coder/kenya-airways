@@ -207,9 +207,9 @@ CREATE POLICY "Anyone can create bookings"
   ON bookings FOR INSERT 
   WITH CHECK (true);
 
-CREATE POLICY "Users can view their own bookings" 
-  ON bookings FOR SELECT 
-  USING (email = current_setting('request.jwt.claims', true)::json->>'email' OR true);
+CREATE POLICY "Users can view their own bookings"
+  ON bookings FOR SELECT
+  USING (email = current_setting('request.jwt.claims', true)::json->>'email');
 
 CREATE POLICY "Users can update their own bookings" 
   ON bookings FOR UPDATE 
@@ -234,24 +234,24 @@ CREATE POLICY "Anyone can view search history"
   USING (true);
 
 -- Passengers policies
-CREATE POLICY "Users can insert passengers for their bookings" 
-  ON passengers FOR INSERT 
+CREATE POLICY "Users can insert passengers for their bookings"
+  ON passengers FOR INSERT
   WITH CHECK (
     EXISTS (
-      SELECT 1 FROM bookings 
-      WHERE bookings.id = passengers.booking_id 
+      SELECT 1 FROM bookings
+      WHERE bookings.id = passengers.booking_id
       AND bookings.email = current_setting('request.jwt.claims', true)::json->>'email'
-    ) OR true
+    )
   );
 
-CREATE POLICY "Users can view passengers for their bookings" 
-  ON passengers FOR SELECT 
+CREATE POLICY "Users can view passengers for their bookings"
+  ON passengers FOR SELECT
   USING (
     EXISTS (
-      SELECT 1 FROM bookings 
-      WHERE bookings.id = passengers.booking_id 
+      SELECT 1 FROM bookings
+      WHERE bookings.id = passengers.booking_id
       AND bookings.email = current_setting('request.jwt.claims', true)::json->>'email'
-    ) OR true
+    )
   );
 
 -- Contact messages policies

@@ -18,6 +18,8 @@ export default function MobilePaymentPage() {
     selectedSeat,
     extras,
     _hydrated,
+    setPaymentStatus: setStorePaymentStatus,
+    setTransactionReference: setStoreTransactionReference,
   } = useBookingStore()
 
   useEffect(() => {
@@ -98,9 +100,10 @@ export default function MobilePaymentPage() {
         if (result.status === "completed") {
           stopPolling()
           setPaymentStatus("success")
+          setStorePaymentStatus("paid")
           setStatusMessage("Payment successful!")
           setMpesaReceipt(result.mpesaReceiptNumber || "")
-          
+
           // Update booking with M-Pesa receipt and paid status
           if (bookingReference && result.mpesaReceiptNumber) {
             try {
@@ -177,8 +180,10 @@ export default function MobilePaymentPage() {
 
       if (result.success) {
         setTransactionReference(result.transactionReference)
+        setStoreTransactionReference(result.transactionReference)
+        setStorePaymentStatus("processing")
         setStatusMessage("Payment prompt sent! Please check your phone and enter M-Pesa PIN")
-        
+
         // Update booking with payment reference and pending status
         if (bookingReference && result.transactionReference) {
           try {

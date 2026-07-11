@@ -1,7 +1,7 @@
 ╔══════════════════════════════════════════════════════════════════════╗
 ║                                                                      ║
 ║          🚀 KENYA AIRWAYS - FINAL DEPLOYMENT STEPS                   ║
-║              Deploy to: https://kqairways.sbs                        ║
+║              Deploy to: https://www.kqairways.com                        ║
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
@@ -63,7 +63,7 @@ Expected Output:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🎉 AFTER COMPLETION: Visit https://kqairways.sbs
+🎉 AFTER COMPLETION: Visit https://www.kqairways.com
 
 ✅ Current dates everywhere (01 Jul 26 to 08 Jul 26)
 ✅ Flight search working with real database data

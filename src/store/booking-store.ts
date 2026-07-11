@@ -115,6 +115,8 @@ export interface BookingExtras {
   totalPrice?: number
 }
 
+export type PaymentStatus = "pending" | "processing" | "paid" | "failed"
+
 interface BookingState {
   tripType: TripType
   origin: string
@@ -137,6 +139,8 @@ interface BookingState {
   extras: BookingExtras
   currentStep: number
   bookingReference: string | null
+  paymentStatus: PaymentStatus
+  transactionReference: string | null
   _hydrated: boolean
 
   setTripType: (type: TripType) => void
@@ -157,6 +161,8 @@ interface BookingState {
   setExtras: (extras: Partial<BookingExtras>) => void
   setCurrentStep: (step: number) => void
   setBookingReference: (reference: string | null) => void
+  setPaymentStatus: (status: PaymentStatus) => void
+  setTransactionReference: (ref: string | null) => void
   resetBooking: () => void
   resetAll: () => void
 }
@@ -195,6 +201,8 @@ export const useBookingStore = create(
       },
       currentStep: 1,
       bookingReference: null,
+      paymentStatus: "pending",
+      transactionReference: null,
       _hydrated: false,
 
       setTripType: (type) => set({ tripType: type }),
@@ -227,6 +235,8 @@ export const useBookingStore = create(
       })),
       setCurrentStep: (currentStep) => set({ currentStep }),
       setBookingReference: (bookingReference) => set({ bookingReference }),
+      setPaymentStatus: (paymentStatus) => set({ paymentStatus }),
+      setTransactionReference: (transactionReference) => set({ transactionReference }),
       resetBooking: () => set({
         selectedOutboundFlight: null,
         selectedReturnFlight: null,

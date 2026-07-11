@@ -3,13 +3,30 @@ import { supabaseAdmin } from "@/lib/supabase"
 
 export const dynamic = "force-dynamic"
 
+function verifyAdminAuth(req: NextRequest): boolean {
+  const authHeader = req.headers.get("authorization")
+  if (!authHeader || !authHeader.startsWith("Basic ")) return false
+
+  const base64 = authHeader.split(" ")[1]
+  const decoded = atob(base64)
+  const [username, password] = decoded.split(":")
+
+  return (
+    username === "admin" && password === process.env.ADMIN_PASSWORD
+  )
+}
+
 export async function GET(req: NextRequest) {
+  if (!verifyAdminAuth(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   if (!supabaseAdmin) {
     return NextResponse.json({ error: "Database not configured" }, { status: 500 })
   }
 
   const { searchParams } = new URL(req.url)
-  const days = parseInt(searchParams.get("days") || "30")
+  const days = Math.min(Math.max(parseInt(searchParams.get("days") || "30"), 1), 365)
   const since = new Date(Date.now() - days * 86400000).toISOString()
 
   try {
@@ -192,8 +209,12 @@ export async function GET(req: NextRequest) {
         email: p.email,
         phone: p.phone,
         nationality: p.nationality,
-        passportNumber: p.passport_number,
-        passportExpiry: p.passport_expiry,
+        passportNumber: p.passport_number
+          ? `****${p.passport_number.slice(-4)}`
+          : null,
+        passportExpiry: p.passport_expiry
+          ? `**/${p.passport_expiry.slice(-2)}`
+          : null,
         specialMeal: p.special_meal,
         specialAssistance: p.special_assistance,
       }))

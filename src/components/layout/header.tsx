@@ -52,10 +52,10 @@ export function Header() {
               <path d="M 0 0 Q 40 50, 0 100 L 80 100 L 80 0 Z" fill="white" />
             </svg>
           </div>
-          
+
           <div className={`flex items-center h-full w-full relative z-10 ${isSearchPage ? 'pl-6 pr-16' : 'pl-8 pr-20'}`}>
             <img
-              src="/kenya_airways_logo.svg"
+              src="/kq-logo.svg"
               alt="Kenya Airways – The Pride of Africa"
               className={`${isSearchPage ? 'w-[210px]' : 'w-[240px]'} h-auto object-contain py-2`}
             />
@@ -64,7 +64,7 @@ export function Header() {
 
         {/* Main Content Container */}
         <div className={`max-w-[1440px] mx-auto w-full h-full relative z-20 flex flex-col justify-between ${isSearchPage ? 'pl-[270px]' : 'pl-[310px]'} pr-8`}>
-          
+
           {/* Top Row: Utility links (or just English on search page) */}
           {isSearchPage ? (
             <div className="h-full flex items-center justify-end text-sm text-[#545352] font-medium">
@@ -151,11 +151,11 @@ export function Header() {
                 <path d="M 0 0 Q 20 28, 0 56 L 40 56 L 40 0 Z" fill="white" />
               </svg>
             </div>
-            
-            <img 
-              src="/kenya_airways_logo.svg" 
-              alt="Kenya Airways – The Pride of Africa" 
-              className="h-8 w-auto object-contain relative z-10 ml-4 mr-12" 
+
+            <img
+              src="/kq-logo.svg"
+              alt="Kenya Airways – The Pride of Africa"
+              className="h-8 w-auto object-contain relative z-10 ml-4 mr-12"
             />
           </div>
         </Link>

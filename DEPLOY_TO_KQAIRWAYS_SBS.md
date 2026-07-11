@@ -1,4 +1,4 @@
-# 🚀 Deploy to kqairways.sbs - Final Steps
+# 🚀 Deploy to www.kqairways.com - Final Steps
 
 **Status**: ✅ Code Pushed to GitHub  
 **Remaining**: SQL Migration + Database Seeding  
@@ -96,7 +96,7 @@ After seeding completes, your website is LIVE with current dates!
 
 ### Test Checklist:
 
-1. **Visit**: https://kqairways.sbs
+1. **Visit**: https://www.kqairways.com
 
 2. **Homepage Deals**:
    - Should show: **"01 Jul 26 to 08 Jul 26"**
@@ -113,7 +113,7 @@ After seeding completes, your website is LIVE with current dates!
    - NBO → JNB (Johannesburg): 2 flights
 
 5. **Check Deals Page**:
-   - Visit: https://kqairways.sbs/deals
+   - Visit: https://www.kqairways.com/deals
    - All deals should show current dates
    - Filter by region should work
 
@@ -153,7 +153,7 @@ Set up a cron job or Vercel Cron to run daily:
 - ✅ Fast indexed queries
 
 ### Website:
-- ✅ Live at: https://kqairways.sbs
+- ✅ Live at: https://www.kqairways.com
 - ✅ All dates current (no hardcoded past dates)
 - ✅ Flight search working with real data
 - ✅ Deals showing current week
@@ -284,7 +284,7 @@ console.log(`Total flights: ${count}`)
 EOF
 
 # Test API
-curl "https://kqairways.sbs/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
 ```
 
 ---
@@ -304,7 +304,7 @@ curl "https://kqairways.sbs/api/flights/search?from=NBO&to=MBA&depart=2026-07-01
 - [ ] `flights` table visible in Table Editor
 - [ ] Seed script executed successfully
 - [ ] 350+ flights in database
-- [ ] kqairways.sbs showing current dates
+- [ ] www.kqairways.com showing current dates
 - [ ] Flight search returning results
 - [ ] Deals section updated
 
@@ -317,7 +317,7 @@ Just 2 commands away from having a fully functional flight booking system with *
 1. **Copy & run SQL** in Supabase Dashboard
 2. **Run**: `npx tsx seed-flights.ts`
 
-Then enjoy your updated kqairways.sbs! 🚀✈️
+Then enjoy your updated www.kqairways.com! 🚀✈️
 
 ---
 

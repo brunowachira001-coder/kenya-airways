@@ -1,4 +1,4 @@
-# ✅ COMPLETE DEPLOYMENT - kqairways.sbs
+# ✅ COMPLETE DEPLOYMENT - www.kqairways.com
 
 **Status**: 95% Complete - Just 1 SQL command needed  
 **Time**: 2 minutes  
@@ -65,7 +65,7 @@ This automatically:
 
 ## 🎉 RESULT
 
-After these 2 steps, **kqairways.sbs** will have:
+After these 2 steps, **www.kqairways.com** will have:
 
 ✅ **350+ flights** with current dates  
 ✅ **50+ routes**: NBO-MBA, NBO-LHR, NBO-DXB, NBO-JNB, etc.  
@@ -128,15 +128,15 @@ After completion, test immediately:
 
 ```bash
 # Test 1: Homepage deals
-curl -s https://kqairways.sbs | grep "Jul 26"
+curl -s https://www.kqairways.com | grep "Jul 26"
 # Should show: "01 Jul 26 to 08 Jul 26"
 
 # Test 2: Flight search API
-curl "https://kqairways.sbs/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
 # Should return 6+ flights
 
 # Test 3: Another route
-curl "https://kqairways.sbs/api/flights/search?from=NBO&to=LHR&depart=2026-07-01"
+curl "https://www.kqairways.com/api/flights/search?from=NBO&to=LHR&depart=2026-07-01"
 # Should return 1 flight
 ```
 

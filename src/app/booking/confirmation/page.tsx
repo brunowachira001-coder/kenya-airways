@@ -1,36 +1,91 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { CheckCircle, Download, Mail, Printer, Calendar, MapPin, Clock, Users, CreditCard } from "lucide-react"
+import { CheckCircle, Download, Mail, Printer, Calendar, Copy, Check, ArrowRight, Shield, Clock, CreditCard } from "lucide-react"
 import { useBookingStore, calculateBookingTotal } from "@/store/booking-store"
+import BoardingPass from "@/components/boarding-pass/boarding-pass"
 import Link from "next/link"
+
+const airportCities: Record<string, string> = {
+  NBO: "Nairobi", MBA: "Mombasa", KIS: "Kisumu", EDL: "Eldoret",
+  DAR: "Dar es Salaam", EBB: "Entebbe", ADD: "Addis Ababa",
+  LHR: "London", CDG: "Paris", AMS: "Amsterdam", DXB: "Dubai",
+  BOM: "Mumbai", MRU: "Mauritius", JNB: "Johannesburg",
+  KGL: "Kigali", LOS: "Lagos", ACC: "Accra", LGW: "London",
+}
 
 export default function BookingConfirmation() {
   const router = useRouter()
   const store = useBookingStore()
   const [showSuccess, setShowSuccess] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [verifyingPayment, setVerifyingPayment] = useState(true)
+  const ticketRef = useRef<HTMLDivElement>(null)
 
-  // Use the REAL booking reference assigned by /api/bookings (Supabase or fallback).
-  // The previous version generated a new random local reference here, which made the
-  // confirmation number mismatch the actual database row.
   const realReference = store.bookingReference
   const [fallbackReference, setFallbackReference] = useState("")
   const bookingReference = realReference || fallbackReference
 
+  // Payment status from store - only "paid" shows the ticket
+  const isPaymentConfirmed = store.paymentStatus === "paid"
+  const transactionRef = store.transactionReference
+
   useEffect(() => {
-    // If for some reason the store has no reference (e.g. user landed here directly),
-    // generate a local one so we still show *something* rather than a blank page.
+    setMounted(true)
     if (!realReference) {
-      console.warn("No booking reference in store — generating local fallback. This should not happen in normal flow.")
       setFallbackReference(`KQ${Math.random().toString(36).substring(2, 9).toUpperCase()}`)
     }
-
-    // Show success animation
     setTimeout(() => setShowSuccess(true), 300)
   }, [realReference])
 
-  // Compute total consistently with the rest of the flow.
+  // Verify payment status with Paynecta if we have a transaction reference
+  useEffect(() => {
+    if (!transactionRef || isPaymentConfirmed) {
+      setVerifyingPayment(false)
+      return
+    }
+
+    const verifyPayment = async () => {
+      try {
+        const response = await fetch(`/api/payment/paynecta/status?transactionReference=${encodeURIComponent(transactionRef)}`)
+        const result = await response.json()
+
+        if (result.success && result.status === "completed") {
+          store.setPaymentStatus("paid")
+          setVerifyingPayment(false)
+        } else if (result.status === "failed" || result.status === "cancelled") {
+          store.setPaymentStatus("failed")
+          setVerifyingPayment(false)
+        }
+        // Continue verifying for pending/processing status
+      } catch (err) {
+        console.error("Payment verification error:", err)
+      }
+    }
+
+    // Initial verification
+    verifyPayment()
+
+    // Poll every 5 seconds until confirmed or failed
+    const interval = setInterval(verifyPayment, 5000)
+
+    // Stop after 5 minutes
+    const timeout = setTimeout(() => {
+      clearInterval(interval)
+      setVerifyingPayment(false)
+    }, 5 * 60 * 1000)
+
+    return () => {
+      clearInterval(interval)
+      clearTimeout(timeout)
+    }
+  }, [transactionRef, isPaymentConfirmed, store])
+
+  // Prevent hydration mismatch by showing nothing until mounted
+  if (!mounted) return <div className="min-h-screen bg-gray-50" />
+
   const totals = calculateBookingTotal({
     selectedOutboundFlight: store.selectedOutboundFlight,
     selectedReturnFlight: store.selectedReturnFlight,
@@ -41,29 +96,77 @@ export default function BookingConfirmation() {
   })
   const totalPrice = store.extras.totalPrice || totals.grandTotal
 
-  const formatDate = (dateStr: string | undefined) => {
-    if (!dateStr) return "Not specified"
-    const date = new Date(dateStr)
-    return date.toLocaleDateString('en-GB', { 
-      weekday: 'short', 
-      day: 'numeric', 
-      month: 'short', 
-      year: 'numeric' 
-    })
+  const handleCopyRef = async () => {
+    await navigator.clipboard.writeText(bookingReference)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const handlePrint = () => {
-    window.print()
+    const printContent = document.getElementById("boarding-pass")
+    if (!printContent) return window.print()
+    const win = window.open("", "_blank")
+    if (!win) return window.print()
+    win.document.write(`<!DOCTYPE html><html><head><title>Boarding Pass - ${bookingReference}</title>
+      <style>
+        @page { size: landscape; margin: 10mm; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: white; }
+        @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+      </style></head><body>${printContent.outerHTML}</body></html>`)
+    win.document.close()
+    setTimeout(() => { win.print(); win.close() }, 500)
   }
 
   const handleDownload = () => {
-    // In a real app, this would generate a PDF
-    alert("PDF download would be triggered here")
+    const ticketEl = document.getElementById("boarding-pass")
+    if (!ticketEl) return
+
+    const html = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Kenya Airways Boarding Pass - ${bookingReference}</title>
+<style>
+  @page { size: landscape; margin: 10mm; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 20px; display: flex; justify-content: center; background: white; }
+  @media print { body { margin: 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+  * { box-sizing: border-box; }
+</style></head><body>${ticketEl.outerHTML}</body></html>`
+
+    const blob = new Blob([html], { type: "text/html" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `boarding-pass-${bookingReference}.html`
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   const handleEmailReceipt = () => {
-    // In a real app, this would send an email
-    alert(`Receipt would be sent to: ${store.contactDetails?.email}`)
+    alert(`Boarding pass would be emailed to: ${store.contactDetails?.email}`)
+  }
+
+  const handleAddToCalendar = () => {
+    const departDate = store.departureDate || new Date().toISOString().split("T")[0]
+    const flightId = store.selectedOutboundFlight?.id || "KQ000"
+    const origin = store.origin || "NBO"
+    const destination = store.destination || "MBA"
+
+    const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:${departDate.replace(/-/g, "")}T000000Z
+DTEND:${departDate.replace(/-/g, "")}T235959Z
+SUMMARY:Flight ${flightId} ${origin} → ${destination}
+DESCRIPTION:Booking Reference: ${bookingReference}\nPassenger: ${store.passengerDetails[0]?.firstName || ""} ${store.passengerDetails[0]?.lastName || ""}\nSeat: ${store.selectedSeat?.id || "TBD"}
+LOCATION:${origin} Airport
+END:VEVENT
+END:VCALENDAR`
+
+    const blob = new Blob([ics], { type: "text/calendar" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `flight-${bookingReference}.ics`
+    a.click()
+    URL.revokeObjectURL(url)
   }
 
   const handleNewBooking = () => {
@@ -71,249 +174,184 @@ export default function BookingConfirmation() {
     router.push("/")
   }
 
+  const electronicTicket = `706${bookingReference.replace(/\D/g, "").padEnd(12, "0").slice(0, 12)}`
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Success Banner */}
-      <div className={`bg-gradient-to-r from-green-600 to-green-500 text-white transition-all duration-700 ${showSuccess ? 'py-16' : 'py-0 h-0 overflow-hidden'}`}>
+      <div className={`bg-gradient-to-r ${isPaymentConfirmed ? 'from-green-600 to-green-500' : 'from-yellow-600 to-yellow-500'} text-white transition-all duration-700 ${showSuccess ? 'py-12' : 'py-0 h-0 overflow-hidden'}`}>
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="flex justify-center mb-4">
-            <CheckCircle className="w-20 h-20 animate-bounce" />
+          <div className="flex justify-center mb-3">
+            <CheckCircle className="w-16 h-16 animate-bounce" />
           </div>
-          <h1 className="text-4xl font-bold mb-2">Booking Confirmed!</h1>
-          <p className="text-xl text-green-50">Your flight has been successfully booked</p>
+          <h1 className="text-3xl font-bold mb-1">{isPaymentConfirmed ? 'Booking Confirmed!' : 'Booking Pending Payment'}</h1>
+          <p className="text-lg text-green-50">{isPaymentConfirmed ? 'Your flight has been successfully booked and paid' : 'Complete M-Pesa payment to receive your boarding pass'}</p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Booking Reference Card */}
-        <div className="bg-white rounded-lg shadow-lg border-2 border-green-500 p-8 mb-6 text-center">
-          <p className="text-gray-600 text-sm font-medium mb-2">Booking Reference</p>
-          <p className="text-4xl font-bold text-[#ed1c24] tracking-wider mb-4">{bookingReference}</p>
-          <p className="text-sm text-gray-600">Please save this reference number for your records</p>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-          <button
-            onClick={handlePrint}
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200"
-          >
-            <Printer className="w-6 h-6 text-gray-600" />
-            <span className="text-xs font-medium text-gray-700">Print</span>
-          </button>
-          <button
-            onClick={handleDownload}
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200"
-          >
-            <Download className="w-6 h-6 text-gray-600" />
-            <span className="text-xs font-medium text-gray-700">Download</span>
-          </button>
-          <button
-            onClick={handleEmailReceipt}
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200"
-          >
-            <Mail className="w-6 h-6 text-gray-600" />
-            <span className="text-xs font-medium text-gray-700">Email</span>
-          </button>
-          <button
-            onClick={() => alert("Add to calendar functionality would be implemented here")}
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200"
-          >
-            <Calendar className="w-6 h-6 text-gray-600" />
-            <span className="text-xs font-medium text-gray-700">Calendar</span>
-          </button>
-        </div>
-
-        {/* Flight Details */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-bold text-[#0d0d0d] mb-6 flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-[#ed1c24]" />
-            Flight Details
-          </h2>
-
-          {/* Outbound Flight */}
-          {store.selectedOutboundFlight && (
-            <div className="mb-6 pb-6 border-b border-gray-200">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="bg-[#ed1c24] text-white text-xs font-bold px-2 py-1 rounded">
-                  OUTBOUND
-                </div>
-                <span className="text-sm text-gray-600">{formatDate(store.departureDate)}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">From</p>
-                  <p className="font-semibold text-lg">{store.origin || "Nairobi"}</p>
-                </div>
-                <div className="flex items-center justify-center">
-                  <div className="w-full h-0.5 bg-gray-300 relative">
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-400 rounded-full"></div>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">To</p>
-                  <p className="font-semibold text-lg">{store.destination || "Dubai"}</p>
-                </div>
-              </div>
-              <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  Flight: {store.selectedOutboundFlight.id}
-                </span>
-                <span>Class: {store.selectedOutboundFlight.class}</span>
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Booking Reference + Actions Row */}
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Reference */}
+            <div className="text-center sm:text-left">
+              <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Booking Reference</p>
+              <div className="flex items-center gap-2">
+                <p className="text-3xl font-bold text-[#c8102e] tracking-wider">{bookingReference}</p>
+                <button onClick={handleCopyRef} className="p-1.5 rounded-md hover:bg-gray-100 transition-colors" title="Copy">
+                  {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4 text-gray-400" />}
+                </button>
               </div>
             </div>
-          )}
 
-          {/* Return Flight */}
-          {store.selectedReturnFlight && store.tripType === "round-trip" && (
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
-                  RETURN
-                </div>
-                <span className="text-sm text-gray-600">{formatDate(store.returnDate)}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">From</p>
-                  <p className="font-semibold text-lg">{store.destination || "Dubai"}</p>
-                </div>
-                <div className="flex items-center justify-center">
-                  <div className="w-full h-0.5 bg-gray-300 relative">
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-400 rounded-full"></div>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">To</p>
-                  <p className="font-semibold text-lg">{store.origin || "Nairobi"}</p>
-                </div>
-              </div>
-              <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  Flight: {store.selectedReturnFlight.id}
-                </span>
-                <span>Class: {store.selectedReturnFlight.class}</span>
-              </div>
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2">
+              <button onClick={handlePrint} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-[#c8102e] text-white rounded-lg hover:bg-[#a50d24] transition-colors text-xs sm:text-sm font-medium">
+                <Printer className="w-4 h-4" />
+                Print
+              </button>
+              <button onClick={handleDownload} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-[#0d0d0d] text-white rounded-lg hover:bg-[#2d2d2d] transition-colors text-xs sm:text-sm font-medium">
+                <Download className="w-4 h-4" />
+                Download
+              </button>
+              <button onClick={handleEmailReceipt} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm font-medium">
+                <Mail className="w-4 h-4" />
+                Email
+              </button>
+              <button onClick={handleAddToCalendar} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm font-medium">
+                <Calendar className="w-4 h-4" />
+                Calendar
+              </button>
             </div>
-          )}
+          </div>
         </div>
 
-        {/* Passenger Information */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-bold text-[#0d0d0d] mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-[#ed1c24]" />
-            Passenger Information
-          </h2>
-          <div className="space-y-3">
-            {store.passengerDetails.map((passenger, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                <div className="w-8 h-8 rounded-full bg-[#ed1c24] text-white flex items-center justify-center font-bold text-sm">
-                  {index + 1}
+        {/* BOARDING PASS - Only shown when payment is confirmed */}
+        {isPaymentConfirmed ? (
+          <div className="mb-6" id="boarding-pass-wrapper">
+            <div ref={ticketRef} id="boarding-pass">
+              <BoardingPass
+                passengerName={store.passengerDetails[0] ? `${store.passengerDetails[0].firstName} ${store.passengerDetails[0].lastName}` : "GUEST TRAVELLER"}
+                title={store.passengerDetails[0]?.title || "MR"}
+                flightNumber={store.selectedOutboundFlight?.id || "KQ000"}
+                date={store.departureDate || new Date().toISOString()}
+                origin={store.origin || "NBO"}
+                originCity={airportCities[store.origin || "NBO"] || store.origin || "NAIROBI"}
+                originAirport="Jomo Kenyatta Intl"
+                destination={store.destination || "MBA"}
+                destinationCity={airportCities[store.destination || "MBA"] || store.destination || "MOMBASA"}
+                destinationAirport="Moi International"
+                departureTime="09:20"
+                arrivalTime="10:10"
+                boardingTime="08:50"
+                gateClosingTime="0850"
+                gate="---"
+                terminal="S"
+                seat={store.selectedSeat?.id || "4J"}
+                classType={store.selectedFare || "Economy"}
+                classCode={store.selectedFare?.includes("Business") ? "C" : "N"}
+                bookingReference={bookingReference}
+                electronicTicket={electronicTicket}
+                sequenceNumber="21"
+                zone="A"
+                skyPriority={store.selectedFare?.includes("Business") || store.selectedFare?.includes("Flex") ? true : false}
+              />
+            </div>
+          </div>
+        ) : (
+          /* Payment Pending - No Ticket Shown */
+          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+            <div className="flex justify-center mb-3">
+              <Clock className="w-12 h-12 text-yellow-600 animate-pulse" />
+            </div>
+            <h2 className="text-xl font-bold text-yellow-800 mb-2">Payment Pending</h2>
+            <p className="text-yellow-700 mb-4">
+              Your boarding pass will be available once payment is confirmed via M-Pesa.
+            </p>
+            <div className="flex items-center justify-center gap-2 text-sm text-yellow-600">
+              <div className="w-4 h-4 border-2 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
+              <span>Verifying payment status...</span>
+            </div>
+            <p className="text-xs text-yellow-500 mt-4">
+              Please complete the M-Pesa payment on your phone. Your ticket will appear here automatically.
+            </p>
+            <button
+              onClick={() => router.push("/booking/payment/mobile")}
+              className="mt-4 px-6 py-2 bg-[#c8102e] text-white rounded-lg hover:bg-[#a50d24] transition-colors text-sm font-medium"
+            >
+              Go to Payment
+            </button>
+          </div>
+        )}
+
+        {/* Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-gray-100">
+            <div className="flex items-center gap-3 mb-2 sm:mb-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-xs sm:text-sm">Booking Confirmed</h3>
+            </div>
+            <p className="text-[10px] sm:text-xs text-gray-500">Your booking reference is <span className="font-bold text-gray-700">{bookingReference}</span>. Save it for check-in.</p>
+          </div>
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-gray-100">
+            <div className="flex items-center gap-3 mb-2 sm:mb-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-xs sm:text-sm">Check-in Opens</h3>
+            </div>
+            <p className="text-[10px] sm:text-xs text-gray-500">Online check-in opens <span className="font-bold text-gray-700">24 hours</span> before departure.</p>
+          </div>
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-gray-100">
+            <div className="flex items-center gap-3 mb-2 sm:mb-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 text-xs sm:text-sm">Payment Received</h3>
+            </div>
+            <p className="text-[10px] sm:text-xs text-gray-500">Total paid: <span className="font-bold text-[#c8102e]">KES {totalPrice.toLocaleString()}</span></p>
+          </div>
+        </div>
+
+        {/* What's Next */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 border border-gray-100">
+          <h3 className="font-bold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">What happens next?</h3>
+          <div className="space-y-3 sm:space-y-4">
+            {[
+              { step: "1", title: "Check your email", desc: "A confirmation email with your booking details has been sent." },
+              { step: "2", title: "Online check-in", desc: "Check in online 24 hours before your flight to select your seat." },
+              { step: "3", title: "Arrive at airport", desc: "Arrive at least 2 hours before domestic, 3 hours before international flights." },
+              { step: "4", title: "Board your flight", desc: "Present your boarding pass and valid ID at the gate." },
+            ].map((item) => (
+              <div key={item.step} className="flex items-start gap-2 sm:gap-3">
+                <div className="w-6 h-6 sm:w-7 sm:h-7 bg-[#c8102e] text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0">
+                  {item.step}
                 </div>
                 <div>
-                  <p className="font-semibold text-[#0d0d0d]">
-                    {passenger.title} {passenger.firstName} {passenger.lastName}
-                  </p>
-                  <p className="text-xs text-gray-600">Passport: {passenger.passportNumber || "Not provided"}</p>
+                  <p className="font-semibold text-xs sm:text-sm text-gray-900">{item.title}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500">{item.desc}</p>
                 </div>
               </div>
             ))}
-            {store.passengerDetails.length === 0 && (
-              <p className="text-gray-500 text-sm">No passenger details available</p>
-            )}
           </div>
-        </div>
-
-        {/* Contact & Payment */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-          {/* Contact Details */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="font-bold text-[#0d0d0d] mb-3 flex items-center gap-2">
-              <Mail className="w-4 h-4 text-[#ed1c24]" />
-              Contact Details
-            </h3>
-            <div className="space-y-2 text-sm">
-              <p className="text-gray-600">
-                <span className="font-medium">Email:</span><br />
-                {store.contactDetails?.email || "Not provided"}
-              </p>
-              <p className="text-gray-600">
-                <span className="font-medium">Phone:</span><br />
-                {store.contactDetails?.phone || "Not provided"}
-              </p>
-            </div>
-          </div>
-
-          {/* Payment Summary */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="font-bold text-[#0d0d0d] mb-3 flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-[#ed1c24]" />
-              Payment Summary
-            </h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Flights:</span>
-                <span className="font-medium">KES {totals.flightTotal.toLocaleString()}</span>
-              </div>
-              {totals.extrasTotal > 0 && (
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Extras:</span>
-                  <span className="font-medium">KES {totals.extrasTotal.toLocaleString()}</span>
-                </div>
-              )}
-              <div className="pt-2 border-t border-gray-200 flex justify-between font-bold text-base">
-                <span>Total Paid:</span>
-                <span className="text-[#ed1c24]">KES {totalPrice.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Important Information */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-          <h3 className="font-bold text-[#0d0d0d] mb-3">Important Information</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-              <span>Check-in opens 24 hours before departure</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-              <span>Please arrive at the airport at least 3 hours before international flights</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-              <span>Ensure all passengers have valid travel documents</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-              <span>Confirmation email has been sent to {store.contactDetails?.email}</span>
-            </li>
-          </ul>
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            href="/book-manage/manage-booking"
-            className="flex-1 bg-[#0d0d0d] text-white py-4 px-6 rounded-md font-semibold text-center hover:bg-[#2d2d2d] transition-colors"
-          >
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link href="/book-manage/manage-booking" className="flex-1 bg-[#0d0d0d] text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-[#2d2d2d] transition-colors text-sm">
             Manage My Booking
           </Link>
-          <button
-            onClick={handleNewBooking}
-            className="flex-1 bg-white border-2 border-[#ed1c24] text-[#ed1c24] py-4 px-6 rounded-md font-semibold hover:bg-[#ed1c24] hover:text-white transition-colors"
-          >
+          <button onClick={handleNewBooking} className="flex-1 bg-white border-2 border-[#c8102e] text-[#c8102e] py-3 px-6 rounded-lg font-semibold hover:bg-[#c8102e] hover:text-white transition-colors text-sm">
             Book Another Flight
           </button>
         </div>
 
-        {/* Footer Note */}
-        <div className="mt-8 text-center text-sm text-gray-500">
+        {/* Footer */}
+        <div className="mt-8 text-center text-xs text-gray-400">
           <p>Thank you for choosing Kenya Airways - The Pride of Africa</p>
-          <p className="mt-2">Need help? Contact us at <a href="tel:+254711024747" className="text-[#ed1c24] hover:underline">+254 711 024 747</a></p>
+          <p className="mt-1">Need help? Contact us at <a href="tel:+254711024747" className="text-[#c8102e] hover:underline">+254 711 024 747</a></p>
         </div>
       </div>
     </div>

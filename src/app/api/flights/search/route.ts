@@ -4,10 +4,12 @@ import { searchFlights } from "@/lib/flights";
 
 export const dynamic = "force-dynamic";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -65,15 +67,19 @@ export async function GET(req: NextRequest) {
 
   try {
     // Try Supabase first
-    const { data: dbFlights, error } = await supabase
-      .from("flights")
-      .select("*")
-      .eq("origin", origin.toUpperCase())
-      .eq("destination", destination.toUpperCase())
-      .eq("flight_date", travelDate)
-      .eq("status", "scheduled")
-      .gt("available_seats", 0)
-      .order("departure_time", { ascending: true });
+    const supabase = getSupabase();
+    const dbResult = supabase
+      ? await supabase
+          .from("flights")
+          .select("*")
+          .eq("origin", origin.toUpperCase())
+          .eq("destination", destination.toUpperCase())
+          .eq("flight_date", travelDate)
+          .eq("status", "scheduled")
+          .gt("available_seats", 0)
+          .order("departure_time", { ascending: true })
+      : { data: null, error: { message: "Supabase not configured" } };
+    const { data: dbFlights, error } = dbResult;
 
     if (error) {
       console.warn("[flights/search] Database error, falling back to static data:", error.message);
@@ -108,7 +114,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Log search to flight_searches table for analytics
-    supabase.from("flight_searches").insert({
+    supabase?.from("flight_searches").insert({
       origin: origin.toUpperCase(),
       destination: destination.toUpperCase(),
       departure_date: travelDate,

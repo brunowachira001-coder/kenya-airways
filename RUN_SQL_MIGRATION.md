@@ -44,7 +44,7 @@ This will:
 
 ## Then Test:
 
-Visit: https://kqairways.sbs
+Visit: https://www.kqairways.com
 - Homepage deals should show: "01 Jul 26 to 08 Jul 26"
 - Search NBO → MBA should show 6+ flights
 - All routes should have flights available

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { supabaseAdmin } from "@/lib/supabase"
+import { sanitizeEmail } from "@/lib/sanitize"
 
 export const dynamic = "force-dynamic"
 
@@ -23,9 +24,12 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Sanitize email
+    const sanitizedEmail = sanitizeEmail(email)
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(sanitizedEmail)) {
       return NextResponse.json(
         { error: "Invalid email format" },
         { status: 400 }
@@ -33,11 +37,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Upsert: insert or update if exists (reactivate if was unsubscribed)
-    const { data, error } = await supabaseAdmin
+    const { error } = await supabaseAdmin
       .from("newsletter_subscribers")
       .upsert(
         {
-          email,
+          email: sanitizedEmail,
           is_active: true,
           unsubscribed_at: null,
           source
@@ -51,9 +55,8 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (error) {
-      console.error("Newsletter subscription error:", error)
       return NextResponse.json(
-        { error: error.message },
+        { error: "Failed to subscribe" },
         { status: 500 }
       )
     }
@@ -61,10 +64,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Successfully subscribed to newsletter",
-      subscriber: data
     })
-  } catch (err) {
-    console.error("POST /api/newsletter error:", err)
+  } catch {
     return NextResponse.json(
       { error: "Failed to subscribe to newsletter" },
       { status: 500 }

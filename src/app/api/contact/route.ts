@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { supabaseAdmin, ContactMessage } from "@/lib/supabase"
+import { supabaseAdmin } from "@/lib/supabase"
+import { sanitizeString, sanitizeEmail, sanitizePhone } from "@/lib/sanitize"
 
 export const dynamic = "force-dynamic"
 
@@ -33,12 +34,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const contactData: Omit<ContactMessage, 'id' | 'created_at' | 'updated_at'> = {
-      name,
-      email,
-      phone: phone || null,
-      subject: subject || null,
-      message,
+    // Sanitize inputs to prevent XSS
+    const contactData = {
+      name: sanitizeString(name),
+      email: sanitizeEmail(email),
+      phone: phone ? sanitizePhone(phone) : undefined,
+      subject: subject ? sanitizeString(subject) : undefined,
+      message: sanitizeString(message),
       status: "new"
     }
 

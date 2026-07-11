@@ -1,0 +1,58 @@
+Booking Reference,Passenger Name,Email,Phone,Origin,Destination,Departure Date,Return Date,Cabin Class,Trip Type,Base Fare (KES),Taxes (KES),Total Amount (KES),Payment Status,Booking Status,Created At,Passengers Count
+KQX3T4G3GC,Test User,test@example.com,+254712345678,NBO,MBA,2026-07-15,,Economy,one-way,10000.00,1500.00,11500.00,pending,confirmed,2026-06-23T14:02:21,1
+KQGCF5NCY9,Smoke Test,smoke-1782723799@example.com,+254700000000,NBO,DXB,2026-12-01,2026-12-08,Economy,return,45000.00,5080.00,50080.00,pending,confirmed,2026-06-29T09:03:21,1
+KQRDTDKNCN,Mrs Shhej Shsisi,eyejjejdhdido@gmail.com,+2547845421394,NBO,MBA,2026-06-30,2026-07-07,Economy,return,19356.00,2903.00,22259.00,pending,confirmed,2026-06-29T09:15:04,1
+KQAGPEKCPU,Bruno Smoke,bruno.smoke.1782724562779@example.com,+254712345678,NBO,MBA,2026-06-30,2026-07-08,Economy,return,8595.00,0.00,17190.00,pending,confirmed,2026-06-29T09:16:03,1
+KQUN92DYGM,Mr Thvf Make,danielmainamwangi85@gmail.com,+2540751818165,NBO,MBA,2026-06-30,2026-07-07,Economy Light,return,8595.00,1289.00,9884.00,pending,confirmed,2026-06-29T09:23:52,1
+KQJMEGFEBX,Bruno Roundtrip,bruno.smoke.1782745758@example.com,+254712345678,NBO,DXB,2026-12-01,2026-12-08,Economy,return,45000.00,5080.00,50080.00,pending,confirmed,2026-06-29T15:09:21,1
+KQ48RYQG7V,Mr Forbeud Loso,forbeud@gmail.com,+25412345678,NBO,MBA,2026-06-29,2026-07-08,Economy,return,17260.00,2589.00,19849.00,pending,confirmed,2026-06-30T19:48:04,1
+KQ8CTDVJBJ,Mr Yfggggg Gvggggg,gfhg@mail.com,+254585585,NBO,MBA,2026-07-01,2026-07-08,Economy,return,12275.00,1841.00,14116.00,pending,confirmed,2026-06-30T23:17:46,1
+KQ7NYFB9U7,Mr Jon Clar,geemonel555@gmail.com,+254712456897,NBO,MRU,2026-07-02,2026-07-09,Economy Light,return,21000.00,3150.00,24150.00,pending,confirmed,2026-07-01T08:21:49,1
+KQ83G3KK9U,Mr Humson Kimani,geemonel555@gmail.com,+254+254712456897,NBO,ZNZ,2026-07-02,2026-07-09,Economy Light,return,4900.00,735.00,5635.00,failed,confirmed,2026-07-01T09:52:55,1
+KQ8A85PR6X,Mr Humson Kimani,geemonel555@gmail.com,+254727668790,NBO,ADD,2026-07-02,2026-07-09,Economy Light,return,9200.00,1380.00,10580.00,pending,confirmed,2026-07-01T14:27:59,1
+KQHFDET6QX,Mr Mark Matete,lisa65@gmail.com,+254721563258,MBA,NBO,2026-07-03,2026-07-11,Business,return,9775.00,1466.00,11241.00,pending,confirmed,2026-07-03T05:15:57,1
+KQPP9RPM2Y,Mr John Doe,john@example.com,+254712345678,NBO,MBA,2026-07-04,2026-07-11,Economy Light,return,5200.00,780.00,5980.00,pending,confirmed,2026-07-03T15:07:24,1
+KQQMWVDMVE,Mr James Smith,james@example.com,+254798765432,NBO,LHR,2026-07-15,,Economy Light,oneway,26000.00,3900.00,29900.00,pending,confirmed,2026-07-03T16:43:34,1
+KQXP2V27QH,Mr James Smith,james@example.com,+254798765432,NBO,LHR,2026-07-15,,Economy Light,oneway,26000.00,3900.00,29900.00,pending,confirmed,2026-07-03T16:44:30,1
+KQHXWTM4UA,Mr James Smith,james@example.com,+254798765432,NBO,LHR,2026-07-15,,Economy Light,oneway,26000.00,3900.00,29900.00,pending,confirmed,2026-07-03T16:45:54,1
+KQVPRFD4Y9,Mr Darren Chesir,darrenchesir21@gmail.com,+254702920709,NBO,MBA,2026-07-10,2026-07-15,Economy,return,3000.00,450.00,3450.00,pending,confirmed,2026-07-04T21:01:57,1
+KQKL6J4DDY,Ms Beryl Nyauma,nyaumaberyl@gmail.com,+254792912279,NBO,MBA,2026-07-12,2026-07-20,Economy,return,3450.00,518.00,3968.00,pending,confirmed,2026-07-05T06:36:15,1
+KQLJXVZSCW,Mr Ryan Ngotho Njoroge,ryanngotho30@gmail.com,+254+254714111252,MBA,NBO,2026-07-10,2026-07-19,Economy Light,return,5500.00,825.00,6325.00,pending,confirmed,2026-07-05T07:00:35,1
+KQE9NWAQCS,Mrs Thef Mgyb,talha.a.laving@gmail.com,+254752412658,NBO,MBA,2026-07-06,2026-07-13,Economy Light,return,2800.00,420.00,3220.00,failed,confirmed,2026-07-05T11:25:13,1
+KQ7Y5EYKU8,Mr Charles Kigen,ckigen08@gmail.com,+2540720952555,NBO,KIS,2026-07-10,2026-07-13,Economy Light,return,2100.00,315.00,2415.00,pending,confirmed,2026-07-05T18:53:21,1
+KQ6B6XJFSB,Dr nbvbvbv bvbvvb,veleka1@childrenth.com,+254712345678,NBO,DXB,2026-07-20,2026-07-14,Economy Light,return,19550.00,2933.00,22483.00,failed,confirmed,2026-07-06T06:22:16,1
+KQKWG46HLA,Dr sfasfa asfasf,veleka1@childrenth.com,+254+254712345678,NBO,DXB,2026-07-20,2026-07-14,Economy Light,return,17480.00,2622.00,20102.00,pending,confirmed,2026-07-06T06:42:32,1
+KQYQKNJP4W,Dr B O,aaaa@gmail.com,+254112111111,NBO,DXB,2026-07-20,2026-07-14,Business,return,176963.00,26544.00,203507.00,pending,confirmed,2026-07-06T07:10:07,1
+KQLZ4X3CUF,Mrs Karen Nyamu,nowe6640@gmail.com,+254728461661,NBO,MBA,2026-07-07,,Economy Light,oneway,8740.00,1311.00,10051.00,pending,confirmed,2026-07-06T07:18:21,1
+KQ6TDK9CYF,Mrs GVF FHD,VDSG@HDHF.COM,+254711111110,NBO,MBA,2026-07-13,2026-07-15,Business,return,42665.00,6400.00,49065.00,pending,confirmed,2026-07-06T07:19:36,1
+KQMFJ42245,Mr William ruto,wamunyoro@statehouse.go.ke,+254722666666,NBO,MBA,2026-07-07,2026-07-14,Economy Light,return,16880.00,2532.00,19412.00,pending,confirmed,2026-07-06T07:33:33,1
+KQ3REGNHGD,Mrs GVF FHD,VDSG@HDHF.COM,+254+254711111110,NBO,MBA,2026-07-13,2026-07-15,Economy Light,return,6200.00,930.00,7130.00,pending,confirmed,2026-07-06T07:37:22,1
+KQJXSC7Z2K,Mrs GVF FHD,VDSG@HDHF.COM,+254+254+254711111110,NBO,MBA,2026-07-13,2026-07-15,Economy Light,return,6200.00,930.00,7130.00,pending,confirmed,2026-07-06T07:37:56,1
+KQR7HZ8JFB,Mr John Doe,=JJJFFFsssss@gmail.com,+25471559876,NBO,ZNZ,2026-07-07,,Business,oneway,15525.00,2329.00,17854.00,pending,confirmed,2026-07-06T07:50:32,1
+KQJNFYBT7N,Mr Kendrick Lamar,ken@gmail.com,+254712345678,NBO,MBA,2026-07-07,2026-07-14,Economy,return,14490.00,2174.00,16664.00,pending,confirmed,2026-07-06T07:51:48,1
+KQCBJBXNVZ,Mr Bryson Mwamburi,youguysarescammers@gmail.com,+254711650015,NBO,JFK,2026-07-07,,Economy Light,oneway,60145.00,9022.00,69167.00,pending,confirmed,2026-07-06T07:52:22,1
+KQAR8ZW6P8,Mr Joe Doe,j@d.c,+254712345678,NBO,MBA,2026-07-07,,Economy Light,oneway,3565.00,535.00,4100.00,failed,confirmed,2026-07-06T07:56:41,1
+KQW23UJJXU,Mr Test Test,test@gmail.com,+254706165412,NBO,MBA,2026-07-07,2026-07-14,Economy,return,8280.00,1242.00,9522.00,pending,confirmed,2026-07-06T08:00:36,1
+KQS6KWUDB4,Mr Benard BY AIR Lelo,benardlelo@gmail.com,+254722129921,NBO,MBA,2026-07-07,2026-07-14,Business,return,21850.00,3278.00,25128.00,pending,confirmed,2026-07-06T08:02:17,1
+KQDF4FFTNW,Mr Mwajuma Salim,kajumaaa@gmail.com,+254723908981,NBO,MBA,2026-07-07,2026-07-14,Business,return,8913.00,1337.00,10250.00,pending,confirmed,2026-07-06T08:04:26,1
+KQFYQKXBM3,Mr edwin kilonzo,muuokilonzo4b@gmail.com,+254710669551,NBO,MBA,2026-07-07,2026-07-14,Economy Light,return,3565.00,535.00,4100.00,pending,confirmed,2026-07-06T08:08:12,1
+KQFA2ANMEC,Mr Hill Hennessy,hillary@techie.com,+254706855555,NBO,MBA,2026-07-07,2026-07-14,Business,return,8913.00,1337.00,10250.00,pending,confirmed,2026-07-06T08:13:39,1
+KQZ82BLGVU,Mr James Njuguna,jnkinya06@gmail.com,+254143023511,NBO,JFK,2026-08-01,2026-07-14,Economy Light,return,53100.00,7965.00,61065.00,pending,confirmed,2026-07-06T08:14:29,1
+KQNK4YCPGZ,Mrs ann kamau,ssss@gmail.com,+25471345557,NBO,MBA,2026-07-07,2026-07-14,Economy,return,8280.00,1242.00,9522.00,pending,confirmed,2026-07-06T08:25:32,1
+KQ5HJEANMV,Mr edwin kilonzo,muuokilonzo4b@gmail.com,+254+254710669551,NBO,MBA,2026-07-07,2026-07-14,Economy Light,return,3565.00,535.00,4100.00,pending,confirmed,2026-07-06T08:26:40,1
+KQWV6C47S7,Mrs Eric DC,did@ish.com,+2540790891622,NBO,MBA,2026-07-15,2026-07-14,Economy Light,return,2700.00,405.00,3105.00,pending,confirmed,2026-07-06T08:28:13,1
+KQLZTPNNPQ,Mr Yamana Upala,jmentics@gmail.com,+25487689898,NBO,CPT,2026-07-13,2026-07-14,Economy,return,99720.00,14958.00,114678.00,pending,confirmed,2026-07-06T08:28:39,2
+KQS2NWH96B,Mr Software Engineer,dktanui5676@gmail.com,+254712727169,NBO,MBA,2026-07-07,2026-07-14,Business,return,8913.00,1337.00,10250.00,pending,confirmed,2026-07-06T08:31:41,1
+KQF6JSHCFH,Mr Mrs Jama,jmentics@gmail.com,+254+25487689898,NBO,CPT,2026-07-13,2026-07-14,Economy,return,83628.00,12544.00,96172.00,pending,confirmed,2026-07-06T08:33:55,2
+KQ9VDEJ754,Dr Ingeneur Bonyunyui,kn709598@gmail.com,+2540706621951,NBO,KGL,2026-07-07,2026-07-10,Economy,return,46585.00,6988.00,53573.00,pending,confirmed,2026-07-06T08:35:19,1
+KQU7GFEPCX,Mr james kai,jmentics@gmail.com,+254+254+25487689898,NBO,CPT,2026-07-13,2026-07-14,Economy,return,41814.00,6272.00,48086.00,pending,confirmed,2026-07-06T08:36:13,1
+KQBQ7R7HVF,Mr jama uaka,jmentics@gmail.com,+254+254+254+25487689898,NBO,CPT,2026-07-13,2026-07-14,Economy,return,41814.00,6272.00,48086.00,pending,confirmed,2026-07-06T08:38:14,1
+KQUDRG4FTD,Mrs Gyy Hhh,gfg@ggg.vij,+254712123456,NBO,MBA,2026-07-07,2026-07-14,Economy Light,return,6400.00,960.00,7360.00,pending,confirmed,2026-07-06T08:41:01,1
+KQH58H7LYD,Mr u y,jmentics@gmail.com,+254+254+254+254+25487689898,NBO,CPT,2026-07-13,2026-07-14,Economy,return,41814.00,6272.00,48086.00,pending,confirmed,2026-07-06T08:45:50,1
+KQH2SQB262,Mr ta we,jmentics@gmail.com,+254+254+254+254+254+25487689898,NBO,CPT,2026-07-13,2026-07-14,Economy,return,41814.00,6272.00,48086.00,pending,confirmed,2026-07-06T08:51:47,1
+KQ9TU8F223,Mr john ngech,john19@gmail.com,+2540730468530,NBO,MBA,2026-07-07,2026-07-14,Economy Light,return,6210.00,932.00,7142.00,pending,confirmed,2026-07-06T08:55:26,1
+KQQATPZCT2,Mr KTYH DDFHH,KYHGFDGDFGD@gmail.com,+254718502651,NBO,ZNZ,2026-07-07,,Economy,oneway,7452.00,1118.00,8570.00,pending,confirmed,2026-07-06T09:06:45,1
+KQS4M8EUZL,Mr y y,t@gma.com,+254888888888,NBO,MBA,2026-07-07,2026-07-14,Business,return,17250.00,2588.00,19838.00,pending,confirmed,2026-07-06T09:12:41,1
+KQ5ZFKGD8X,Mr zxcxzc xddc,dzcdcdc@gmail.com,+25472123457,NBO,BKK,2026-07-07,2026-07-14,Business,return,179688.00,26953.00,206641.00,pending,confirmed,2026-07-06T09:14:08,1
+KQP98MC523,Mr Brian Omondi,consult@brioft.com,+254799456732,NBO,MBA,2026-07-07,,Economy Light,oneway,2875.00,431.00,3306.00,pending,confirmed,2026-07-06T09:18:25,1
+KQCKKQHQFG,Mr kln kbjk,ftrttr@gmail.com,+254076564895,NBO,MBA,2026-07-07,,Economy,oneway,4278.00,642.00,4920.00,pending,confirmed,2026-07-06T09:18:53,1
