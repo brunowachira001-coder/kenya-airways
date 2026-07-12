@@ -76,7 +76,15 @@ function generateDealsWithDynamicDates(): Deal[] {
   }))
 }
 
-// Export the deals array with dynamic dates
+/**
+ * Get deals with dynamically generated dates (always fresh)
+ * Use this instead of the static DEALS constant for up-to-date date ranges
+ */
+export function getDeals(): Deal[] {
+  return generateDealsWithDynamicDates()
+}
+
+// Static snapshot for backwards compatibility (dates frozen at import time)
 export const DEALS: Deal[] = generateDealsWithDynamicDates()
 
 /**
@@ -88,24 +96,25 @@ export function refreshDeals(): Deal[] {
 }
 
 /**
- * Get deals filtered by region
+ * Get deals filtered by region (with fresh dates)
  * @param region - Optional region filter ("Africa" | "Europe" | "Asia" | "America" | "Middle East")
  * @returns Filtered deals array
  */
 export function getDealsByRegion(region?: string): Deal[] {
+  const deals = getDeals()
   if (!region || region === "All") {
-    return DEALS
+    return deals
   }
-  return DEALS.filter(deal => deal.region === region)
+  return deals.filter(deal => deal.region === region)
 }
 
 /**
- * Get deals by origin city
+ * Get deals by origin city (with fresh dates)
  * @param originCity - The origin city name (e.g., "Nairobi", "Mombasa", "Kisumu")
  * @returns Filtered deals array
  */
 export function getDealsByOrigin(originCity: string): Deal[] {
-  return DEALS.filter(deal => deal.originCity === originCity)
+  return getDeals().filter(deal => deal.originCity === originCity)
 }
 
 /**

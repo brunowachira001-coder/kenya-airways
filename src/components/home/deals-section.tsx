@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useMemo } from "react"
 import { ChevronDown, X, ArrowRight, Plane } from "lucide-react"
 import { useBookingStore } from "@/store/booking-store"
 import { useRouter } from "next/navigation"
-import { DEALS } from "@/lib/deals"
+import { getDeals } from "@/lib/deals"
 
 // Legacy deal type for backwards compatibility with existing deals-section logic
 type LegacyDeal = {
@@ -17,35 +17,38 @@ type LegacyDeal = {
   tripType: "one-way" | "round-trip"
 }
 
-// Legacy data structure for deals-section (origin city keyed)
-const DEALS_DATA: Record<string, LegacyDeal[]> = {
-  Nairobi: DEALS.filter(d => d.originCity === "Nairobi").map(d => ({
-    id: d.id,
-    destination: d.destinationCity,
-    dateRange: d.dateRange,
-    price: d.price,
-    image: d.image,
-    destCode: d.destination,
-    tripType: d.tripType
-  })),
-  Mombasa: DEALS.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA"].includes(d.destination)).map(d => ({
-    id: d.id + 100,
-    destination: d.destinationCity,
-    dateRange: d.dateRange,
-    price: d.price,
-    image: d.image,
-    destCode: d.destination,
-    tripType: d.tripType
-  })).slice(0, 4),
-  Kisumu: DEALS.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA", "KIS", "DXB"].includes(d.destination)).map(d => ({
-    id: d.id + 200,
-    destination: d.destinationCity,
-    dateRange: d.dateRange,
-    price: d.price,
-    image: d.image,
-    destCode: d.destination,
-    tripType: d.tripType
-  })).slice(0, 3)
+// Build deals data with fresh dates at render time
+function buildDealsData(): Record<string, LegacyDeal[]> {
+  const deals = getDeals()
+  return {
+    Nairobi: deals.filter(d => d.originCity === "Nairobi").map(d => ({
+      id: d.id,
+      destination: d.destinationCity,
+      dateRange: d.dateRange,
+      price: d.price,
+      image: d.image,
+      destCode: d.destination,
+      tripType: d.tripType
+    })),
+    Mombasa: deals.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA"].includes(d.destination)).map(d => ({
+      id: d.id + 100,
+      destination: d.destinationCity,
+      dateRange: d.dateRange,
+      price: d.price,
+      image: d.image,
+      destCode: d.destination,
+      tripType: d.tripType
+    })).slice(0, 4),
+    Kisumu: deals.filter(d => d.originCity === "Nairobi" && ["NBO", "MBA", "KIS", "DXB"].includes(d.destination)).map(d => ({
+      id: d.id + 200,
+      destination: d.destinationCity,
+      dateRange: d.dateRange,
+      price: d.price,
+      image: d.image,
+      destCode: d.destination,
+      tripType: d.tripType
+    })).slice(0, 3)
+  }
 }
 
 function DealCard({ deal, onClick }: { deal: LegacyDeal, onClick: () => void }) {
@@ -72,11 +75,14 @@ function DealCard({ deal, onClick }: { deal: LegacyDeal, onClick: () => void }) 
 export function DealsSection() {
   const router = useRouter()
   const { setOrigin, setDestination, setTripType, setDepartureDate, setReturnDate } = useBookingStore()
-  
+
   const [selectedCity, setSelectedCity] = useState("Nairobi")
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [drawerDeal, setDrawerDeal] = useState<LegacyDeal | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Build deals with fresh dates on every render
+  const dealsData = useMemo(() => buildDealsData(), [])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -88,7 +94,7 @@ export function DealsSection() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const handleCardClick = (deal: typeof DEALS_DATA.Nairobi[0]) => {
+  const handleCardClick = (deal: LegacyDeal) => {
     const originCode = selectedCity === "Nairobi" ? "NBO" : selectedCity === "Mombasa" ? "MBA" : "KIS"
     setOrigin(originCode)
     setDestination(deal.destCode)
@@ -123,7 +129,7 @@ export function DealsSection() {
     router.push(`/search?from=${originCode}&to=${drawerDeal.destCode}&depart=${depStr}&adults=1&cabin=economy`)
   }
 
-  const currentDeals = DEALS_DATA[selectedCity] || DEALS_DATA.Nairobi
+  const currentDeals = dealsData[selectedCity] || dealsData.Nairobi
 
   return (
     <div>
@@ -149,7 +155,7 @@ export function DealsSection() {
               {/* Mobile: horizontal scrollable region tabs (matches KQ) */}
               <div className="sm:hidden -mx-4 px-4 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <div className="flex gap-2 w-max">
-                  {Object.keys(DEALS_DATA).map((city) => (
+                  {Object.keys(dealsData).map((city) => (
                     <button
                       key={city}
                       onClick={() => setSelectedCity(city)}
@@ -179,7 +185,7 @@ export function DealsSection() {
 
                 {dropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-xl z-[60] py-1 w-full max-h-60 overflow-auto" role="listbox">
-                    {Object.keys(DEALS_DATA).map((city) => (
+                    {Object.keys(dealsData).map((city) => (
                       <button
                         key={city}
                         onClick={() => { setSelectedCity(city); setDropdownOpen(false) }}
