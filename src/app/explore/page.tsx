@@ -9,7 +9,8 @@ const DESTINATIONS = [
   { city: "Dubai", code: "DXB", country: "UAE", image: "/dest_dubai.png", price: "KES 11,375" },
   { city: "Mumbai", code: "BOM", country: "India", image: "/dest_mumbai.png", price: "KES 13,025" },
   { city: "London", code: "LHR", country: "UK", image: "/hero_slide_2.png", price: "KES 22,475" },
-  { city: "New York", code: "JFK", country: "USA", image: "/hero_slide_3.png", price: "KES 28,750" },
+  { city: "Johannesburg", code: "JNB", country: "South Africa", image: "/dest_johannesburg.jpg", price: "KES 15,500" },
+  { city: "Mauritius", code: "MRU", country: "Mauritius", image: "/dest_mauritius.jpg", price: "KES 18,000" },
 ]
 
 export default function ExplorePage() {

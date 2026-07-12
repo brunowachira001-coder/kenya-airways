@@ -24,6 +24,11 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   title: "Kenya Airways | The Pride of Africa",
   description: "Book your flights, manage your travel, and explore destinations with Kenya Airways.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

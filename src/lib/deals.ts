@@ -24,11 +24,11 @@ const BASE_DEALS: Omit<Deal, 'dateRange'>[] = [
   // Africa deals (8+) - Short haul trips (1-7 days duration)
   // Prices reflect base economy fares from database (rounded for marketing)
   { id: 1, origin: "NBO", destination: "MBA", originCity: "Nairobi", destinationCity: "Mombasa", country: "Kenya", region: "Africa", price: "KES 2,500", priceNumber: 2500, image: "/dest_mombasa.png", cabinClass: "Economy", startDaysFromNow: 3, durationDays: 1, tripType: "one-way" },
-  { id: 2, origin: "NBO", destination: "ZNZ", originCity: "Nairobi", destinationCity: "Zanzibar", country: "Tanzania", region: "Africa", price: "KES 8,500", priceNumber: 8500, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 5, durationDays: 4, tripType: "one-way" },
+  { id: 2, origin: "NBO", destination: "ZNZ", originCity: "Nairobi", destinationCity: "Zanzibar", country: "Tanzania", region: "Africa", price: "KES 8,500", priceNumber: 8500, image: "/dest_mahe_island.jpg", cabinClass: "Economy", startDaysFromNow: 5, durationDays: 4, tripType: "one-way" },
   { id: 3, origin: "NBO", destination: "DAR", originCity: "Nairobi", destinationCity: "Dar es Salaam", country: "Tanzania", region: "Africa", price: "KES 7,800", priceNumber: 7800, image: "/dest_daressalaam.png", cabinClass: "Economy", startDaysFromNow: 2, durationDays: 1, tripType: "one-way" },
-  { id: 4, origin: "NBO", destination: "JNB", originCity: "Nairobi", destinationCity: "Johannesburg", country: "South Africa", region: "Africa", price: "KES 35,000", priceNumber: 35000, image: "/hero_slide_4.png", cabinClass: "Economy", startDaysFromNow: 7, durationDays: 7, tripType: "one-way" },
+  { id: 4, origin: "NBO", destination: "JNB", originCity: "Nairobi", destinationCity: "Johannesburg", country: "South Africa", region: "Africa", price: "KES 35,000", priceNumber: 35000, image: "/dest_johannesburg.jpg", cabinClass: "Economy", startDaysFromNow: 7, durationDays: 7, tripType: "one-way" },
   { id: 5, origin: "NBO", destination: "CPT", originCity: "Nairobi", destinationCity: "Cape Town", country: "South Africa", region: "Africa", price: "KES 38,500", priceNumber: 38500, image: "/hero_slide_1.png", cabinClass: "Economy", startDaysFromNow: 10, durationDays: 7, tripType: "one-way" },
-  { id: 6, origin: "NBO", destination: "MRU", originCity: "Nairobi", destinationCity: "Mauritius", country: "Mauritius", region: "Africa", price: "KES 32,000", priceNumber: 32000, image: "/hero_slide_3.png", cabinClass: "Economy", startDaysFromNow: 8, durationDays: 7, tripType: "one-way" },
+  { id: 6, origin: "NBO", destination: "MRU", originCity: "Nairobi", destinationCity: "Mauritius", country: "Mauritius", region: "Africa", price: "KES 32,000", priceNumber: 32000, image: "/dest_mauritius.jpg", cabinClass: "Economy", startDaysFromNow: 8, durationDays: 7, tripType: "one-way" },
   { id: 7, origin: "NBO", destination: "ADD", originCity: "Nairobi", destinationCity: "Addis Ababa", country: "Ethiopia", region: "Africa", price: "KES 12,500", priceNumber: 12500, image: "/hero_slide_2.png", cabinClass: "Economy", startDaysFromNow: 4, durationDays: 2, tripType: "one-way" },
   { id: 8, origin: "NBO", destination: "LOS", originCity: "Nairobi", destinationCity: "Lagos", country: "Nigeria", region: "Africa", price: "KES 42,000", priceNumber: 42000, image: "/hero_slide_4.png", cabinClass: "Economy", startDaysFromNow: 12, durationDays: 7, tripType: "one-way" },
 
@@ -57,7 +57,7 @@ const BASE_DEALS: Omit<Deal, 'dateRange'>[] = [
 
   // Additional Africa deals for variety
   { id: 23, origin: "NBO", destination: "KIS", originCity: "Nairobi", destinationCity: "Kisumu", country: "Kenya", region: "Africa", price: "KES 4,200", priceNumber: 4200, image: "/dest_kisumu.png", cabinClass: "Economy", startDaysFromNow: 3, durationDays: 7, tripType: "one-way" },
-  { id: 24, origin: "NBO", destination: "EBB", originCity: "Nairobi", destinationCity: "Entebbe", country: "Uganda", region: "Africa", price: "KES 9,500", priceNumber: 9500, image: "/dest_entebbe.png", cabinClass: "Economy", startDaysFromNow: 4, durationDays: 1, tripType: "one-way" },
+  { id: 24, origin: "NBO", destination: "EBB", originCity: "Nairobi", destinationCity: "Entebbe", country: "Uganda", region: "Africa", price: "KES 9,500", priceNumber: 9500, image: "/dest_entebbe.jpg", cabinClass: "Economy", startDaysFromNow: 4, durationDays: 1, tripType: "one-way" },
 
   // Business class deals (approximately 2.5x economy base prices)
   { id: 26, origin: "NBO", destination: "LHR", originCity: "Nairobi", destinationCity: "London", country: "United Kingdom", region: "Europe", price: "KES 120,000", priceNumber: 120000, image: "/hero_slide_3.png", cabinClass: "Business", startDaysFromNow: 14, durationDays: 7, tripType: "one-way" },

@@ -8,7 +8,7 @@ const OFFERS = [
     id: 1,
     title: "Enjoy a Stopover in Nairobi",
     subtitle: "Transform a 24–96hr connection into a Nairobi escape.",
-    image: "/promo_kq_holidays.jpg",
+    image: "/kq_duty_free_banner.jpg",
     cta: "Book Your Stopover",
     link: "https://kqholidays.com"
   },
@@ -16,7 +16,7 @@ const OFFERS = [
     id: 2,
     title: "Enjoy Up to 10% Off as an Asante Rewards Member",
     subtitle: "Use Code: ASANTE10",
-    image: "/hero_nairobi_stopover.png",
+    image: "/kq_asante_rewards.jpg",
     cta: "Book Now",
     link: "/search?from=NBO&to=DXB&depart=2026-07-15&adults=1"
   },
@@ -24,7 +24,7 @@ const OFFERS = [
     id: 3,
     title: "Kenya Airways Safari Data",
     subtitle: "Stay connected anywhere with our eSIM global connectivity.",
-    image: "/promo_safari_data.jpg",
+    image: "/kq_safari_data.jpg",
     cta: "Order Now",
     link: "https://kqsafaridata.com"
   },
@@ -32,7 +32,7 @@ const OFFERS = [
     id: 4,
     title: "Treat Yourself Early",
     subtitle: "Pre-order your duty free items 48hrs before your flight.",
-    image: "/service_duty_free.jpg",
+    image: "/duty_free_luxury.png",
     cta: "Shop Duty-Free Now",
     link: "https://kqdutyfree.com"
   },

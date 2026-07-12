@@ -8,7 +8,7 @@ export function AdditionalServices() {
     {
       title: "Duty Free Shopping",
       description: "Pre-order your favourite products onboard and have them delivered to your seat.",
-      image: "/duty_free_luxury.png",
+      image: "/kq_duty_free_banner.jpg",
       link: "/duty-free",
       featured: true,
     },

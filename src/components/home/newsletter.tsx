@@ -47,9 +47,9 @@ export function Newsletter() {
         <div className="rounded-2xl overflow-hidden relative h-[360px] md:h-[320px]">
           
           {/* Full background image */}
-          <img 
-            src="/hero_slide_1.png" 
-            alt="Newsletter" 
+          <img
+            src="/kq_newsletter_staff.jpg"
+            alt="Newsletter"
             className="absolute inset-0 w-full h-full object-cover"
           />
 
