@@ -50,8 +50,8 @@ const CORE_FLIGHTS: Omit<Flight, 'id'>[] = [
   // NBO ↔ LHR — long-haul, ~8h 30m direct
   { origin: 'NBO', destination: 'LHR', airline: 'Kenya Airways', flightNumber: 'KQ101', departureTime: '23:30', arrivalTime: '06:00+1', duration: '8h 30m', aircraft: 'Boeing 777-300ER', economyPrice: 26700, businessPrice: 114000, stops: 0 },
   { origin: 'LHR', destination: 'NBO', airline: 'Kenya Airways', flightNumber: 'KQ100', departureTime: '11:30', arrivalTime: '20:30', duration: '8h 00m', aircraft: 'Boeing 777-300ER', economyPrice: 26100, businessPrice: 111000, stops: 0 },
-  { origin: 'NBO', destination: 'LGW', airline: 'Kenya Airways', flightNumber: 'KQ103', departureTime: '21:00', arrivalTime: '03:30+1', duration: '8h 30m', aircraft: 'Boeing 787-8', economyPrice: 24600, businessPrice: 106500, stops: 0 },
-  { origin: 'LGW', destination: 'NBO', airline: 'Kenya Airways', flightNumber: 'KQ102', departureTime: '10:00', arrivalTime: '19:00', duration: '8h 00m', aircraft: 'Boeing 787-8', economyPrice: 24000, businessPrice: 103500, stops: 0 },
+  { origin: 'NBO', destination: 'LGW', airline: 'Kenya Airways', flightNumber: 'KQ103', departureTime: '21:00', arrivalTime: '03:30+1', duration: '8h 30m', aircraft: 'Boeing 777-300ER', economyPrice: 24600, businessPrice: 106500, stops: 0 },
+  { origin: 'LGW', destination: 'NBO', airline: 'Kenya Airways', flightNumber: 'KQ102', departureTime: '10:00', arrivalTime: '19:00', duration: '8h 00m', aircraft: 'Boeing 777-300ER', economyPrice: 24000, businessPrice: 103500, stops: 0 },
 
   // NBO ↔ DXB — ~5h direct
   { origin: 'NBO', destination: 'DXB', airline: 'Kenya Airways', flightNumber: 'KQ301', departureTime: '22:00', arrivalTime: '04:30+1', duration: '5h 30m', aircraft: 'Boeing 787-8', economyPrice: 17400, businessPrice: 63000, stops: 0 },
