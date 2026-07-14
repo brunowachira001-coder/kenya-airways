@@ -118,7 +118,7 @@ const price = Math.round(basePrice * tier.multiplier)
 
 ## 🧪 VERIFICATION GUIDE
 
-### 1. Homepage Deals (www.kqairways.com)
+### 1. Homepage Deals (www.kq-airways.com)
 After deployment (5-10 min):
 
 **Expected Prices**:
@@ -141,7 +141,7 @@ Search: NBO → MBA, July 1, 2026
 - ✅ Super Flex: +60% (e.g., KES 4,480)
 
 ### 3. All Deals Page
-Visit: www.kqairways.com/deals
+Visit: www.kq-airways.com/deals
 
 **Check Categories**:
 - ✅ Africa: Prices 2,500 - 42,000
@@ -202,7 +202,7 @@ ea2494f fix: Update all deal prices to match realistic flight fares
 ### Detailed Testing
 ```bash
 # Test API directly
-curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01" | jq '.flights[0] | {economyPrice, businessPrice}'
+curl "https://www.kq-airways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01" | jq '.flights[0] | {economyPrice, businessPrice}'
 
 # Expected output:
 {
@@ -324,6 +324,6 @@ curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-0
 
 Last Updated: July 1, 2026, 15:45  
 Commits: 5707a32, 8a5489a, ea2494f  
-Website: www.kqairways.com
+Website: www.kq-airways.com
 
 **Please test after 10 minutes! 🚀**

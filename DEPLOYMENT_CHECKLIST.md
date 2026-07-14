@@ -137,7 +137,7 @@ git push origin main
 
 After deployment completes (~2 minutes):
 
-1. **Visit Production**: https://kqairways.com
+1. **Visit Production**: https://kq-airways.com
 
 2. **Test Deals Section**:
    - Should show: "01 Jul 26 to 08 Jul 26"
@@ -209,7 +209,7 @@ EOF
 
 **Check 2**: Test API directly
 ```bash
-curl "https://kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+curl "https://kq-airways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
 ```
 
 ---
@@ -232,7 +232,7 @@ Deployment is successful when:
 - [x] Seed script ran and created 350+ flights
 - [x] Code pushed to GitHub
 - [x] Vercel deployment succeeded
-- [x] kqairways.com shows current dates
+- [x] kq-airways.com shows current dates
 - [x] Flight search returns results
 - [x] Deals section updated
 
@@ -243,6 +243,6 @@ Deployment is successful when:
 1. Run SQL migration in Supabase Dashboard (Step 1 above)
 2. Then run: `./deploy-flights.sh`
 3. Wait 2 minutes for Vercel deployment
-4. Test on kqairways.com
+4. Test on kq-airways.com
 
 🚀 Let's go!

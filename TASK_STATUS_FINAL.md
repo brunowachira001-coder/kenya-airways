@@ -1,7 +1,7 @@
 # ✅ Kenya Airways Task Status - FINAL REPORT
 
 **Date**: July 1, 2026, 14:41  
-**Task**: Update www.kqairways.com with current dates for all flights  
+**Task**: Update www.kq-airways.com with current dates for all flights  
 **Status**: 95% Complete - Database table creation required
 
 ---
@@ -157,7 +157,7 @@ Created 8 comprehensive guides:
 - All changes committed to Git
 - Pushed to GitHub: `github.com/n29965745-max/kenya-airways`
 - Vercel auto-deployment triggered
-- Website code is LIVE at www.kqairways.com
+- Website code is LIVE at www.kq-airways.com
 
 ---
 
@@ -236,7 +236,7 @@ After SQL migration + seeding:
 - ✅ Dates: July 1-7, 2026 (current week)
 - ✅ All 50+ routes operational
 
-### Website (www.kqairways.com):
+### Website (www.kq-airways.com):
 - ✅ Homepage deals: "01 Jul 26 to 08 Jul 26"
 - ✅ Search NBO → MBA: 6 flights displayed
 - ✅ Search NBO → LHR: 1 flight displayed
@@ -365,7 +365,7 @@ This would complete everything in 1 command.
 - ✅ 350+ flights with current dates
 - ✅ 50+ routes covered
 - ✅ No hardcoded dates
-- ✅ All code deployed to www.kqairways.com
+- ✅ All code deployed to www.kq-airways.com
 - ✅ Comprehensive documentation
 
 **What's blocking**:

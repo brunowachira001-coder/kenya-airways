@@ -22,7 +22,7 @@ User goals:
 2. **Stateless date-rolling** — deal cards and search defaults use today's date + offsets, never drift
 3. **Replace 50% discount with 40%** — every price across the site becomes 60% of KQ original (i.e. 20% higher than today)
 4. **Deal cards "read the same" date as today** — no stale hardcoded ranges
-5. **Browse and confirm on `www.kqairways.com`** — user deploys, then I verify via Playwright
+5. **Browse and confirm on `www.kq-airways.com`** — user deploys, then I verify via Playwright
 
 ---
 
@@ -37,7 +37,7 @@ User goals:
 | "Sweet deals" naming | **No rebrand** — keep "Deals" section names as-is |
 | Deal population | **Append mesh deals** — keep 28 curated, add ~24 cheapest mesh routes |
 | Test runner | **Add Vitest** — covers mesh + dates + pricing; updates existing `deals.test.ts` |
-| Verification | **Playwright on prod** — user deploys to `www.kqairways.com`, I browse with Playwright |
+| Verification | **Playwright on prod** — user deploys to `www.kq-airways.com`, I browse with Playwright |
 
 ---
 
@@ -226,9 +226,9 @@ rm -rf .next && npm run dev   # then exercise flows in browser
 5. Round-trip NBO↔MBA for `today + 1` → returns flights with prices 20% higher than prior 50%-off values
 6. `/booking/fare-select`, `/booking/passengers`, `/booking/extras` → pricing total uses 40% off (will jump ~20% vs current values)
 
-**Deployment verification on www.kqairways.com:**
+**Deployment verification on www.kq-airways.com:**
 - User deploys via Vercel CLI
-- I browse `https://www.kqairways.com` with Playwright via MCP
+- I browse `https://www.kq-airways.com` with Playwright via MCP
 - Verify: deal dates are today-relative; prices are 40% off; clicking a deal returns flights; round-trip search returns flights; /deals shows 50+ deals
 - Screenshot key flows for the spec review
 
@@ -240,7 +240,7 @@ rm -rf .next && npm run dev   # then exercise flows in browser
 |---|---|
 | Mesh adds ~4,556 objects in module memory | Mesh lives **server-side only** — `searchFlights()` is only called by `/api/flights/search/route.ts`. Client always calls the API, never imports flights.ts directly. ~500KB server memory, zero client bundle impact. |
 | SSR/CSR hydration mismatch on `new Date()` | All date formatters are client-side (`'use client'`). Server renders placeholder; client hydrates with real dates. |
-| `www.kqairways.com` may not be reachable from my environment | User confirms deployment first; if unreachable, fall back to Vercel preview URL. |
+| `www.kq-airways.com` may not be reachable from my environment | User confirms deployment first; if unreachable, fall back to Vercel preview URL. |
 | Mesh routes might not match "real" KQ flights | Acknowledged. Mesh is for search coverage; real bookings still go through Supabase/payment. |
 | Existing deals.test.ts is orphaned (no runner) | Solved by adding Vitest in this work. |
 | 1.2× price multiplier could be off by one if floor/round differs | All multiplications use `Math.round(x / 100) * 100` consistently. |

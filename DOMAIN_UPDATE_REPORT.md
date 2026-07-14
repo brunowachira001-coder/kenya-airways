@@ -1,20 +1,20 @@
 # 🌐 Domain Update Report
 
 **Date**: July 1, 2026, 15:15  
-**Task**: Update domain from kqairways.sbs to www.kqairways.com
+**Task**: Update domain from kqairways.sbs to www.kq-airways.com
 
 ---
 
 ## ✅ Update Complete
 
-All references to the old domain `kqairways.sbs` have been successfully updated to `www.kqairways.com`.
+All references to the old domain `kqairways.sbs` have been successfully updated to `www.kq-airways.com`.
 
 ---
 
 ## 📝 Files Updated
 
 ### Documentation Files (10 files)
-- ✅ DEPLOY_TO_KQAIRWAYS_SBS.md → Now references www.kqairways.com
+- ✅ DEPLOY_TO_KQAIRWAYS_SBS.md → Now references www.kq-airways.com
 - ✅ DEPLOYMENT_COMPLETE.md
 - ✅ FINAL_DEPLOYMENT_SUMMARY.md
 - ✅ COMPLETE_THIS_NOW.md
@@ -45,12 +45,12 @@ Expected output: *No matches* (except in git history)
 
 ## 🚀 Live Website
 
-**New Domain**: https://www.kqairways.com
+**New Domain**: https://www.kq-airways.com
 
 ### Test Points
-1. Homepage: https://www.kqairways.com
-2. Flight Search API: https://www.kqairways.com/api/flights/search
-3. Booking Flow: https://www.kqairways.com/booking
+1. Homepage: https://www.kq-airways.com
+2. Flight Search API: https://www.kq-airways.com/api/flights/search
+3. Booking Flow: https://www.kq-airways.com/booking
 
 ---
 
@@ -59,7 +59,7 @@ Expected output: *No matches* (except in git history)
 - All documentation now reflects the new domain
 - No code changes were required (domain was not hardcoded)
 - Environment variables (.env.local) use NEXT_PUBLIC_APP_URL
-- Vercel deployment settings should be updated to use www.kqairways.com
+- Vercel deployment settings should be updated to use www.kq-airways.com
 
 ---
 

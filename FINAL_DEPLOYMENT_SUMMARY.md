@@ -1,6 +1,6 @@
 # ✅ Kenya Airways - Deployment Summary
 
-**Website**: https://www.kqairways.com  
+**Website**: https://www.kq-airways.com  
 **Date**: July 1, 2026, 14:20  
 **Status**: Code Deployed ✅ | Database Migration Pending ⏳
 
@@ -107,7 +107,7 @@ Asia:
 
 ## 🧪 Testing After Deployment
 
-1. **Visit**: https://www.kqairways.com
+1. **Visit**: https://www.kq-airways.com
 
 2. **Check Homepage Deals**:
    - Should show: **"01 Jul 26 to 08 Jul 26"**
@@ -120,7 +120,7 @@ Asia:
 
 4. **Test API Directly**:
    ```bash
-   curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+   curl "https://www.kq-airways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
    ```
 
 ---
@@ -193,7 +193,7 @@ console.log(`Flights: ${count}`)
 EOF
 
 # Test API
-curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
+curl "https://www.kq-airways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01"
 ```
 
 ---
@@ -255,7 +255,7 @@ $$ LANGUAGE plpgsql;
    ```
 
 3. **Test**:
-   - Visit: https://www.kqairways.com
+   - Visit: https://www.kq-airways.com
    - Check dates show "01 Jul 26"
    - Search flights: NBO → MBA
 

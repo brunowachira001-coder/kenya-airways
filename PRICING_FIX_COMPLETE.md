@@ -81,7 +81,7 @@ const price = Math.round(basePrice * tier.multiplier)
 
 ### 1. Test Live Website
 
-Visit: https://www.kqairways.com
+Visit: https://www.kq-airways.com
 
 #### Search for a Flight:
 1. Go to homepage
@@ -225,7 +225,7 @@ npx supabase db execute "
 ### 2. Test API Endpoint
 ```bash
 # Test the search API directly
-curl "https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01" | jq '.flights[0] | {economyPrice, businessPrice}'
+curl "https://www.kq-airways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01" | jq '.flights[0] | {economyPrice, businessPrice}'
 ```
 
 ### 3. Reseed Flights (if needed)
@@ -248,7 +248,7 @@ If prices still look wrong:
    Should return > 0
 
 2. **Check API Response**:
-   Open https://www.kqairways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01
+   Open https://www.kq-airways.com/api/flights/search?from=NBO&to=MBA&depart=2026-07-01
    Verify `economyPrice` and `businessPrice` are present
 
 3. **Clear Cache**:
@@ -278,4 +278,4 @@ If prices still look wrong:
 
 **Last Updated**: July 1, 2026, 15:35  
 **Fixed By**: Kiro AI  
-**Verified**: Ready for testing on www.kqairways.com
+**Verified**: Ready for testing on www.kq-airways.com

@@ -10,7 +10,7 @@ echo "║  🚀 KENYA AIRWAYS - COMPLETE AUTOMATED DEPLOYMENT           ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 echo ""
 echo "Date: $(date)"
-echo "Target: https://www.kqairways.com"
+echo "Target: https://www.kq-airways.com"
 echo ""
 
 # Load environment
@@ -104,7 +104,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "✅ DEPLOYMENT COMPLETE!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "🌐 Website: https://www.kqairways.com"
+echo "🌐 Website: https://www.kq-airways.com"
 echo "✈️  Flights: $FLIGHT_COUNT flights available"
 echo "📅 Dates: Always current (updated today)"
 echo ""

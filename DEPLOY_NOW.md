@@ -35,7 +35,7 @@ After SQL migration, the deployment script will:
 - ✅ Stage all changes
 - ✅ Commit changes
 - ✅ Push to GitHub
-- ✅ Auto-deploy to kqairways.com (via Vercel)
+- ✅ Auto-deploy to kq-airways.com (via Vercel)
 
 ---
 
@@ -68,7 +68,7 @@ git push origin main
 ## ✅ Success Indicators
 
 After deployment:
-1. Visit https://kqairways.com
+1. Visit https://kq-airways.com
 2. Check deals section: Should show "01 Jul 26 to 08 Jul 26"
 3. Search flights: NBO → MBA, today's date
 4. Should see 6+ flight results
