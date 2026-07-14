@@ -47,7 +47,7 @@ export function BookingWidget() {
     const defaults = {
       origin: origin || "NBO",
       destination: destination || "MBA",
-      departureDate: departureDate || addDays(new Date(), 1).toISOString(),
+      departureDate: departureDate || new Date().toISOString(),
       returnDate: tripType === "round-trip"
         ? (returnDate || addDays(new Date(), 8).toISOString())
         : undefined,
@@ -96,7 +96,7 @@ export function BookingWidget() {
     // Apply defaults before searching if not set
     const finalOrigin = origin || "NBO"
     const finalDestination = destination || "MBA"
-    const finalDepart = departureDate || addDays(new Date(), 1).toISOString()
+    const finalDepart = departureDate || new Date().toISOString()
     const finalReturn = tripType === "round-trip"
       ? (returnDate || addDays(new Date(), 8).toISOString())
       : undefined

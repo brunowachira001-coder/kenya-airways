@@ -101,13 +101,11 @@ export function DealsSection() {
     setTripType("one-way")
 
     const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
 
-    setDepartureDate(tomorrow.toISOString())
+    setDepartureDate(today.toISOString())
     setReturnDate("")
 
-    const depStr = tomorrow.toISOString().split("T")[0]
+    const depStr = today.toISOString().split("T")[0]
     router.push(`/search?from=${originCode}&to=${deal.destCode}&depart=${depStr}&adults=1&cabin=economy`)
   }
 
@@ -119,13 +117,11 @@ export function DealsSection() {
     setTripType("one-way")
 
     const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
 
-    setDepartureDate(tomorrow.toISOString())
+    setDepartureDate(today.toISOString())
     setReturnDate("")
 
-    const depStr = tomorrow.toISOString().split("T")[0]
+    const depStr = today.toISOString().split("T")[0]
     router.push(`/search?from=${originCode}&to=${drawerDeal.destCode}&depart=${depStr}&adults=1&cabin=economy`)
   }
 

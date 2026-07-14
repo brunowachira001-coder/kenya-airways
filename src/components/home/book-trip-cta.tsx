@@ -44,7 +44,7 @@ export function BookTripCTA() {
           {/* Right: CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 lg:flex-col lg:gap-4">
             <Link
-              href="/search?from=NBO&to=MBA&depart=2026-07-15&adults=1"
+              href="/search?from=NBO&to=MBA&depart=2026-07-14&adults=1"
               className="group flex items-center justify-center gap-3 bg-[#ed1c24] hover:bg-[#c11218] text-white font-bold rounded-xl px-8 py-4 text-base transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] min-w-[220px]"
             >
               <Plane className="w-5 h-5" />
