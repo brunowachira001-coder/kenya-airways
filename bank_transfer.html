@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    width: 800px; 
+    height: 500px; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+  }
+  .card {
+    width: 800px;
+    height: 500px;
+    background: linear-gradient(135deg, #0a2d5c 0%, #0a2d5c 60%, #00a3a3 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 60px;
+    color: white;
+  }
+  .bank-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+  .logo-icon {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+  .bank-name {
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 2px;
+  }
+  .bank-name span {
+    font-weight: 600;
+  }
+  .send-to {
+    font-size: 18px;
+    color: #00d4d4;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  .account-holder {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+  }
+  .account-label {
+    font-size: 16px;
+    color: #00d4d4;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .account-number {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+  }
+  .tagline {
+    position: absolute;
+    bottom: 50px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .phone-icon {
+    width: 40px;
+    height: 40px;
+    background: #00d4d4;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tagline-text {
+    font-size: 16px;
+    color: #ccc;
+  }
+  .tagline-text span {
+    color: #00d4d4;
+  }
+  .right-tagline {
+    position: absolute;
+    bottom: 50px;
+    right: 60px;
+    font-size: 20px;
+    font-style: italic;
+    color: #00d4d4;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bank-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 40 40" fill="none">
+        <path d="M5 20 L20 5 L35 20 L20 35 Z" fill="#00a3a3"/>
+        <path d="M12 20 L20 12 L28 20 L20 28 Z" fill="#0a2d5c"/>
+        <path d="M17 20 L20 17 L23 20 L20 23 Z" fill="#00a3a3"/>
+      </svg>
+    </div>
+    <div class="bank-name">I&M | <span>Bank</span></div>
+  </div>
+  
+  <div class="send-to">Send Money To</div>
+  <div class="account-holder">I&M BANK</div>
+  
+  <div class="account-label">ACCOUNT NUMBER</div>
+  <div class="account-number">05909778056150</div>
+  
+  <div class="tagline">
+    <div class="phone-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+        <rect x="7" y="2" width="10" height="20" rx="2" fill="none" stroke="white" stroke-width="2"/>
+        <text x="12" y="15" font-size="8" text-anchor="middle" fill="white">KSh</text>
+        <path d="M17 8 L21 8 L21 12" stroke="white" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <div class="tagline-text"><span>Simple.</span> <span>Friendly.</span> <span>Forward.</span></div>
+  </div>
+  
+  <div class="right-tagline">My bank. My future.</div>
+</div>
+</body>
+</html>

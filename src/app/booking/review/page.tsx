@@ -439,10 +439,6 @@ export default function ReviewPage() {
               </div>
             )}
             <div className="flex justify-between mb-2">
-              <span className="text-gray-600">Taxes (15%):</span>
-              <span className="font-semibold text-gray-800">+{formatKES(taxes)}</span>
-            </div>
-            <div className="flex justify-between mb-2">
               <span className="text-gray-600">Extras subtotal:</span>
               <span className="font-semibold text-gray-800">{formatKES(extrasTotal)}</span>
             </div>
@@ -453,7 +449,7 @@ export default function ReviewPage() {
               Total price: <span className="text-2xl sm:text-3xl font-bold">{formatKES(grandTotal)}</span>
             </p>
             <p className="text-xs sm:text-sm text-gray-600">
-              Round trip price for all passengers (flights + extras, including taxes).
+              Round trip price for all passengers (flights + extras).
               <button 
                 onClick={() => setShowPriceDetails(!showPriceDetails)}
                 className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1"

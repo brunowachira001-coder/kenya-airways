@@ -234,7 +234,7 @@ export default function FareSelectPage() {
               Total price: <span className="text-3xl font-bold ml-2">KES {totalPrice.toLocaleString()}</span>
             </p>
             <p className="text-sm text-gray-600">
-              {tripType === "round-trip" ? "Round trip price" : "One-way price"} for all passengers (including taxes, fees and discounts).{" "}
+              {tripType === "round-trip" ? "Round trip price" : "One-way price"} for all passengers.{" "}
               <button 
                 onClick={() => setShowPriceDetails(!showPriceDetails)}
                 className="text-brand-primary hover:underline ml-1 inline-flex items-center gap-1"

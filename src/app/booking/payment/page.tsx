@@ -147,7 +147,7 @@ export default function PaymentPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
             <div>
               <p className="text-base sm:text-lg font-semibold">Total price: <span className="text-xl sm:text-2xl font-bold">KES {totalPrice.toLocaleString()}</span></p>
-              <p className="text-xs sm:text-sm text-gray-600">Round trip price for all passengers (including taxes).</p>
+              <p className="text-xs sm:text-sm text-gray-600">Round trip price for all passengers.</p>
             </div>
             <button className="text-gray-400">▼</button>
           </div>
@@ -482,7 +482,7 @@ export default function PaymentPage() {
             <p className="text-base sm:text-lg font-semibold mb-2">
               Total price: <span className="text-2xl sm:text-3xl font-bold">KES {totalPrice.toLocaleString()}</span>
             </p>
-            <p className="text-xs sm:text-sm text-gray-600">Round trip price for all passengers (including taxes, fees and discounts).</p>
+            <p className="text-xs sm:text-sm text-gray-600">Round trip price for all passengers.</p>
           </div>
         </div>
       </div>

@@ -30,7 +30,6 @@ export default function MobilePaymentPage() {
     }
   }, [setCurrentStep, selectedOutboundFlight, router, _hydrated])
 
-  const [paymentOption, setPaymentOption] = useState<"mobile" | "bank">("mobile")
   const [mobileNumber, setMobileNumber] = useState("")
   const [countdown, setCountdown] = useState(7 * 60 + 36)
   const [isProcessing, setIsProcessing] = useState(false)
@@ -279,31 +278,14 @@ export default function MobilePaymentPage() {
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Pay With</h2>
 
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <button
-                onClick={() => setPaymentOption("mobile")}
-                className={`w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 ${
-                  paymentOption === "mobile"
-                    ? "border-brand-primary bg-gray-50"
-                    : "border-transparent hover:bg-gray-50"
-                }`}
-              >
+              <div className="w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 border-brand-primary bg-gray-50">
                 <input
                   type="radio"
-                  checked={paymentOption === "mobile"}
-                  onChange={() => setPaymentOption("mobile")}
+                  checked
+                  readOnly
                   className="w-4 h-4"
                 />
-                <span className="font-medium text-sm sm:text-base">Mobile Money</span>
-              </button>
-
-              <div className="w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 border-t border-transparent opacity-50 cursor-not-allowed">
-                <input
-                  type="radio"
-                  disabled
-                  className="w-4 h-4"
-                />
-                <span className="font-medium text-sm sm:text-base">Bank Transfer</span>
-                <span className="ml-auto text-[10px] sm:text-xs bg-gray-200 text-gray-500 px-2 py-0.5 rounded-full">Coming Soon</span>
+                <span className="font-medium text-sm sm:text-base">Mobile Money (M-Pesa)</span>
               </div>
             </div>
           </div>
@@ -316,16 +298,14 @@ export default function MobilePaymentPage() {
                 <Image src="/kq_logo.png" alt="Kenya Airways" width={120} height={40} className="h-8 sm:h-10 w-auto" />
               </div>
 
-              {paymentOption === "mobile" && (
-                <div>
-                  {/* M-Pesa Logo */}
-                  <div className="flex justify-center mb-4 sm:mb-6">
-                    <div className="bg-green-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded font-bold text-base sm:text-lg">
-                      M-PESA
-                    </div>
-                  </div>
+              {/* M-Pesa Logo */}
+              <div className="flex justify-center mb-4 sm:mb-6">
+                <div className="bg-green-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded font-bold text-base sm:text-lg">
+                  M-PESA
+                </div>
+              </div>
 
-                  <h3 className="text-center font-semibold text-base sm:text-lg mb-4 sm:mb-6">Pay via M-Pesa Kenya</h3>
+              <h3 className="text-center font-semibold text-base sm:text-lg mb-4 sm:mb-6">Pay via M-Pesa Kenya</h3>
 
                   <form className="space-y-3 sm:space-y-4">
                     <div>
@@ -402,23 +382,7 @@ export default function MobilePaymentPage() {
                       </div>
                     )}
                   </form>
-                </div>
-              )}
 
-              {paymentOption === "bank" && (
-                <div>
-                  <h3 className="text-center font-semibold text-base sm:text-lg mb-4 sm:mb-6">Pay via Bank Transfer</h3>
-
-                  <div className="text-center py-8 sm:py-12">
-                    <div className="text-4xl sm:text-5xl mb-4">🏦</div>
-                    <p className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">Coming Soon</p>
-                    <p className="text-xs sm:text-sm text-gray-500">
-                      Bank transfer payments will be available shortly.<br />
-                      Please use Mobile Money (M-Pesa) to complete your payment.
-                    </p>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
