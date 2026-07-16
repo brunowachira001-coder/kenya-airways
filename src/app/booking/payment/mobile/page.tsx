@@ -39,8 +39,6 @@ export default function MobilePaymentPage() {
   const [mpesaReceipt, setMpesaReceipt] = useState("")
   const [transactionReference, setTransactionReference] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState("")
-  const [bankTxRef, setBankTxRef] = useState("")
-  const [bankTxRefError, setBankTxRefError] = useState("")
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const pollAttemptsRef = useRef(0)
 
@@ -74,7 +72,14 @@ export default function MobilePaymentPage() {
   }
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value
+    let input = e.target.value
+    // Strip leading country code if user types it (redundant with the +254 prefix label)
+    const stripped = input.replace(/[\s\-\+]/g, "")
+    if (stripped.startsWith("254")) {
+      input = stripped.slice(3)
+    } else if (stripped.startsWith("0")) {
+      input = stripped.slice(1)
+    }
     setMobileNumber(input)
     setPhoneError("")
 
@@ -218,49 +223,6 @@ export default function MobilePaymentPage() {
     }
   }
 
-  const handleBankPayment = async () => {
-    if (!bankTxRef.trim()) {
-      setBankTxRefError("Please enter your bank transfer transaction reference number")
-      return
-    }
-
-    setIsProcessing(true)
-    setPaymentStatus("processing")
-    setStatusMessage("Verifying bank transfer...")
-    setBankTxRefError("")
-
-    try {
-      // Simulate verifying bank transfer for 2.5 seconds
-      await new Promise(resolve => setTimeout(resolve, 2500))
-
-      // Update booking with bank transfer transaction reference and paid status
-      if (bookingReference) {
-        try {
-          await fetch(`/api/bookings/${bookingReference}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              paymentStatus: "paid",
-              paymentReference: bankTxRef.trim(),
-              mpesaReceipt: `BANK-${bankTxRef.trim()}`
-            })
-          })
-        } catch (err) {
-          console.error("Failed to update booking with bank payment success:", err)
-        }
-      }
-
-      setPaymentStatus("success")
-      setStatusMessage("Bank transfer verified successfully!")
-    } catch (err) {
-      console.error("Bank payment processing error:", err)
-      setPaymentStatus("failed")
-      setStatusMessage("Verification failed. Please try again.")
-    } finally {
-      setIsProcessing(false)
-    }
-  }
-
   // Navigate when payment is successful
   useEffect(() => {
     if (paymentStatus === "success") {
@@ -334,22 +296,15 @@ export default function MobilePaymentPage() {
                 <span className="font-medium text-sm sm:text-base">Mobile Money</span>
               </button>
 
-              <button
-                onClick={() => setPaymentOption("bank")}
-                className={`w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 border-t ${
-                  paymentOption === "bank"
-                    ? "border-brand-primary bg-gray-50"
-                    : "border-transparent hover:bg-gray-50"
-                }`}
-              >
+              <div className="w-full p-3 sm:p-4 text-left flex items-center gap-2 sm:gap-3 border-l-4 border-t border-transparent opacity-50 cursor-not-allowed">
                 <input
                   type="radio"
-                  checked={paymentOption === "bank"}
-                  onChange={() => setPaymentOption("bank")}
+                  disabled
                   className="w-4 h-4"
                 />
                 <span className="font-medium text-sm sm:text-base">Bank Transfer</span>
-              </button>
+                <span className="ml-auto text-[10px] sm:text-xs bg-gray-200 text-gray-500 px-2 py-0.5 rounded-full">Coming Soon</span>
+              </div>
             </div>
           </div>
 
@@ -454,81 +409,14 @@ export default function MobilePaymentPage() {
                 <div>
                   <h3 className="text-center font-semibold text-base sm:text-lg mb-4 sm:mb-6">Pay via Bank Transfer</h3>
 
-                  <div className="flex justify-center mb-4">
-                    <div className="relative w-full max-w-sm aspect-[1.58] rounded-xl overflow-hidden shadow-md border border-gray-100">
-                      <Image 
-                        src="/bank_transfer.jpeg" 
-                        alt="I&M Bank Transfer Details" 
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    </div>
+                  <div className="text-center py-8 sm:py-12">
+                    <div className="text-4xl sm:text-5xl mb-4">🏦</div>
+                    <p className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">Coming Soon</p>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Bank transfer payments will be available shortly.<br />
+                      Please use Mobile Money (M-Pesa) to complete your payment.
+                    </p>
                   </div>
-
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 text-xs sm:text-sm">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Amount to Transfer</span>
-                      <span className="font-bold text-brand-primary">KES {totalPrice.toLocaleString()}</span>
-                    </div>
-                  </div>
-
-                  <form className="space-y-4">
-                    <div>
-                      <label className="block text-xs sm:text-sm text-gray-600 mb-2">
-                        Transaction Reference / Reference Code
-                      </label>
-                      <input
-                        type="text"
-                        value={bankTxRef}
-                        onChange={(e) => {
-                          setBankTxRef(e.target.value)
-                          setBankTxRefError("")
-                        }}
-                        placeholder="Enter bank reference number (e.g. IM12345678)"
-                        className={`w-full border rounded px-3 py-2 sm:py-3 focus:ring-1 outline-none text-sm ${
-                          bankTxRefError ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-brand-primary focus:ring-brand-primary"
-                        }`}
-                      />
-                      {bankTxRefError ? (
-                        <p className="text-xs text-red-500 mt-1">{bankTxRefError}</p>
-                      ) : (
-                        <p className="text-xs text-gray-500 mt-1">
-                          After making the transfer, paste the transaction/reference code here to confirm payment.
-                        </p>
-                      )}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={handleBankPayment}
-                      disabled={isProcessing || !bankTxRef.trim()}
-                      className="w-full bg-brand-primary hover:bg-brand-primary/95 disabled:bg-gray-300 text-white py-2.5 sm:py-3 rounded font-medium mt-4 sm:mt-6 transition-colors text-sm sm:text-base"
-                    >
-                      {isProcessing && paymentOption === "bank" ? "Verifying..." : "Confirm Bank Transfer"}
-                    </button>
-
-                    {paymentStatus === "processing" && paymentOption === "bank" && (
-                      <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-xs sm:text-sm">
-                        <p className="font-semibold text-yellow-800">⏳ Verifying transfer</p>
-                        <p className="text-yellow-700 mt-1">{statusMessage}</p>
-                      </div>
-                    )}
-
-                    {paymentStatus === "success" && paymentOption === "bank" && (
-                      <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded text-xs sm:text-sm">
-                        <p className="font-semibold text-green-800">✓ Transfer verified successfully!</p>
-                        <p className="text-green-600 mt-1">Redirecting to confirmation...</p>
-                      </div>
-                    )}
-
-                    {paymentStatus === "failed" && paymentOption === "bank" && (
-                      <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded text-xs sm:text-sm">
-                        <p className="font-semibold text-red-800">Verification failed</p>
-                        <p className="text-red-700 mt-1">{statusMessage}</p>
-                      </div>
-                    )}
-                  </form>
                 </div>
               )}
             </div>
