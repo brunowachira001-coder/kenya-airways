@@ -60,8 +60,8 @@ export function calculateBookingTotal(state: {
   const holdBookingTotal = state.extras.holdBooking ? EXTRA_PRICING.holdBookingFee : 0
 
   const extrasTotal = baggageTotal + insuranceTotal + seatTotal + holdBookingTotal
-  const taxes = Math.round(flightTotal * 0.15)
-  const grandTotal = flightTotal + extrasTotal + taxes
+  const taxes = 0
+  const grandTotal = flightTotal + extrasTotal
 
   return {
     outboundBase,
