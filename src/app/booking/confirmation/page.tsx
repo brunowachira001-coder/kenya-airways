@@ -21,7 +21,7 @@ export default function BookingConfirmation() {
   const [showSuccess, setShowSuccess] = useState(false)
   const [copied, setCopied] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const [verifyingPayment, setVerifyingPayment] = useState(true)
+  const [verifyingPayment, setVerifyingPayment] = useState(false)
   const ticketRef = useRef<HTMLDivElement>(null)
 
   const realReference = store.bookingReference
@@ -268,10 +268,12 @@ END:VCALENDAR`
             <p className="text-yellow-700 mb-4">
               Your boarding pass will be available once payment is confirmed via M-Pesa.
             </p>
-            <div className="flex items-center justify-center gap-2 text-sm text-yellow-600">
-              <div className="w-4 h-4 border-2 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
-              <span>Verifying payment status...</span>
-            </div>
+            {verifyingPayment && (
+              <div className="flex items-center justify-center gap-2 text-sm text-yellow-600">
+                <div className="w-4 h-4 border-2 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
+                <span>Verifying payment status...</span>
+              </div>
+            )}
             <p className="text-xs text-yellow-500 mt-4">
               Please complete the M-Pesa payment on your phone. Your ticket will appear here automatically.
             </p>
