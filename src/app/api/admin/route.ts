@@ -3,24 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase"
 
 export const dynamic = "force-dynamic"
 
-function verifyAdminAuth(req: NextRequest): boolean {
-  const authHeader = req.headers.get("authorization")
-  if (!authHeader || !authHeader.startsWith("Basic ")) return false
-
-  const base64 = authHeader.split(" ")[1]
-  const decoded = atob(base64)
-  const [username, password] = decoded.split(":")
-
-  return (
-    username === "admin" && password === process.env.ADMIN_PASSWORD
-  )
-}
-
 export async function GET(req: NextRequest) {
-  if (!verifyAdminAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   if (!supabaseAdmin) {
     return NextResponse.json({ error: "Database not configured" }, { status: 500 })
   }
